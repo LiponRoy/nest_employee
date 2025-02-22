@@ -10,9 +10,9 @@ import { navLinks } from "@/constant/Constant";
 
 export default function Navbar() {
     return (
-        <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md dark:bg-gray-900">
+        <nav className="container-custom flex items-center justify-between px-6 py-4 text-white shadow-md dark:bg-gray-900">
             {/* Logo */}
-            <Link href="/" className="text-xl font-bold">
+            <Link href="/" className="text-xl font-bold text-bright-blue">
                 Nest Employee
             </Link>
 
