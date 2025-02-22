@@ -1,6 +1,7 @@
 "use client"
 import React from 'react'
 import SearchBar from './SearchBar'
+import JobsCategorySlider from '../JobsCategorySlider'
 
 const Hero = () => {
     return (
@@ -19,6 +20,9 @@ const Hero = () => {
                 <SearchBar />
                 {/* cards */}
 
+                <div className="w-full mt-20">
+                    <JobsCategorySlider />
+                </div>
             </div>
 
         </section>

@@ -16,6 +16,14 @@ export const OrganizationsType: IJobType[] = [
 	{ value: 'NGO', label: 'NGO' },
 ];
 
+export const JobsCategory = [
+	{ id: 1, title: 'FrontEnd Developer ' },
+	{ id: 2, title: 'BackEnd Developer' },
+	{ id: 3, title: 'Data Engineer' },
+	{ id: 4, title: 'Banker' },
+	{ id: 5, title: 'Teacher' },
+];
+
 export const selectFieldStyle = {
 	container: (provided: any) => ({
 		...provided,
