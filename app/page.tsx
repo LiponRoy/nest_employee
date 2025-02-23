@@ -1,10 +1,11 @@
 import Hero from "@/components/Hero/Hero";
-import Test from "@/components/Test";
+import LatestJobs from "@/components/LatestJobs";
 
 export default function Home() {
   return (
     <div className="">
       <Hero />
+      <LatestJobs />
     </div>
   );
 }

@@ -5,8 +5,6 @@ import SelectInput from "../SelectInput";
 import { Button } from "../ui/button";
 
 const MyComponent = () => {
-
-
     const [selectedOrg, setSelectedOrg] = useState<IJobType | null>(null);
     const [selectedOrgType, setSelectedOrgType] = useState<IJobType | null>(null);
 

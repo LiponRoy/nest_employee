@@ -7,6 +7,13 @@ export interface IJobType {
 	value: string;
 	label: string;
 }
+export interface ILatestJobs {
+	companyName: string;
+	title: string;
+	description: string;
+	position: number;
+	jobType: string;
+}
 
 export interface SelectInputProps<T> {
 	options: T[];
