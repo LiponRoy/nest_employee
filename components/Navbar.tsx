@@ -10,9 +10,10 @@ import { navLinks } from "@/constant/Constant";
 
 export default function Navbar() {
     return (
-        <nav className="container-custom flex items-center justify-between px-6 py-4 text-white shadow-md dark:bg-gray-900">
+        <nav className="sticky top-0 z-50 container-custom flex items-center justify-between px-6 py-4 bg-white dark:bg-slate-900 bg-opacity-90 shadow-md">
+
             {/* Logo */}
-            <Link href="/" className="text-xl font-bold text-bright-blue">
+            <Link href="/" className="text-xl font-bold text-orange-deep">
                 Nest Employee
             </Link>
 
@@ -22,7 +23,8 @@ export default function Navbar() {
                     <Link
                         key={link.href}
                         href={link.href}
-                        className="text-gray-800 dark:text-gray-200 hover:text-blue-600"
+                        className="text-gray-800 dark:text-gray-200 transition-colors duration-500 hover:text-orange-deep"
+
                     >
                         {link.label}
                     </Link>
