@@ -84,12 +84,18 @@ export const latestJobs: ILatestJobs[] = [
 	},
 ];
 
+export const companyTypes = [
+	"Partnership",
+	"Private Limited ",
+	"Public Limited ",
+  ];
+
 export const selectFieldStyle = {
 	container: (provided: any) => ({
 		...provided,
 		// width: '500px', // Ensures the container is full width
 	}),
-	control: (provided: any) => ({
+	control: (provided:any) => ({
 		...provided,
 		backgroundColor: 'transparent',
 		borderColor: 'none', // White border

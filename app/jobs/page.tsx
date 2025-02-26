@@ -1,3 +1,4 @@
+import SearchFilter from '@/components/SearchBar/SearchFilter'
 import React from 'react'
 
 const Jobs = () => {
@@ -6,7 +7,7 @@ const Jobs = () => {
             <div className="w-full flex flex-col justify-center items-center">
                 <div className="w-full">
                     <div className="w-full bg-slate-200">
-                        search bar
+                       <SearchFilter/>
                     </div>
                     <div className="w-full bg-slate-300">
                         Options bar
