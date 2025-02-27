@@ -7,7 +7,7 @@ interface SelectInputProps<T> {
     options: T[];
     value: T | null;
     onChange: (option: T | null) => void;
-    newStyle: {};
+    newStyle: '';
     placeholder?: string;
     // isClearable?: boolean;
     className?: string;
@@ -20,7 +20,7 @@ const SelectInput = <T,>({
     newStyle,
     placeholder = 'Select an option',
     // isClearable = true,
-    className = 'w-[80%] text-slate-900',
+    className = 'w-full text-slate-900',
 }: SelectInputProps<T>) => {
     return (
         <Select

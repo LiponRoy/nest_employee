@@ -90,6 +90,20 @@ export const companyTypes = [
 	"Public Limited ",
   ];
 
+  export const sortOptions = [
+		{ value: "", label: "Default" },
+		{ value: "Price Low to High", label: "Price Low to High" },
+		{ value: "Price High to Low", label: "Price High to Low" },
+	  ];
+
+export const allCategory= [
+		{ id: 1, title: "Software Development", checked: false },
+		{ id: 2, title: "IT & Networking", checked: false },
+		{ id: 3, title: "Design & Creative", checked: false },
+		{ id: 4, title: "Customer Service", checked: false },
+		
+	];
+
 export const selectFieldStyle = {
 	container: (provided: any) => ({
 		...provided,
