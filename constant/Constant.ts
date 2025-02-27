@@ -2,6 +2,7 @@ import { InavLinks, IJobType, ILatestJobs } from '@/types/Types';
 
 export const navLinks: InavLinks[] = [
 	{ href: '/jobs', label: 'Jobs' },
+	{ href: '/jobDetail', label: 'jobDetail' },
 	{ href: '/signup', label: 'Signup' },
 	{ href: '/login', label: 'Login' },
 ];
@@ -85,31 +86,30 @@ export const latestJobs: ILatestJobs[] = [
 ];
 
 export const companyTypes = [
-	"Partnership",
-	"Private Limited ",
-	"Public Limited ",
-  ];
+	'Partnership',
+	'Private Limited ',
+	'Public Limited ',
+];
 
-  export const sortOptions = [
-		{ value: "", label: "Default" },
-		{ value: "Price Low to High", label: "Price Low to High" },
-		{ value: "Price High to Low", label: "Price High to Low" },
-	  ];
+export const sortOptions = [
+	{ value: '', label: 'Default' },
+	{ value: 'Price Low to High', label: 'Price Low to High' },
+	{ value: 'Price High to Low', label: 'Price High to Low' },
+];
 
-export const allCategory= [
-		{ id: 1, title: "Software Development", checked: false },
-		{ id: 2, title: "IT & Networking", checked: false },
-		{ id: 3, title: "Design & Creative", checked: false },
-		{ id: 4, title: "Customer Service", checked: false },
-		
-	];
+export const allCategory = [
+	{ id: 1, title: 'Software Development', checked: false },
+	{ id: 2, title: 'IT & Networking', checked: false },
+	{ id: 3, title: 'Design & Creative', checked: false },
+	{ id: 4, title: 'Customer Service', checked: false },
+];
 
 export const selectFieldStyle = {
 	container: (provided: any) => ({
 		...provided,
 		// width: '500px', // Ensures the container is full width
 	}),
-	control: (provided:any) => ({
+	control: (provided: any) => ({
 		...provided,
 		backgroundColor: 'transparent',
 		borderColor: 'none', // White border
