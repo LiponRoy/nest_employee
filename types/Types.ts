@@ -8,6 +8,7 @@ export interface IJobType {
 	label: string;
 }
 export interface ILatestJobs {
+	id: number;
 	companyName: string;
 	title: string;
 	description: string;

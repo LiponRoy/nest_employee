@@ -28,6 +28,7 @@ export const JobsCategory = [
 
 export const latestJobs: ILatestJobs[] = [
 	{
+		id: 1,
 		companyName: 'Google',
 		title: 'Software Engineer',
 		description: 'bla bla bla',
@@ -35,6 +36,7 @@ export const latestJobs: ILatestJobs[] = [
 		jobType: 'Full Time',
 	},
 	{
+		id: 2,
 		companyName: 'Google',
 		title: 'Software Engineer',
 		description: 'bla bla bla',
@@ -42,6 +44,7 @@ export const latestJobs: ILatestJobs[] = [
 		jobType: 'Full Time',
 	},
 	{
+		id: 3,
 		companyName: 'Google',
 		title: 'Software Engineer',
 		description: 'bla bla bla',
@@ -49,6 +52,7 @@ export const latestJobs: ILatestJobs[] = [
 		jobType: 'Full Time',
 	},
 	{
+		id: 4,
 		companyName: 'Google',
 		title: 'Software Engineer',
 		description: 'bla bla bla',
@@ -56,6 +60,7 @@ export const latestJobs: ILatestJobs[] = [
 		jobType: 'Full Time',
 	},
 	{
+		id: 5,
 		companyName: 'Google',
 		title: 'Software Engineer',
 		description: 'bla bla bla',
@@ -63,6 +68,7 @@ export const latestJobs: ILatestJobs[] = [
 		jobType: 'Full Time',
 	},
 	{
+		id: 6,
 		companyName: 'Google',
 		title: 'Software Engineer',
 		description: 'bla bla bla',
@@ -70,6 +76,7 @@ export const latestJobs: ILatestJobs[] = [
 		jobType: 'Full Time',
 	},
 	{
+		id: 7,
 		companyName: 'Google',
 		title: 'Software Engineer',
 		description: 'bla bla bla',
@@ -77,6 +84,7 @@ export const latestJobs: ILatestJobs[] = [
 		jobType: 'Full Time',
 	},
 	{
+		id: 8,
 		companyName: 'Google',
 		title: 'Software Engineer',
 		description: 'bla bla bla',

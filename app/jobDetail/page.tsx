@@ -2,6 +2,7 @@ import React from 'react';
 import { Backpack } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import RelatedJobs from '@/components/relatedJobs';
 
 const JobDetail = () => {
   return (
@@ -43,11 +44,14 @@ const JobDetail = () => {
                 <span>Creative</span>
               </div>
             </div>
+
+
+
           </div>
         </div>
         {/* Header End*/}
         <div className="grid grid-cols-1 md:grid-cols-5">
-          <div className="col-span-3">
+          <div className="col-span-3 space-y-2">
             {/* Job Description */}
             <div className="w-full flex flex-col justify-start items-start">
               <h4 className="text-[24px] font-semibold">Job Description :</h4>
@@ -72,20 +76,49 @@ const JobDetail = () => {
             {/* Job Responsibility */}
             <div className="w-full flex flex-col justify-start items-start">
               <h4 className="text-[24px] font-semibold">Responsibility :</h4>
-              <ul>
-                <li>voluptatem delectus maxime laudantium aperiam corrupti</li>
-                <li>voluptatem delectus maxime laudantium aperiam corrupti</li>
-                <li>voluptatem delectus maxime laudantium aperiam corrupti</li>
-                <li>voluptatem delectus maxime laudantium aperiam corrupti</li>
-                <li>voluptatem delectus maxime laudantium aperiam corrupti</li>
-                <li>voluptatem delectus maxime laudantium aperiam corrupti</li>
-                <li>voluptatem delectus maxime laudantium aperiam corrupti</li>
-              </ul>
+              <h6>1. Senior Software Engineer should pose mindset and ability to lead small team.</h6>
+              <h6>2. Participate in defined meeting as per company policy.</h6>
+              <h6>3. Follow review process for peer review to code delivery.</h6>
+              <h6>4. Prepare basic design, detail design, execute basic acceptance testing.</h6>
+              <h6>5. Perform Unit test and ensure proper test coverage as per organizational standard.</h6>
+              <h6>6. Collaborate with cross-functional teams to analyze, design, and implement new features.</h6>
+              <h6>7. Design and build web and enterprise application using in ReactJS/Next JS/.Net Core</h6>
+              <h6>8. Prepare basic design, detail design, execute basic acceptance testing.</h6>
             </div>
             {/* Job Responsibility End */}
+            {/* Job Responsibility */}
+            <div className="w-full flex flex-col justify-start items-start">
+              <h4 className="text-[24px] font-semibold">Requirements :</h4>
+              <h6>1. Senior Software Engineer should pose mindset and ability to lead small team.</h6>
+              <h6>2. Participate in defined meeting as per company policy.</h6>
+              <h6>3. Follow review process for peer review to code delivery.</h6>
+              <h6>4. Prepare basic design, detail design, execute basic acceptance testing.</h6>
+              <h6>5. Perform Unit test and ensure proper test coverage as per organizational standard.</h6>
+              <h6>6. Collaborate with cross-functional teams to analyze, design, and implement new features.</h6>
+              <h6>7. Design and build web and enterprise application using in ReactJS/Next JS/.Net Core</h6>
+              <h6>8. Prepare basic design, detail design, execute basic acceptance testing.</h6>
+            </div>
+            {/* Responsibility End */}
+            {/* Salary and Benefits */}
+            <div className="w-full flex flex-col justify-start items-start">
+              <h4 className="text-[24px] font-semibold">Salary and Benefits :</h4>
+              <h6>1. Senior Software Engineer should pose mindset and ability to lead small team.</h6>
+              <h6>2. Participate in defined meeting as per company policy.</h6>
+              <h6>3. Follow review process for peer review to code delivery.</h6>
+              <h6>4. Prepare basic design, detail design, execute basic acceptance testing.</h6>
+              <h6>5. Perform Unit test and ensure proper test coverage as per organizational standard.</h6>
+              <h6>6. Collaborate with cross-functional teams to analyze, design, and implement new features.</h6>
+              <h6>7. Design and build web and enterprise application using in ReactJS/Next JS/.Net Core</h6>
+              <h6>8. Prepare basic design, detail design, execute basic acceptance testing.</h6>
+            </div>
+            {/* Salary and Benefits End */}
+            <Button className="w-[50%] rounded-md bg-orange-600 hover:bg-orange-700 ">
+              Apply This Possition
+            </Button>
+
           </div>
           {/* company logo and apply job section */}
-          <div className="col-span-2 w-full  flex flex-col justify-end items-end gap-y-4">
+          <div className="col-span-2 w-full  flex flex-col justify-start items-end gap-y-4">
             <div className=" relative h-[338px] w-[412px] bg-bg-1 border border-slate-200 shadow-md flex flex-col justify-center items-center gap-y-1">
               <Image
                 src="/logo.png" // Can be a local image or an external URL (if configured)
@@ -150,11 +183,28 @@ const JobDetail = () => {
                 <span className='text-[16px]'>Both</span>
 
               </div>
+              <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
+                <div className="flex justify-center items-center gap-1">
+                  <Backpack size={20} />
+                  <span className='text-[18px]'>Job Deadline</span>
+                </div>
+                <span className='text-[16px]'>01 July 2024</span>
+
+              </div>
 
             </div>
             {/* Job Overview End */}
           </div>
           {/* company logo and apply job section */}
+
+        </div>
+        {/* // related Job */}
+        <div className="w-full">
+          <h4 className='text-[48px]'>Related Jobs</h4>
+
+          <RelatedJobs />
+
+
         </div>
       </div>
     </>
