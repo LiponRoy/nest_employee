@@ -15,7 +15,7 @@ const Hero = () => {
         <section className="relative h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: 'url(/hero-bg.jpg)' }}>
             <div className="absolute inset-0 bg-black bg-opacity-40"></div>
             <div className='z-20 h-full w-full flex flex-col justify-center items-center gap-y-6 mx-10'>
-                <span className='text-4xl font-medium text-white-creamy'>Find Nearby Jobs <span className='text-orange-600'>From Here.</span></span>
+                <span className='text-4xl font-medium text-white-creamy text-white p-2 rounded-md'>Find Nearby Jobs <span className='text-secondary-1'>From Here.</span></span>
                 <span className=' text-white'>It is a Long Established Fact That a Reader Will be Distracted by The Readable.</span>
                 <SearchBar />
                 {/* cards */}

@@ -9,7 +9,7 @@ const MyComponent = () => {
     const [selectedOrgType, setSelectedOrgType] = useState<IJobType | null>(null);
 
     return (
-        <div className="w-[60%] grid grid-cols-1 md:grid-cols-5 gap-4 bg-slate-200 rounded-md md:rounded-full border-4 border-slate-300 shadow-lg py-1 4 px-4 md:px-10 mx-4 md:mx-0 z-50">
+        <div className="w-[60%] grid grid-cols-1 md:grid-cols-5 gap-4 bg-slate-200 rounded-md md:rounded-full border-4 border-slate-300 shadow-lg py-1 px-4 md:px-10 mx-4 md:mx-0 z-50">
             <div className=" border md:border-r-slate-400 col-span-2 flex justify-start items-center">
                 <SelectInput
                     options={JobType}
@@ -28,8 +28,8 @@ const MyComponent = () => {
                     placeholder="Select Organization Type"
                 />
             </div>
-            <div className=" col-span-1">
-                <Button className="w-full py-8 rounded-md md:rounded-full  bg-orange-600 hover:bg-orange-700">
+            <div className=" col-span-1 flex justify-end ">
+                <Button className="w-full py-8 rounded-md md:rounded-xl  bg-orange-600 hover:bg-orange-700">
                     Search Jobs
                 </Button>
             </div>

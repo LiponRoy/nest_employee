@@ -13,7 +13,7 @@ const JobsCategorySlider = () => {
         <div className="max-w-4xl mx-auto ">
             <div className=" text-center">
                 <h5 className="text-white  p-1 mb-6 inline-block">
-                    <span className="border border-white p-2 uppercase rounded-md">Trending Jobs</span>
+                    <span className="border border-white p-2 uppercase rounded-md">Trending Category</span>
                 </h5>
 
             </div>
@@ -38,7 +38,7 @@ const JobsCategorySlider = () => {
             >
                 {JobsCategory?.map((category) => (
                     <SwiperSlide key={category.id}>
-                        <div className="bg-slate-900 opacity-70 rounded-lg p-2 text-center border-2 border-white cursor-pointer shadow-lg">
+                        <div className="bg-slate-900 opacity-70 rounded-lg p-2 text-center border-2 border-secondary-1 cursor-pointer shadow-lg">
                             <h4 className="text-lg font-semibold text-white">{category.title}</h4>
 
                         </div>

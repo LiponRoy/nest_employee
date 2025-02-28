@@ -17,11 +17,12 @@ export default {
 				'2xl': '1536px', // Larger desktops
 			},
 			colors: {
-				'white-creamy': '#F5F5F5',
-				'orange-deep': '#eb5e28',
-				'bright-blue': '#00769d',
-				'heading-text': '#003b4e',
-				'para-text': '#001d27',
+				'primary-1': '#007CAD', // thin blue
+				'primary-2': '#004F6D', // deep blues
+				'secondary-1': '#FF532A', // orange
+				'heading-text': '#202020', // thin black
+				'para-text': '#282828', // thin black
+				'bg-1': '#F8FAFB', // white-creamy
 
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
