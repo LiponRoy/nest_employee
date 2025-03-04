@@ -2,7 +2,8 @@ import React from 'react';
 import { Backpack } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import RelatedJobs from '@/components/relatedJobs';
+import RelatedJobs from '@/components/RelatedJobs';
+
 
 const JobDetail = () => {
   return (
