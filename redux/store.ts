@@ -1,9 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './rootReducer';
+import { baseApi } from './rtk/baseApi';
 
 export const makeStore = () => {
 	return configureStore({
 		reducer: rootReducer,
+		middleware: (getDefaultMiddleware) =>
+			getDefaultMiddleware().concat(baseApi.middleware), // Add API middleware
 	});
 };
 
