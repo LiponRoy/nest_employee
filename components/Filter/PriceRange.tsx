@@ -1,8 +1,6 @@
 "use client";
 
 import ReactSlider from "react-slider";
-
-
 const PriceRange = ({ min, max, priceValue, handleOnchange }: any) => (
   <div className="flex flex-col justify-start items-start gap-y-4">
     <span className=" font-semibold text-[16px]">Your Budget</span>
