@@ -2,6 +2,7 @@ import { InavLinks, IJobType, ILatestJobs } from '@/types/Types';
 
 export const navLinks: InavLinks[] = [
 	{ href: '/jobs', label: 'Jobs' },
+	{ href: '/addJobs', label: 'addJobs' },
 	{ href: '/jobDetail', label: 'jobDetail' },
 	{ href: '/register', label: 'Register' },
 	{ href: '/login', label: 'Login' },
