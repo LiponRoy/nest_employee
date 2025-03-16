@@ -1,3 +1,6 @@
+import { strict } from 'assert';
+import Document from 'next/document';
+
 export interface InavLinks {
 	href: string;
 	label: string;
@@ -7,13 +10,18 @@ export interface IJobType {
 	value: string;
 	label: string;
 }
-export interface ILatestJobs {
+export interface ILatestJobs extends Document {
 	id: number;
-	companyName: string;
 	title: string;
 	description: string;
-	position: number;
+	requirements: string[];
+	maxSalary: number;
+	experienceLevel: number;
+	location: string;
 	jobType: string;
+	position: number;
+	company: number;
+	applications: string[];
 }
 
 export interface SelectInputProps<T> {

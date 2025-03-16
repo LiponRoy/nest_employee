@@ -5,12 +5,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const baseApi = createApi({
 	reducerPath: 'api', // Unique key for the API slice
 	baseQuery: fetchBaseQuery({
-		baseUrl: getBaseUrl(), // getting backend base URL
+		baseUrl: 'http://localhost:4000/api/v1', // getting backend base URL
 		prepareHeaders: (headers) => {
 			headers.set('Content-Type', 'application/json');
 			return headers;
 		},
 	}),
 	endpoints: () => ({}), // Empty, will be extended
-	tagTypes: ['User', 'Post'], // Define tag types for cache management
+	tagTypes: ['User', 'Job'], // Define tag types for cache management
 });
