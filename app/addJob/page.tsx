@@ -13,25 +13,35 @@ import { FiDelete } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { errorToast, successToast } from "@/components/Toast";
 
- 
+
 export const jobTypeCategories = [
-	"Full-time",
-	"Part-time",
-  ];
+  "Full-time",
+  "Part-time",
+];
 
 export const Gender = [
-	"Female",
-	"male",
-	"Other",
-  ];
+  "Female",
+  "male",
+  "Other",
+];
 
- 
+
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
   minSalary: z.preprocess(
     (value) => Number(value),
     z.number().positive("MinSalary must be greater than zero"),
+  ),
+  maxSalary: z.preprocess(
+    (value) => Number(value),
+    z.number().positive("maxSalary must be greater than zero"),
+  ),
+  location: z.string().min(1, "location is required"),
+  educationQualification: z.string().min(1, "educationQualification is required"),
+  experienceLevel: z.preprocess(
+    (value) => Number(value),
+    z.number().positive("experienceLevel must be greater than zero"),
   ),
   requirements: z
     .array(
@@ -40,16 +50,38 @@ const formSchema = z.object({
       }),
     )
     .min(1, "At least one requirements is required"),
-    jobType: z.string().min(1, "jobType is required"),
-    gender: z.string().min(1, "gender is required"),
+  responsibility: z
+    .array(
+      z.object({
+        title: z.string().min(1, "responsibility is required"),
+      }),
+    )
+    .min(1, "At least one responsibility is required"),
+  salaryAndBenefits: z
+    .array(
+      z.object({
+        title: z.string().min(1, "salaryAndBenefits is required"),
+      }),
+    )
+    .min(1, "At least one salaryAndBenefits is required"),
+  skillAndExperience: z
+    .array(
+      z.object({
+        title: z.string().min(1, "skillAndExperience is required"),
+      }),
+    )
+    .min(1, "At least one skillAndExperience is required"),
+
+  jobType: z.string().min(1, "jobType is required"),
+  gender: z.string().min(1, "gender is required"),
 
 });
- 
+
 type FormSchema = z.infer<typeof formSchema>;
- 
+
 const DynamicForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
- 
+
   const {
     control,
     register,
@@ -62,12 +94,19 @@ const DynamicForm: React.FC = () => {
       title: "",
       description: "",
       minSalary: 0,
+      maxSalary: 0,
+      location: "",
+      educationQualification: "",
+      experienceLevel: 0,
       requirements: [{ title: "" }],
+      responsibility: [{ title: "" }],
+      salaryAndBenefits: [{ title: "" }],
+      skillAndExperience: [{ title: "" }],
       jobType: "",
       gender: "",
     },
   });
- 
+
   const {
     fields: requirementsFields,
     append: appendRequirements,
@@ -76,35 +115,76 @@ const DynamicForm: React.FC = () => {
     control,
     name: "requirements",
   });
- 
+
+  const {
+    fields: responsibilityFields,
+    append: appendResponsibility,
+    remove: removeResponsibility,
+  } = useFieldArray({
+    control,
+    name: "responsibility",
+  });
+  const {
+    fields: salaryAndBenefitsFields,
+    append: appendSalaryAndBenefits,
+    remove: removeSalaryAndBenefits,
+  } = useFieldArray({
+    control,
+    name: "salaryAndBenefits",
+  });
+
+  const {
+    fields: skillAndExperienceFields,
+    append: appendSkillAndExperience,
+    remove: removeSkillAndExperience,
+  } = useFieldArray({
+    control,
+    name: "skillAndExperience",
+  });
+
   const onSubmit = async (data: FormSchema) => {
     console.log("data.... :", data);
     setLoading(true);
     console.log("Form Data:", data);
- 
+
     const formData = new FormData();
- 
     // Append simple fields
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("minSalary", data.minSalary.toString());
+    formData.append("maxSalary", data.maxSalary.toString());
+    formData.append("location", data.location);
+    formData.append("educationQualification", data.educationQualification);
+    formData.append("experienceLevel", data.experienceLevel.toString());
     formData.append("jobType", data.jobType);
     formData.append("gender", data.gender);
- 
+
     // Append array fields
-    data.requirements.forEach((requirement, index) => {
-      formData.append(`requirements[${index}][title]`, requirement.title);
+    data.requirements.forEach((val, index) => {
+      formData.append(`requirements[${index}][title]`, val.title);
     });
- 
+    // Append array fields
+    data.responsibility.forEach((val, index) => {
+      formData.append(`responsibility[${index}][title]`, val.title);
+    });
+    // Append array fields
+    data.salaryAndBenefits.forEach((val, index) => {
+      formData.append(`salaryAndBenefits[${index}][title]`, val.title);
+    });
+    // Append array fields
+    data.skillAndExperience.forEach((val, index) => {
+      formData.append(`skillAndExperience[${index}][title]`, val.title);
+    });
+
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/package/create`,
+        `${process.env.BASE_URL}/job/create`,
         {
           method: "POST",
           body: formData,
         },
       );
- 
+
       if (!response.ok) {
         throw new Error(
           `Request failed with status: ${response.status} - ${response.statusText}`,
@@ -121,165 +201,349 @@ const DynamicForm: React.FC = () => {
       setLoading(false);
     }
   };
- 
+
   return (
-    <div className="">
-      <div className="">
-        <div className=" flex items-center justify-center bg-white p-6">
-          <div className="w-full">
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="mb-10 w-full space-y-6 "
-            >
-              {/* Title */}
-              <div>
-                <label className="block text-sm font-medium">Title</label>
-                <input
-                  {...register("title")}
-                  className="border-gray-300 w-full rounded border p-2"
-                  placeholder="Enter title"
-                />
-                {errors.title && (
-                  <p className="text-red-500 text-sm text-red">
-                    {errors.title.message}
-                  </p>
-                )}
-              </div>
-              {/* Title End */}
-              {/* Description */}
-              <div>
-                <label className="block text-sm font-medium">Description</label>
-                <textarea
-                  {...register("description")}
-                  className="border-gray-300 w-full rounded border p-2"
-                  placeholder="Enter description text"
-                />
-                {errors.description && (
-                  <p className="text-red-500 text-sm text-red">
-                    {errors.description.message}
-                  </p>
-                )}
-              </div>
-              {/* Description End */}
-              {/* MinSalary */}
-              <div>
-                <label className="block text-sm font-medium">MinSalary</label>
-                <input
-                  {...register("minSalary")}
-                  className="border-gray-300 w-full rounded border p-2"
-                  placeholder="Enter minSalary"
-                  type="number"
-                />
-                {errors.minSalary && (
-                  <p className="text-red-500 text-sm text-red">
-                    {errors.minSalary?.message}
-                  </p>
-                )}
-              </div>
-              {/* MinSalary End*/}
-              {/* Requirements */}
-              <div>
-                <label className="block text-sm font-medium">Requirements</label>
-                {requirementsFields?.map((field, index) => (
-                  <div key={field.id} className="mb-2 flex items-center gap-4">
-                    <div className="flex w-full  flex-col items-start justify-start ">
-                      <input
-                        {...register(`requirements.${index}.title`)}
-                        className="border-gray-300 w-full rounded border p-2"
-                        placeholder="requirements"
-                      />
- 
-                      {errors.requirements?.[index]?.title && (
-                        <p className="text-red-500 text-sm text-red">
-                          {errors.requirements[index].title?.message}
-                        </p>
-                      )}
-                    </div>
- 
-                    <button
-                      type="button"
-                      onClick={() => removeRequirements(index)}
-                      className="text-red-500"
-                    >
-                      {/* remove btn */}
-                      <FiDelete className="text-slate-400" size={24} />
-                    </button>
+    <div className="flex justify-center items-center">
+      <div className="w-1/2 flex items-center justify-center bg-white p-6">
+        <div className="w-full">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mb-10 w-full space-y-6 "
+          >
+            {/* Title */}
+            <div>
+              <label className="block text-sm font-medium">Title</label>
+              <input
+                {...register("title")}
+                className="border-gray-300 w-full rounded border p-2"
+                placeholder="Enter title"
+              />
+              {errors.title && (
+                <p className="text-red-500 text-sm text-red">
+                  {errors.title.message}
+                </p>
+              )}
+            </div>
+            {/* Title End */}
+
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium">Description</label>
+              <textarea
+                {...register("description")}
+                className="border-gray-300 w-full rounded border p-2"
+                placeholder="Enter description text"
+              />
+              {errors.description && (
+                <p className="text-red-500 text-sm text-red">
+                  {errors.description.message}
+                </p>
+              )}
+            </div>
+            {/* Description End */}
+            {/* MinSalary */}
+            <div>
+              <label className="block text-sm font-medium">MinSalary</label>
+              <input
+                {...register("minSalary")}
+                className="border-gray-300 w-full rounded border p-2"
+                placeholder="Enter minSalary"
+                type="number"
+              />
+              {errors.minSalary && (
+                <p className="text-red-500 text-sm text-red">
+                  {errors.minSalary?.message}
+                </p>
+              )}
+            </div>
+            {/* MinSalary End*/}
+            {/* maxSalary */}
+            <div>
+              <label className="block text-sm font-medium">maxSalary</label>
+              <input
+                {...register("maxSalary")}
+                className="border-gray-300 w-full rounded border p-2"
+                placeholder="Enter maxSalary"
+                type="number"
+              />
+              {errors.maxSalary && (
+                <p className="text-red-500 text-sm text-red">
+                  {errors.maxSalary?.message}
+                </p>
+              )}
+            </div>
+            {/* maxSalary End*/}
+            {/* location */}
+            <div>
+              <label className="block text-sm font-medium">location</label>
+              <input
+                {...register("location")}
+                className="border-gray-300 w-full rounded border p-2"
+                placeholder="Enter location"
+              />
+              {errors.location && (
+                <p className="text-red-500 text-sm text-red">
+                  {errors.location.message}
+                </p>
+              )}
+            </div>
+            {/* location End */}
+            {/* educationQualification */}
+            <div>
+              <label className="block text-sm font-medium">educationQualification</label>
+              <input
+                {...register("educationQualification")}
+                className="border-gray-300 w-full rounded border p-2"
+                placeholder="Enter educationQualification"
+              />
+              {errors.educationQualification && (
+                <p className="text-red-500 text-sm text-red">
+                  {errors.educationQualification.message}
+                </p>
+              )}
+            </div>
+            {/* educationQualification End */}
+            {/* experienceLevel */}
+            <div>
+              <label className="block text-sm font-medium">experience Level</label>
+              <input
+                {...register("experienceLevel")}
+                className="border-gray-300 w-full rounded border p-2"
+                placeholder="Enter experienceLevel"
+                type="number"
+              />
+              {errors.experienceLevel && (
+                <p className="text-red-500 text-sm text-red">
+                  {errors.experienceLevel?.message}
+                </p>
+              )}
+            </div>
+            {/* experienceLevel End*/}
+            {/* Requirements */}
+            <div>
+              <label className="block text-sm font-medium">Requirements</label>
+              {requirementsFields?.map((field, index) => (
+                <div key={field.id} className="mb-2 flex items-center gap-4">
+                  <div className="flex w-full  flex-col items-start justify-start ">
+                    <input
+                      {...register(`requirements.${index}.title`)}
+                      className="border-gray-300 w-full rounded border p-2"
+                      placeholder="requirements"
+                    />
+
+                    {errors.requirements?.[index]?.title && (
+                      <p className="text-red-500 text-sm text-red">
+                        {errors.requirements[index].title?.message}
+                      </p>
+                    )}
                   </div>
-                ))}
-                <div className=" is flex justify-start">
+
                   <button
                     type="button"
-                    onClick={() => appendRequirements({ title: "" })}
-                    className="flex items-center justify-center gap-x-1 text-slate-500 "
+                    onClick={() => removeRequirements(index)}
+                    className="text-red-500"
                   >
-                    <MdOutlinePlaylistAdd size={22} />
-                    Add
+                    {/* remove btn */}
+                    <FiDelete className="text-slate-400" size={24} />
                   </button>
                 </div>
-              </div>
-              {/* Requirements End */}
-
- 
-              <div>
-                <label className="block text-sm font-medium">jobType</label>
-                <select
-                  {...register("jobType")}
-                  className="border-gray-300 w-full rounded border p-2"
+              ))}
+              <div className=" is flex justify-start">
+                <button
+                  type="button"
+                  onClick={() => appendRequirements({ title: "" })}
+                  className="flex items-center justify-center gap-x-1 text-slate-500 "
                 >
-                  <option value="">Select a jobType</option>
-                  {jobTypeCategories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-                {errors.jobType && (
-                  <p className="text-red-500 text-sm">
-                    {errors.jobType.message}
-                  </p>
-                )}
+                  <MdOutlinePlaylistAdd size={22} />
+                  Add
+                </button>
               </div>
- 
-              <div>
-                <label className="block text-sm font-medium">Gender</label>
-                <select
-                  {...register("gender")}
-                  className="border-gray-300 w-full rounded border p-2"
-                >
-                  <option value="">Select a gender</option>
-                  {Gender.map((val) => (
-                    <option key={val} value={val}>
-                      {val}
-                    </option>
-                  ))}
-                </select>
-                {errors.gender && (
-                  <p className="text-red-500 text-sm">
-                    {errors.gender.message}
-                  </p>
-                )}
-              </div>
-             
+            </div>
+            {/* Requirements End */}
+            {/* Responsibility */}
+            <div>
+              <label className="block text-sm font-medium">Responsibility</label>
+              {responsibilityFields?.map((field, index) => (
+                <div key={field.id} className="mb-2 flex items-center gap-4">
+                  <div className="flex w-full  flex-col items-start justify-start ">
+                    <input
+                      {...register(`responsibility.${index}.title`)}
+                      className="border-gray-300 w-full rounded border p-2"
+                      placeholder="responsibility"
+                    />
 
- 
-              <div className="flex w-full items-center justify-center ">
-                <Button
-                  // isDisabled={loading}
-                  // btnType="submit"
-                  title={loading ? "Loading ...." : "Submit Here"}
-                  // containerStyles={`${loading ? "bg-slate-400" : "bg-orange-deep"} w-1/2 p-2 text-white uppercase rounded-md`}
-                />
+                    {errors.responsibility?.[index]?.title && (
+                      <p className="text-red-500 text-sm text-red">
+                        {errors.responsibility[index].title?.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => removeResponsibility(index)}
+                    className="text-red-500"
+                  >
+                    {/* remove btn */}
+                    <FiDelete className="text-slate-400" size={24} />
+                  </button>
+                </div>
+              ))}
+              <div className=" is flex justify-start">
+                <button
+                  type="button"
+                  onClick={() => appendResponsibility({ title: "" })}
+                  className="flex items-center justify-center gap-x-1 text-slate-500 "
+                >
+                  <MdOutlinePlaylistAdd size={22} />
+                  Add
+                </button>
               </div>
-              <div className=" text-slate-500">
-                Note : Same title and more or less than 4 images are not
-                permitted.
+            </div>
+            {/* responsibility End */}
+            {/* salaryAndBenefits */}
+            <div>
+              <label className="block text-sm font-medium">salaryAndBenefits</label>
+              {salaryAndBenefitsFields?.map((field, index) => (
+                <div key={field.id} className="mb-2 flex items-center gap-4">
+                  <div className="flex w-full  flex-col items-start justify-start ">
+                    <input
+                      {...register(`salaryAndBenefits.${index}.title`)}
+                      className="border-gray-300 w-full rounded border p-2"
+                      placeholder="salaryAndBenefits"
+                    />
+
+                    {errors.salaryAndBenefits?.[index]?.title && (
+                      <p className="text-red-500 text-sm text-red">
+                        {errors.salaryAndBenefits[index].title?.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => removeSalaryAndBenefits(index)}
+                    className="text-red-500"
+                  >
+                    {/* remove btn */}
+                    <FiDelete className="text-slate-400" size={24} />
+                  </button>
+                </div>
+              ))}
+              <div className=" is flex justify-start">
+                <button
+                  type="button"
+                  onClick={() => appendSalaryAndBenefits({ title: "" })}
+                  className="flex items-center justify-center gap-x-1 text-slate-500 "
+                >
+                  <MdOutlinePlaylistAdd size={22} />
+                  Add
+                </button>
               </div>
-            </form>
-          </div>
+            </div>
+            {/* salaryAndBenefits End */}
+            {/* skillAndExperience */}
+            <div>
+              <label className="block text-sm font-medium">skillAndExperience</label>
+              {skillAndExperienceFields?.map((field, index) => (
+                <div key={field.id} className="mb-2 flex items-center gap-4">
+                  <div className="flex w-full  flex-col items-start justify-start ">
+                    <input
+                      {...register(`skillAndExperience.${index}.title`)}
+                      className="border-gray-300 w-full rounded border p-2"
+                      placeholder="skillAndExperience"
+                    />
+
+                    {errors.skillAndExperience?.[index]?.title && (
+                      <p className="text-red-500 text-sm text-red">
+                        {errors.skillAndExperience[index].title?.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => removeSkillAndExperience(index)}
+                    className="text-red-500"
+                  >
+                    {/* remove btn */}
+                    <FiDelete className="text-slate-400" size={24} />
+                  </button>
+                </div>
+              ))}
+              <div className=" is flex justify-start">
+                <button
+                  type="button"
+                  onClick={() => appendSkillAndExperience({ title: "" })}
+                  className="flex items-center justify-center gap-x-1 text-slate-500 "
+                >
+                  <MdOutlinePlaylistAdd size={22} />
+                  Add
+                </button>
+              </div>
+            </div>
+            {/* skillAndExperience End */}
+
+
+            <div>
+              <label className="block text-sm font-medium">jobType</label>
+              <select
+                {...register("jobType")}
+                className="border-gray-300 w-full rounded border p-2"
+              >
+                <option value="">Select a jobType</option>
+                {jobTypeCategories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+              {errors.jobType && (
+                <p className="text-red-500 text-sm">
+                  {errors.jobType.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium">Gender</label>
+              <select
+                {...register("gender")}
+                className="border-gray-300 w-full rounded border p-2"
+              >
+                <option value="">Select a gender</option>
+                {Gender.map((val) => (
+                  <option key={val} value={val}>
+                    {val}
+                  </option>
+                ))}
+              </select>
+              {errors.gender && (
+                <p className="text-red-500 text-sm">
+                  {errors.gender.message}
+                </p>
+              )}
+            </div>
+
+
+
+            <div className="flex w-full items-center justify-center ">
+              <Button
+                // isDisabled={loading}
+                // btnType="submit"
+                title={loading ? "Loading ...." : "Submit Here"}
+              // containerStyles={`${loading ? "bg-slate-400" : "bg-orange-deep"} w-1/2 p-2 text-white uppercase rounded-md`}
+              />
+            </div>
+            <div className=" text-slate-500">
+              Note : Same title and more or less than 4 images are not
+              permitted.
+            </div>
+          </form>
         </div>
       </div>
     </div>
   );
 };
- 
+
 export default DynamicForm;
