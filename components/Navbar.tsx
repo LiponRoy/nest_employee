@@ -5,22 +5,27 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { navLinks } from "@/constant/Constant";
+// import {openRegisterModal} from "@/redux/slices/registerFormModalSlice";
+import { useAppDispatch } from "@/redux/hooks";
 
 
 
 export default function Navbar() {
+
+    const dispatch = useAppDispatch();
+
     return (
         <nav className="sticky top-0 z-50 container-custom flex items-center justify-between px-6 py-4 bg-bg-1 dark:bg-slate-900 bg-opacity-90 shadow-md">
 
             {/* Logo */}
-            {/* <Link href="/" className="text-2xl font-bold flex justify-center items-center gap-1">
+            <Link href="/" className="text-2xl font-bold flex justify-center items-center gap-1">
                 <span className="text-secondary-1">Nest</span>
                 <span className="text-primary-2">Employee</span>
 
-            </Link> */}
+            </Link>
 
             {/* Desktop Links */}
-            {/* <div className="hidden md:flex gap-6">
+            <div className="hidden md:flex gap-6">
                 {navLinks.map((link) => (
                     <Link
                         key={link.href}
@@ -31,7 +36,8 @@ export default function Navbar() {
                         {link.label}
                     </Link>
                 ))}
-            </div> */}
+                {/* <Button onClick={() => dispatch(openCheckListModal())}/> */}
+            </div>
 
             {/* Mobile Menu */}
             <Sheet>
