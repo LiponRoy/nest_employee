@@ -10,7 +10,6 @@ interface InputProps {
 	placeholder?: string;
 	defaultValue?: string;
 	customStyle?: string;
-	isStar?: boolean;
 }
 
 interface SelectProps {
@@ -27,7 +26,6 @@ const TextInput: React.FC<InputProps> = ({
 	placeholder,
 	type = "text",
 	customStyle,
-	isStar,
 }) => {
 	const {
 		register,
@@ -44,7 +42,6 @@ const TextInput: React.FC<InputProps> = ({
 				className="block text-gray-700 font-normal text-[16px]"
 			>
 				{label}
-				{isStar ? "*" : ""}
 			</label>
 			{isTextArea ? (
 				<textarea
@@ -110,4 +107,4 @@ const SelectInput: React.FC<SelectProps> = ({ name, label, options }) => {
 	);
 };
 
-export { TextInput, SelectInput};
+export { TextInput, SelectInput };

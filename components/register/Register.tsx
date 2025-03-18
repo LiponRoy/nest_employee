@@ -8,40 +8,49 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { TextInput } from "../FormInputs";
 import { Button } from "../ui/button";
 import { Modal } from "../Modal";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { closeRegisterModal } from "@/redux/slices/registerFormModalSlice";
 
 const schema = z.object({
   name: z
     .string()
     .min(1, { message: "Name is required" })
     .max(50, { message: "Name must be less than 50 characters" }),
-  // .regex(/^[a-zA-Z\s]+$/, {
-  // 	message: "Name must only contain letters and spaces",
-  // }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z
     .string()
     .min(5, { message: "Password must be at least 5 characters" }),
+  role: z.enum(["job_seeker", "employer"], {
+    required_error: "Please select a role",
+  }),
+
 });
 
 type FormData = z.infer<typeof schema>;
 
 const Register = () => {
   //for modal
-  const [isOpen, setIsOpen] = useState(false);
-
+  const dispatch = useAppDispatch();
+  const isOpen = useAppSelector((state) => state.registerFormModal.isOpen);
+  //end for modal
   const [showPassword, setShowPassword] = useState(false);
+
   const methods = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      role: "job_seeker", // Default value set to "job_seeker"
+    },
   });
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {};
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    console.log("modal data: ", data)
+  };
 
   return (
     <div className="h-screen w-full flex items-center justify-center bg-gradient-to-r from-blue-50 to-orange-50">
-		
-      <Button onClick={() => setIsOpen(true)}>Register</Button>
 
-      <Modal title="Register" isOpen={isOpen} onClose={() => setIsOpen(false)}>
+
+      <Modal title="Register" isOpen={isOpen} onClose={() => dispatch(closeRegisterModal())}>
         <div className="flex bg-white shadow-inner rounded-lg overflow-hidden max-w-full">
           <div className="flex flex-col flex-1 justify-center p-8">
             <FormProvider {...methods}>
@@ -68,6 +77,38 @@ const Register = () => {
                     )}
                   </div>
                 </div>
+
+                <div>
+                  <label className="block font-medium mb-2">Select Role:</label>
+                  <div className="flex items-center gap-4">
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        value="job_seeker"
+                        {...methods.register("role")}
+                        className="w-4 h-4"
+                      />
+                      Job Seeker
+                    </label>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        value="employer"
+                        {...methods.register("role")}
+                        className="w-4 h-4"
+                      />
+                      Employer
+                    </label>
+                  </div>
+                  {methods.formState.errors.role && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {methods.formState.errors.role.message}
+                    </p>
+                  )}
+                </div>
+
+
+
 
                 <Button
                   title="Sign Up"

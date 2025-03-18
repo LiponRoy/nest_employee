@@ -5,9 +5,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { navLinks } from "@/constant/Constant";
-// import {openRegisterModal} from "@/redux/slices/registerFormModalSlice";
 import { useAppDispatch } from "@/redux/hooks";
-
+import { closeRegisterModal, openRegisterModal } from "@/redux/slices/registerFormModalSlice";
 
 
 export default function Navbar() {
@@ -36,7 +35,9 @@ export default function Navbar() {
                         {link.label}
                     </Link>
                 ))}
-                {/* <Button onClick={() => dispatch(openCheckListModal())}/> */}
+
+                <span onClick={() => dispatch(openRegisterModal())}>Register</span>
+
             </div>
 
             {/* Mobile Menu */}
