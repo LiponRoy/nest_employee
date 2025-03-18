@@ -1,80 +1,83 @@
 "use client";
 import React, { useState } from "react";
-import {
-  useForm,
-  useFieldArray,
-} from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  MdOutlinePlaylistAdd,
-} from "react-icons/md";
+import { MdOutlinePlaylistAdd } from "react-icons/md";
 import { FiDelete } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { errorToast, successToast } from "@/components/Toast";
 
+export const jobTypeCategories = ["Full-time", "Part-time"];
 
-export const jobTypeCategories = [
-  "Full-time",
-  "Part-time",
-];
-
-export const Gender = [
-  "Female",
-  "male",
-  "Other",
-];
-
+export const Gender = ["Female Only", "Male Only", "Both"];
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
   minSalary: z.preprocess(
     (value) => Number(value),
-    z.number().positive("MinSalary must be greater than zero"),
+    z.number().positive("MinSalary must be greater than zero")
   ),
   maxSalary: z.preprocess(
     (value) => Number(value),
-    z.number().positive("maxSalary must be greater than zero"),
+    z.number().positive("maxSalary must be greater than zero")
+  ),
+  vacancy: z.preprocess(
+    (value) => Number(value),
+    z.number().positive("vacancy must be greater than zero")
   ),
   location: z.string().min(1, "location is required"),
-  educationQualification: z.string().min(1, "educationQualification is required"),
+  educationQualification: z
+    .string()
+    .min(1, "educationQualification is required"),
   experienceLevel: z.preprocess(
     (value) => Number(value),
-    z.number().positive("experienceLevel must be greater than zero"),
+    z.number().positive("experienceLevel must be greater than zero")
   ),
   requirements: z
     .array(
       z.object({
         title: z.string().min(1, "requirements is required"),
-      }),
+      })
     )
     .min(1, "At least one requirements is required"),
   responsibility: z
     .array(
       z.object({
         title: z.string().min(1, "responsibility is required"),
-      }),
+      })
     )
     .min(1, "At least one responsibility is required"),
   salaryAndBenefits: z
     .array(
       z.object({
         title: z.string().min(1, "salaryAndBenefits is required"),
-      }),
+      })
     )
     .min(1, "At least one salaryAndBenefits is required"),
   skillAndExperience: z
     .array(
       z.object({
         title: z.string().min(1, "skillAndExperience is required"),
-      }),
+      })
     )
     .min(1, "At least one skillAndExperience is required"),
 
   jobType: z.string().min(1, "jobType is required"),
   gender: z.string().min(1, "gender is required"),
-
+  datePosted: z
+    .string()
+    .min(1, "Job post date is required")
+    .refine((date) => !isNaN(Date.parse(date)), {
+      message: "Invalid date format",
+    }),
+    dateDeadline: z
+    .string()
+    .min(1, "Job deadline date is required")
+    .refine((date) => !isNaN(Date.parse(date)), {
+      message: "Invalid date format",
+    }),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -95,6 +98,7 @@ const DynamicForm: React.FC = () => {
       description: "",
       minSalary: 0,
       maxSalary: 0,
+      vacancy: 0,
       location: "",
       educationQualification: "",
       experienceLevel: 0,
@@ -104,6 +108,8 @@ const DynamicForm: React.FC = () => {
       skillAndExperience: [{ title: "" }],
       jobType: "",
       gender: "",
+      datePosted: "",
+      dateDeadline: "",
     },
   });
 
@@ -153,11 +159,14 @@ const DynamicForm: React.FC = () => {
     formData.append("description", data.description);
     formData.append("minSalary", data.minSalary.toString());
     formData.append("maxSalary", data.maxSalary.toString());
+    formData.append("vacancy", data.vacancy.toString());
     formData.append("location", data.location);
     formData.append("educationQualification", data.educationQualification);
     formData.append("experienceLevel", data.experienceLevel.toString());
     formData.append("jobType", data.jobType);
     formData.append("gender", data.gender);
+    formData.append("datePosted", data.datePosted);
+    formData.append("dateDeadline", data.dateDeadline);
 
     // Append array fields
     data.requirements.forEach((val, index) => {
@@ -177,17 +186,14 @@ const DynamicForm: React.FC = () => {
     });
 
     try {
-      const response = await fetch(
-        `${process.env.BASE_URL}/job/create`,
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const response = await fetch(`${process.env.BASE_URL}/job/create`, {
+        method: "POST",
+        body: formData,
+      });
 
       if (!response.ok) {
         throw new Error(
-          `Request failed with status: ${response.status} - ${response.statusText}`,
+          `Request failed with status: ${response.status} - ${response.statusText}`
         );
       }
       const responseData = await response.json();
@@ -212,7 +218,7 @@ const DynamicForm: React.FC = () => {
           >
             {/* Title */}
             <div>
-              <label className="block text-sm font-medium">Title</label>
+              <label className="block text-sm font-medium mb-1">Title</label>
               <input
                 {...register("title")}
                 className="border-gray-300 w-full rounded border p-2"
@@ -228,7 +234,7 @@ const DynamicForm: React.FC = () => {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium">Description</label>
+              <label className="block text-sm font-medium mb-1">Description</label>
               <textarea
                 {...register("description")}
                 className="border-gray-300 w-full rounded border p-2"
@@ -243,7 +249,7 @@ const DynamicForm: React.FC = () => {
             {/* Description End */}
             {/* MinSalary */}
             <div>
-              <label className="block text-sm font-medium">MinSalary</label>
+              <label className="block text-sm font-medium mb-1">Min Salary</label>
               <input
                 {...register("minSalary")}
                 className="border-gray-300 w-full rounded border p-2"
@@ -259,7 +265,7 @@ const DynamicForm: React.FC = () => {
             {/* MinSalary End*/}
             {/* maxSalary */}
             <div>
-              <label className="block text-sm font-medium">maxSalary</label>
+              <label className="block text-sm font-medium mb-1">Max Salary</label>
               <input
                 {...register("maxSalary")}
                 className="border-gray-300 w-full rounded border p-2"
@@ -273,9 +279,26 @@ const DynamicForm: React.FC = () => {
               )}
             </div>
             {/* maxSalary End*/}
+            {/* Vacancy */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Vacancy</label>
+              <input
+                {...register("vacancy")}
+                className="border-gray-300 w-full rounded border p-2"
+                placeholder="Enter vacancy"
+                type="number"
+              />
+              {errors.vacancy && (
+                <p className="text-red-500 text-sm text-red">
+                  {errors.vacancy?.message}
+                </p>
+              )}
+            </div>
+            {/* vacancy End*/}
+
             {/* location */}
             <div>
-              <label className="block text-sm font-medium">location</label>
+              <label className="block text-sm font-medium mb-1">Location</label>
               <input
                 {...register("location")}
                 className="border-gray-300 w-full rounded border p-2"
@@ -288,9 +311,12 @@ const DynamicForm: React.FC = () => {
               )}
             </div>
             {/* location End */}
+
             {/* educationQualification */}
             <div>
-              <label className="block text-sm font-medium">educationQualification</label>
+              <label className="block text-sm font-medium mb-1">
+                Education Qualification
+              </label>
               <input
                 {...register("educationQualification")}
                 className="border-gray-300 w-full rounded border p-2"
@@ -305,7 +331,9 @@ const DynamicForm: React.FC = () => {
             {/* educationQualification End */}
             {/* experienceLevel */}
             <div>
-              <label className="block text-sm font-medium">experience Level</label>
+              <label className="block text-sm font-medium mb-1">
+                Experience Level
+              </label>
               <input
                 {...register("experienceLevel")}
                 className="border-gray-300 w-full rounded border p-2"
@@ -321,7 +349,7 @@ const DynamicForm: React.FC = () => {
             {/* experienceLevel End*/}
             {/* Requirements */}
             <div>
-              <label className="block text-sm font-medium">Requirements</label>
+              <label className="block text-sm font-medium mb-1">Requirements</label>
               {requirementsFields?.map((field, index) => (
                 <div key={field.id} className="mb-2 flex items-center gap-4">
                   <div className="flex w-full  flex-col items-start justify-start ">
@@ -362,7 +390,9 @@ const DynamicForm: React.FC = () => {
             {/* Requirements End */}
             {/* Responsibility */}
             <div>
-              <label className="block text-sm font-medium">Responsibility</label>
+              <label className="block text-sm font-medium mb-1">
+                Responsibility
+              </label>
               {responsibilityFields?.map((field, index) => (
                 <div key={field.id} className="mb-2 flex items-center gap-4">
                   <div className="flex w-full  flex-col items-start justify-start ">
@@ -403,7 +433,9 @@ const DynamicForm: React.FC = () => {
             {/* responsibility End */}
             {/* salaryAndBenefits */}
             <div>
-              <label className="block text-sm font-medium">salaryAndBenefits</label>
+              <label className="block text-sm font-medium mb-1">
+                Salary And Benefits
+              </label>
               {salaryAndBenefitsFields?.map((field, index) => (
                 <div key={field.id} className="mb-2 flex items-center gap-4">
                   <div className="flex w-full  flex-col items-start justify-start ">
@@ -444,7 +476,9 @@ const DynamicForm: React.FC = () => {
             {/* salaryAndBenefits End */}
             {/* skillAndExperience */}
             <div>
-              <label className="block text-sm font-medium">skillAndExperience</label>
+              <label className="block text-sm font-medium mb-1">
+                Skill And Experience
+              </label>
               {skillAndExperienceFields?.map((field, index) => (
                 <div key={field.id} className="mb-2 flex items-center gap-4">
                   <div className="flex w-full  flex-col items-start justify-start ">
@@ -484,9 +518,8 @@ const DynamicForm: React.FC = () => {
             </div>
             {/* skillAndExperience End */}
 
-
             <div>
-              <label className="block text-sm font-medium">jobType</label>
+              <label className="block text-sm font-medium mb-1">Job Type</label>
               <select
                 {...register("jobType")}
                 className="border-gray-300 w-full rounded border p-2"
@@ -499,14 +532,12 @@ const DynamicForm: React.FC = () => {
                 ))}
               </select>
               {errors.jobType && (
-                <p className="text-red-500 text-sm">
-                  {errors.jobType.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.jobType.message}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium">Gender</label>
+              <label className="block text-sm font-medium mb-1">Gender</label>
               <select
                 {...register("gender")}
                 className="border-gray-300 w-full rounded border p-2"
@@ -519,25 +550,51 @@ const DynamicForm: React.FC = () => {
                 ))}
               </select>
               {errors.gender && (
-                <p className="text-red-500 text-sm">
-                  {errors.gender.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.gender.message}</p>
               )}
             </div>
-
-
+            {/* date Posted  */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Job Post Date</label>
+              <div>
+                <input
+                  type="date"
+                  {...register("datePosted")}
+                  className="border rounded-md p-2 w-full"
+                />
+                {errors.datePosted && (
+                  <p className="text-red-500 text-sm">
+                    {errors.datePosted.message}
+                  </p>
+                )}
+              </div>
+            </div>
+            {/* date Posted */}
+            {/* deadline date  */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Job Deadline Date</label>
+              <div>
+                <input
+                  type="date"
+                  {...register("dateDeadline")}
+                  className="border rounded-md p-2 w-full"
+                />
+                {errors.dateDeadline && (
+                  <p className="text-red-500 text-sm">
+                    {errors.dateDeadline.message}
+                  </p>
+                )}
+              </div>
+            </div>
+            {/* date Posted */}
 
             <div className="flex w-full items-center justify-center ">
               <Button
                 // isDisabled={loading}
                 // btnType="submit"
                 title={loading ? "Loading ...." : "Submit Here"}
-              // containerStyles={`${loading ? "bg-slate-400" : "bg-orange-deep"} w-1/2 p-2 text-white uppercase rounded-md`}
+                // containerStyles={`${loading ? "bg-slate-400" : "bg-orange-deep"} w-1/2 p-2 text-white uppercase rounded-md`}
               />
-            </div>
-            <div className=" text-slate-500">
-              Note : Same title and more or less than 4 images are not
-              permitted.
             </div>
           </form>
         </div>
