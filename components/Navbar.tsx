@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { navLinks } from "@/constant/Constant";
 import { useAppDispatch } from "@/redux/hooks";
-import { closeRegisterModal, openRegisterModal } from "@/redux/slices/registerFormModalSlice";
+import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
+import { openRegisterModal } from "@/redux/slices/registerFormModalSlice";
 
 
 export default function Navbar() {
@@ -36,6 +37,7 @@ export default function Navbar() {
                     </Link>
                 ))}
 
+                <span onClick={() => dispatch(openLoginModal())}>Login</span>
                 <span onClick={() => dispatch(openRegisterModal())}>Register</span>
 
             </div>

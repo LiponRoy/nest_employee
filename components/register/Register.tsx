@@ -3,9 +3,8 @@ import { useState } from "react";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import Image from "next/image";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { TextInput } from "../FormInputs";
+import { RadioInput, TextInput } from "../FormInputs";
 import { Button } from "../ui/button";
 import { Modal } from "../Modal";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -23,7 +22,6 @@ const schema = z.object({
   role: z.enum(["job_seeker", "employer"], {
     required_error: "Please select a role",
   }),
-
 });
 
 type FormData = z.infer<typeof schema>;
@@ -43,83 +41,87 @@ const Register = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("modal data: ", data)
+    console.log("modal data: ", data);
   };
 
-  return (
-    <div className="h-screen w-full flex items-center justify-center bg-gradient-to-r from-blue-50 to-orange-50">
-
-
-      <Modal title="Register" isOpen={isOpen} onClose={() => dispatch(closeRegisterModal())}>
-        <div className="flex bg-white shadow-inner rounded-lg overflow-hidden max-w-full">
-          <div className="flex flex-col flex-1 justify-center p-8">
-            <FormProvider {...methods}>
-              <form
-                onSubmit={methods.handleSubmit(onSubmit)}
-                className="space-y-4"
+  const bodyContent = (
+   
+      <div className="flex flex-col flex-1 justify-center p-8 ">
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
+            <TextInput name="name" label="Name" />
+            <TextInput name="email" label="Email" />
+            <div className="relative">
+              <TextInput
+                name="password"
+                label="Password"
+                type={showPassword ? "text" : "password"}
+              />
+              <div
+                className="absolute right-3 top-10 cursor-pointer "
+                onClick={() => setShowPassword(!showPassword)}
               >
-                <TextInput name="name" label="Name" />
-                <TextInput name="email" label="Email" />
-                <div className="relative">
-                  <TextInput
-                    name="password"
-                    label="Password"
-                    type={showPassword ? "text" : "password"}
+                {showPassword ? (
+                  <FaEyeSlash color="#6d6d6d" />
+                ) : (
+                  <FaEye color="#6d6d6d" />
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">Select Role:</label>
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-2">
+                  {/* <input
+                    type="radio"
+                    value="job_seeker"
+                    {...methods.register("role")}
+                    className="w-4 h-4"
+                  /> */}
+                  <RadioInput
+                    value="job_seeker"
+                    registerValue="role"
                   />
-                  <div
-                    className="absolute right-3 top-10 cursor-pointer "
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <FaEyeSlash color="#6d6d6d" />
-                    ) : (
-                      <FaEye color="#6d6d6d" />
-                    )}
-                  </div>
-                </div>
+                  Job Seeker
+                </label>
+                <label className="flex items-center gap-2">
+                  {/* <input
+                    type="radio"
+                    value="employer"
+                    {...methods.register("role")}
+                    className="w-4 h-4"
+                  /> */}
+                  <RadioInput
+                    value="employer"
+                    registerValue="role"    
+                  />
+                  Employer
+                </label>
+              </div>
+              {methods.formState.errors.role && (
+                <p className="text-red-500 text-sm mt-1">
+                  {methods.formState.errors.role.message}
+                </p>
+              )}
+            </div>
+            <Button
+              title="Sign Up"
+              className="w-full bg-slate-500 text-white"
+            />
+          </form>
+        </FormProvider>
+      </div>
+  );
 
-                <div>
-                  <label className="block font-medium mb-2">Select Role:</label>
-                  <div className="flex items-center gap-4">
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        value="job_seeker"
-                        {...methods.register("role")}
-                        className="w-4 h-4"
-                      />
-                      Job Seeker
-                    </label>
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        value="employer"
-                        {...methods.register("role")}
-                        className="w-4 h-4"
-                      />
-                      Employer
-                    </label>
-                  </div>
-                  {methods.formState.errors.role && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {methods.formState.errors.role.message}
-                    </p>
-                  )}
-                </div>
-
-
-
-
-                <Button
-                  title="Sign Up"
-                  className="w-full bg-slate-500 text-white"
-                />
-              </form>
-            </FormProvider>
-          </div>
-        </div>
-      </Modal>
-    </div>
+  return (
+    <Modal
+      title="Register"
+      isOpen={isOpen}
+      onClose={() => dispatch(closeRegisterModal())}
+    >
+      {bodyContent}
+    </Modal>
   );
 };
 

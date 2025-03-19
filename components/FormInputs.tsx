@@ -12,6 +12,13 @@ interface InputProps {
 	customStyle?: string;
 }
 
+interface IRadioProps {
+	value: string;
+	registerValue: string;
+	customStyle?: string;
+
+}
+
 interface SelectProps {
 	name: string;
 	label: string;
@@ -35,7 +42,6 @@ const TextInput: React.FC<InputProps> = ({
 	const isTextArea = type === "textarea";
 
 	return (
-		// <div className="mb-4">
 		<div className="mb-0">
 			<label
 				htmlFor={name}
@@ -75,6 +81,36 @@ const TextInput: React.FC<InputProps> = ({
 	);
 };
 
+const RadioInput: React.FC<IRadioProps> = ({
+	value,
+	registerValue,
+	customStyle,
+}) => {
+	const {
+		register,
+		formState: { errors },
+	} = useFormContext();
+
+
+	return (
+		<div className="mb-0">
+			(
+				<input
+					type="radio"
+					 value={value}
+					{...register(registerValue)}
+					className={customStyle}
+				/>
+			)
+			{errors[value] && (
+				<span className="text-red-500 text-sm">
+					{(errors[value] as any).message}
+				</span>
+			)}
+		</div>
+	);
+};
+
 
 
 const SelectInput: React.FC<SelectProps> = ({ name, label, options }) => {
@@ -107,4 +143,4 @@ const SelectInput: React.FC<SelectProps> = ({ name, label, options }) => {
 	);
 };
 
-export { TextInput, SelectInput };
+export { TextInput, SelectInput,RadioInput };
