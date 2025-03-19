@@ -9,6 +9,9 @@ import { Button } from "../ui/button";
 import { Modal } from "../Modal";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { closeLoginModal } from "@/redux/slices/loginFormModalSlice";
+import { useRouter } from "next/navigation";
+import { useLoginMutation } from "@/redux/rtk/auth";
+import { errorToast, successToast } from "../Toast";
 
 const schema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -20,6 +23,11 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const Login = () => {
+
+  const router = useRouter();
+  const [login, { isLoading, error }] = useLoginMutation();
+
+
   //for modal
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.loginFormModal.isOpen);
@@ -32,38 +40,49 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log("modal data: ", data);
+    try {
+      await login(data).unwrap();
+      router.push("/"); // Redirect after login
+      // successToast("login Successfully")
+      window.alert("login Successfully")
+    } catch (err) {
+      // errorToast("Something went wrong !!", err)
+      window.alert("Something went wrong")
+
+      console.error("login failed", err);
+    }
   };
 
   const bodyContent = (
-   
-      <div className="flex flex-col flex-1 justify-center p-8 ">
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
-            <TextInput name="email" label="Email" />
-            <div className="relative">
-              <TextInput
-                name="password"
-                label="Password"
-                type={showPassword ? "text" : "password"}
-              />
-              <div
-                className="absolute right-3 top-10 cursor-pointer "
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <FaEyeSlash color="#6d6d6d" />
-                ) : (
-                  <FaEye color="#6d6d6d" />
-                )}
-              </div>
-            </div>
-            <Button
-              title="Login"
-              className="w-full bg-slate-500 text-white"
+
+    <div className="flex flex-col flex-1 justify-center p-8 ">
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
+          <TextInput name="email" label="Email" />
+          <div className="relative">
+            <TextInput
+              name="password"
+              label="Password"
+              type={showPassword ? "text" : "password"}
             />
-          </form>
-        </FormProvider>
-      </div>
+            <div
+              className="absolute right-3 top-10 cursor-pointer "
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <FaEyeSlash color="#6d6d6d" />
+              ) : (
+                <FaEye color="#6d6d6d" />
+              )}
+            </div>
+          </div>
+          <Button
+            title="Login"
+            className="w-full bg-secondary-1 text-white"
+          >Login</Button>
+        </form>
+      </FormProvider>
+    </div>
   );
 
   return (

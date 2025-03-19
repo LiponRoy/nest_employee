@@ -8,11 +8,27 @@ import { navLinks } from "@/constant/Constant";
 import { useAppDispatch } from "@/redux/hooks";
 import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
 import { openRegisterModal } from "@/redux/slices/registerFormModalSlice";
+import { useGetProfileQuery, useLogoutMutation } from "@/redux/rtk/auth";
+import { useEffect } from "react";
 
 
 export default function Navbar() {
-
     const dispatch = useAppDispatch();
+    const { data, isLoading } = useGetProfileQuery({});
+    const [logout] = useLogoutMutation();
+
+    const handleLogout = async () => {
+        await logout({}).unwrap();
+        window.location.href = "/";
+    };
+
+    useEffect(() => {
+        if (!isLoading && !data) {
+            // router.push("/");
+            // dispatch(openLoginModal())
+        }
+    }, [data, isLoading]);
+
 
     return (
         <nav className="sticky top-0 z-50 container-custom flex items-center justify-between px-6 py-4 bg-bg-1 dark:bg-slate-900 bg-opacity-90 shadow-md">
@@ -37,8 +53,17 @@ export default function Navbar() {
                     </Link>
                 ))}
 
-                <span onClick={() => dispatch(openLoginModal())}>Login</span>
-                <span onClick={() => dispatch(openRegisterModal())}>Register</span>
+                {
+                    data ? <div className="">
+                        <span onClick={() => handleLogout()}>Logout</span>
+
+                    </div> : <div className="">
+                        <span onClick={() => dispatch(openLoginModal())}>Login</span>
+                        <span onClick={() => dispatch(openRegisterModal())}>Register</span>
+                    </div>
+                }
+
+
 
             </div>
 

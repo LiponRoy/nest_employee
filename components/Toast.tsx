@@ -4,17 +4,17 @@ import { IoIosWarning } from "react-icons/io";
 
 export const successToast = (message: string) => {
   toast.success(message, {
-   
+
   });
 };
 export const warningToast = (message: string) => {
   toast(message, {
     icon: <IoIosWarning size={24} style={{ color: "#FFC000" }} />,
-    
+
   });
 };
-export const errorToast = (message: string, error: unknown) => {
+export const errorToast = (message: string, error?: unknown) => {
   toast.error(message, {
-    
+
   });
 };

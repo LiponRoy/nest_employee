@@ -9,6 +9,8 @@ import { Button } from "../ui/button";
 import { Modal } from "../Modal";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { closeRegisterModal } from "@/redux/slices/registerFormModalSlice";
+import { useSignupMutation } from "@/redux/rtk/auth";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   name: z
@@ -27,6 +29,8 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const Register = () => {
+  const router = useRouter();
+  const [signup, { isLoading, error }] = useSignupMutation();
   //for modal
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.registerFormModal.isOpen);
@@ -42,76 +46,67 @@ const Register = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log("modal data: ", data);
+    try {
+      await signup(data).unwrap();
+      router.push("/"); // Redirect after signup
+      window.alert("Signup Successfully");
+    } catch (err) {
+      console.error("Signup failed", err);
+    }
   };
 
   const bodyContent = (
-   
-      <div className="flex flex-col flex-1 justify-center p-8 ">
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
-            <TextInput name="name" label="Name" />
-            <TextInput name="email" label="Email" />
-            <div className="relative">
-              <TextInput
-                name="password"
-                label="Password"
-                type={showPassword ? "text" : "password"}
-              />
-              <div
-                className="absolute right-3 top-10 cursor-pointer "
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <FaEyeSlash color="#6d6d6d" />
-                ) : (
-                  <FaEye color="#6d6d6d" />
-                )}
-              </div>
-            </div>
 
-            <div>
-              <label className="block font-medium mb-2">Select Role:</label>
-              <div className="flex items-center gap-4">
-                <label className="flex items-center gap-2">
-                  {/* <input
-                    type="radio"
-                    value="job_seeker"
-                    {...methods.register("role")}
-                    className="w-4 h-4"
-                  /> */}
-                  <RadioInput
-                    value="job_seeker"
-                    registerValue="role"
-                  />
-                  Job Seeker
-                </label>
-                <label className="flex items-center gap-2">
-                  {/* <input
-                    type="radio"
-                    value="employer"
-                    {...methods.register("role")}
-                    className="w-4 h-4"
-                  /> */}
-                  <RadioInput
-                    value="employer"
-                    registerValue="role"    
-                  />
-                  Employer
-                </label>
-              </div>
-              {methods.formState.errors.role && (
-                <p className="text-red-500 text-sm mt-1">
-                  {methods.formState.errors.role.message}
-                </p>
+    <div className="flex flex-col flex-1 justify-center p-8 ">
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
+          <TextInput name="name" label="Name" />
+          <TextInput name="email" label="Email" />
+          <div className="relative">
+            <TextInput
+              name="password"
+              label="Password"
+              type={showPassword ? "text" : "password"}
+            />
+            <div
+              className="absolute right-3 top-10 cursor-pointer "
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <FaEyeSlash color="#6d6d6d" />
+              ) : (
+                <FaEye color="#6d6d6d" />
               )}
             </div>
-            <Button
-              title="Sign Up"
-              className="w-full bg-slate-500 text-white"
-            />
-          </form>
-        </FormProvider>
-      </div>
+          </div>
+
+          <div>
+            <label className="block font-medium mb-2">Select Role:</label>
+            <div className="flex items-center gap-4">
+              <label className="flex items-center gap-2">
+
+                <RadioInput
+                  value="job_seeker"
+                  registerValue="role"
+                />
+                Job Seeker
+              </label>
+              <label className="flex items-center gap-2">
+
+                <RadioInput
+                  value="employer"
+                  registerValue="role"
+                />
+                Employer
+              </label>
+            </div>
+          </div>
+          <Button
+            className="w-full bg-secondary-1 hover:bg-orange-600 text-white"
+          >Sign Up</Button>
+        </form>
+      </FormProvider>
+    </div>
   );
 
   return (

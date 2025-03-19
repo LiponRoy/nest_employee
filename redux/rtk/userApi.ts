@@ -5,6 +5,7 @@ export const userApi = baseApi.injectEndpoints({
 		getUsers: builder.query<{ id: number; name: string }[], void>({
 			query: () => 'users',
 			providesTags: ['User'], // Cache tag
+			
 		}),
 		createUser: builder.mutation<
 			{ id: number; name: string },

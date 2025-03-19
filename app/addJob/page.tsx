@@ -72,7 +72,7 @@ const formSchema = z.object({
     .refine((date) => !isNaN(Date.parse(date)), {
       message: "Invalid date format",
     }),
-    dateDeadline: z
+  dateDeadline: z
     .string()
     .min(1, "Job deadline date is required")
     .refine((date) => !isNaN(Date.parse(date)), {
@@ -589,12 +589,7 @@ const DynamicForm: React.FC = () => {
             {/* date Posted */}
 
             <div className="flex w-full items-center justify-center ">
-              <Button
-                // isDisabled={loading}
-                // btnType="submit"
-                title={loading ? "Loading ...." : "Submit Here"}
-                // containerStyles={`${loading ? "bg-slate-400" : "bg-orange-deep"} w-1/2 p-2 text-white uppercase rounded-md`}
-              />
+              <Button className="w-full bg-secondary-1 hover:bg-orange-600">POST JOB</Button>
             </div>
           </form>
         </div>

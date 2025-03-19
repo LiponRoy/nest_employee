@@ -94,14 +94,13 @@ const RadioInput: React.FC<IRadioProps> = ({
 
 	return (
 		<div className="mb-0">
-			(
-				<input
-					type="radio"
-					 value={value}
-					{...register(registerValue)}
-					className={customStyle}
-				/>
-			)
+
+			<input
+				type="radio"
+				value={value}
+				{...register(registerValue)}
+
+			/>
 			{errors[value] && (
 				<span className="text-red-500 text-sm">
 					{(errors[value] as any).message}
@@ -143,4 +142,4 @@ const SelectInput: React.FC<SelectProps> = ({ name, label, options }) => {
 	);
 };
 
-export { TextInput, SelectInput,RadioInput };
+export { TextInput, SelectInput, RadioInput };
