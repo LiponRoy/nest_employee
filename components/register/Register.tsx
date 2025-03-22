@@ -45,7 +45,7 @@ const Register = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("modal data: ", data);
+    // console.log("modal data: ", data);
     try {
       await signup(data).unwrap();
       router.push("/"); // Redirect after signup

@@ -39,15 +39,15 @@ const Login = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("modal data: ", data);
+    // console.log("modal data: ", data);
     try {
       await login(data).unwrap();
-      router.push("/"); // Redirect after login
-      // successToast("login Successfully")
-      window.alert("login Successfully")
+      router.push("/profile");
+      successToast("login Successfully")
+      dispatch(closeLoginModal())
     } catch (err) {
-      // errorToast("Something went wrong !!", err)
-      window.alert("Something went wrong")
+      errorToast("Something went wrong !!", err)
+      dispatch(closeLoginModal())
 
       console.error("login failed", err);
     }

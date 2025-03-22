@@ -1,28 +1,26 @@
+"use client"
+// import ProtectedRoute from '@/components/ProtectedRoute';
+import { useGetProfileQuery } from '@/redux/rtk/auth';
+import React from 'react'
 
-import { auth } from "@/auth";
-
-import { redirect } from "next/navigation";
-import Image from "next/image";
-import Logout from "@/components/LogOut";
-
-const Profile = async () => {
-    const session = await auth();
-
-    if (!session?.user) redirect("/");
+const page = () => {
+    const { data: user, isLoading } = useGetProfileQuery({});
 
     return (
-        <div className="flex flex-col items-center m-4">
-            <h1 className="text-3xl my-2">Welcome, {session?.user?.name}</h1>
-            <Image
-                src={session?.user?.image as string}
-                alt={session?.user?.name as string}
-                width={72}
-                height={72}
-                className="rounded-full"
-            />
-            <Logout />
-        </div>
-    );
-};
+        // <ProtectedRoute>
+        <div className=' h-screen w-full flex flex-col justify-start items-center'>
 
-export default Profile;
+            <h4 className='text-2xl text-orange-500'>Hi, You are a {user?.data.role}</h4>
+
+
+            <div className="flex flex-col justify-center items-start">
+                <span><span>Name :</span>{user?.data?.name}</span>
+                <span><span>Email :</span>{user?.data?.email}</span>
+                <span><span>Role :</span>{user?.data?.role}</span>
+            </div>
+        </div>
+        // </ProtectedRoute>
+    )
+}
+
+export default page

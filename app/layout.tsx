@@ -6,6 +6,7 @@ import StoreProvider from "@/redux/StoreProvider";
 import Register from "@/components/register/Register";
 import ClientOnly from "@/components/ClientOnly";
 import Login from "@/components/login/Login";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,6 +36,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <Toaster position="top-center" />
           <ClientOnly>
             <Register />
             <Login />

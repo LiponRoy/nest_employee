@@ -5,6 +5,7 @@ import React from "react";
 import { ChevronsRight } from "lucide-react";
 import { useGetJobsQuery } from "@/redux/rtk/jobsApi";
 
+
 const LatestJobs = () => {
   const { data: jobs, error, isLoading } = useGetJobsQuery();
 
