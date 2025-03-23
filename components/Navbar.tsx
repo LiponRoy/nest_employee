@@ -13,6 +13,22 @@ import LogoutButton from "./LogoutButton";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+//
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from "@/components/ui/avatar"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { LogOut, Settings, User } from "lucide-react";
+
 export default function Navbar() {
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -52,18 +68,40 @@ export default function Navbar() {
                     {isLoading ? (
                         <p className="text-primary-2">Loading...</p>
                     ) : user ? (
+                        // Only for login user 
                         <div className="flex items-center gap-4">
-                            {isUserEmployer && (
-                                <Button
-                                    onClick={() => router.push('/addJob')}
-                                    variant="outline"
-                                    className="text-primary-2 hover:text-secondary-1"
-                                >
-                                    Add Job
-                                </Button>
-                            )}
-                            <LogoutButton />
+
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <Avatar className="w-7 h-7 flex justify-center items-center border border-slate-500">
+                                        {/* <AvatarImage src="/avatar.png" alt="User Avatar" /> */}
+                                        <User />
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-24 mt-4">
+                                    {/* <DropdownMenuLabel className="font-bold">My Account</DropdownMenuLabel> */}
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>
+                                        <span onClick={() => router.push('/profile')} className="cursor-pointer w-full">Profile</span>
+                                    </DropdownMenuItem>
+                                    {isUserEmployer && <div>
+                                        <DropdownMenuSeparator />
+
+                                        <DropdownMenuItem>
+                                            <span onClick={() => router.push('/addJob')} className="cursor-pointer w-full">Add Job</span>
+                                        </DropdownMenuItem></div>}
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>
+
+                                        <LogoutButton />
+
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+
                         </div>
+                        // End Only for login user
+
                     ) : (
                         <div className="space-x-4">
                             <Button
