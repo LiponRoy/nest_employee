@@ -7,10 +7,14 @@ import { MdOutlinePlaylistAdd } from "react-icons/md";
 import { FiDelete } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { errorToast, successToast } from "@/components/Toast";
+import { useGetProfileQuery } from "@/redux/rtk/auth";
 
 export const jobTypeCategories = ["Full-time", "Part-time"];
 
 export const Gender = ["Female Only", "Male Only", "Both"];
+
+   
+
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -84,6 +88,10 @@ type FormSchema = z.infer<typeof formSchema>;
 
 const DynamicForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const { data: user } = useGetProfileQuery();
+
+  console.log("current user id,, addJob",user?.data?._id)
+
 
   const {
     control,
@@ -165,6 +173,10 @@ const DynamicForm: React.FC = () => {
     formData.append("experienceLevel", data.experienceLevel.toString());
     formData.append("jobType", data.jobType);
     formData.append("gender", data.gender);
+    // new add
+    formData.append("company", "67d08922a8ac875df74830fb");
+    formData.append("created_by", user?.data?._id);
+
     formData.append("datePosted", data.datePosted);
     formData.append("dateDeadline", data.dateDeadline);
 
@@ -186,7 +198,7 @@ const DynamicForm: React.FC = () => {
     });
 
     try {
-      const response = await fetch(`${process.env.BASE_URL}/job/create`, {
+      const response = await fetch(`http://localhost:4000/api/v1/job/create/`, {
         method: "POST",
         body: formData,
       });
