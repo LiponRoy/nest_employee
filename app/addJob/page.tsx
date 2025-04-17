@@ -7,6 +7,7 @@ import { MdOutlinePlaylistAdd } from "react-icons/md";
 import { FiDelete } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { errorToast, successToast } from "@/components/Toast";
+import { useGetProfileQuery } from "@/redux/rtk/auth";
 
 export const jobTypeCategories = ["Full-time", "Part-time"];
 
@@ -66,6 +67,8 @@ const formSchema = z.object({
 
   jobType: z.string().min(1, "jobType is required"),
   gender: z.string().min(1, "gender is required"),
+  company: z.string().min(1, "company is required"),
+  created_by: z.string().min(1, "created_by is required"),
   datePosted: z
     .string()
     .min(1, "Job post date is required")
@@ -82,8 +85,11 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-const DynamicForm: React.FC = () => {
+const AddJobForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const { data: user, isLoading } = useGetProfileQuery({});
+
+  console.log("AddJob Theke", user?.data._id);
 
   const {
     control,
@@ -108,6 +114,8 @@ const DynamicForm: React.FC = () => {
       skillAndExperience: [{ title: "" }],
       jobType: "",
       gender: "",
+      company: "",
+      created_by: "",
       datePosted: "",
       dateDeadline: "",
     },
@@ -148,66 +156,94 @@ const DynamicForm: React.FC = () => {
     name: "skillAndExperience",
   });
 
+  // const onSubmit = async (data: FormSchema) => {
+  //   console.log("data.... :", data);
+  //   setLoading(true);
+  //   console.log("Form Data:", data);
+
+  //   const formData = new FormData();
+  //   // Append simple fields
+  //   formData.append("title", data.title);
+  //   formData.append("description", data.description);
+  //   formData.append("minSalary", data.minSalary.toString());
+  //   formData.append("maxSalary", data.maxSalary.toString());
+  //   formData.append("vacancy", data.vacancy.toString());
+  //   formData.append("location", data.location);
+  //   formData.append("educationQualification", data.educationQualification);
+  //   formData.append("experienceLevel", data.experienceLevel.toString());
+  //   formData.append("jobType", data.jobType);
+  //   formData.append("gender", data.gender);
+  //   formData.append("datePosted", data.datePosted);
+  //   formData.append("dateDeadline", data.dateDeadline);
+  //   formData.append("company", data.company);
+  //   formData.append("created_by", data.created_by);
+
+  //   // Append array fields
+  //   data.requirements.forEach((val, index) => {
+  //     formData.append(`requirements[${index}][title]`, val.title);
+  //   });
+  //   // Append array fields
+  //   data.responsibility.forEach((val, index) => {
+  //     formData.append(`responsibility[${index}][title]`, val.title);
+  //   });
+  //   // Append array fields
+  //   data.salaryAndBenefits.forEach((val, index) => {
+  //     formData.append(`salaryAndBenefits[${index}][title]`, val.title);
+  //   });
+  //   // Append array fields
+  //   data.skillAndExperience.forEach((val, index) => {
+  //     formData.append(`skillAndExperience[${index}][title]`, val.title);
+  //   });
+
+  //   try {
+  //     const response = await fetch("http://localhost:4000/api/v1/job/create", {
+  //       method: "POST",
+  //       body: formData,
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error(
+  //         `Request failed with status: ${response.status} - ${response.statusText}`
+  //       );
+  //     }
+  //     const responseData = await response.json();
+  //     console.log("Upload Success:", responseData);
+  //     successToast("Data submitted successfully");
+  //     reset();
+  //   } catch (error) {
+  //     console.error("Upload Failed:", error);
+  //     errorToast("Error Occurred, please try again.", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const onSubmit = async (data: FormSchema) => {
-    console.log("data.... :", data);
-    setLoading(true);
-    console.log("Form Data:", data);
-
-    const formData = new FormData();
-    // Append simple fields
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    formData.append("minSalary", data.minSalary.toString());
-    formData.append("maxSalary", data.maxSalary.toString());
-    formData.append("vacancy", data.vacancy.toString());
-    formData.append("location", data.location);
-    formData.append("educationQualification", data.educationQualification);
-    formData.append("experienceLevel", data.experienceLevel.toString());
-    formData.append("jobType", data.jobType);
-    formData.append("gender", data.gender);
-    formData.append("datePosted", data.datePosted);
-    formData.append("dateDeadline", data.dateDeadline);
-
-    // Append array fields
-    data.requirements.forEach((val, index) => {
-      formData.append(`requirements[${index}][title]`, val.title);
-    });
-    // Append array fields
-    data.responsibility.forEach((val, index) => {
-      formData.append(`responsibility[${index}][title]`, val.title);
-    });
-    // Append array fields
-    data.salaryAndBenefits.forEach((val, index) => {
-      formData.append(`salaryAndBenefits[${index}][title]`, val.title);
-    });
-    // Append array fields
-    data.skillAndExperience.forEach((val, index) => {
-      formData.append(`skillAndExperience[${index}][title]`, val.title);
-    });
-
     try {
-      const response = await fetch(`${process.env.BASE_URL}/job/create`, {
+      setLoading(true);
+      const response = await fetch("http://localhost:4000/api/v1/job/create", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error(
-          `Request failed with status: ${response.status} - ${response.statusText}`
-        );
-      }
       const responseData = await response.json();
-      console.log("Upload Success:", responseData);
-      successToast("Data submitted successfully");
+
+      if (!response.ok) {
+        console.error("Backend Error Response:", responseData);
+        throw new Error(responseData.message || "Unknown error occurred");
+      }
+
+      successToast("Job posted successfully!");
       reset();
-    } catch (error) {
-      console.error("Upload Failed:", error);
-      errorToast("Error Occurred, please try again.", error);
+    } catch (error: any) {
+      console.error("Upload Failed:", error.message || error);
+      errorToast("Error Occurred: " + error.message);
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="flex justify-center items-center">
       <div className="w-1/2 flex items-center justify-center bg-white p-6">
@@ -553,6 +589,36 @@ const DynamicForm: React.FC = () => {
                 <p className="text-red-500 text-sm">{errors.gender.message}</p>
               )}
             </div>
+            {/* Company */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Company</label>
+              <input
+                {...register("company")}
+                className="border-gray-300 w-full rounded border p-2"
+                placeholder="Enter Company"
+              />
+              {errors.company && (
+                <p className="text-red-500 text-sm text-red">
+                  {errors.company.message}
+                </p>
+              )}
+            </div>
+            {/* Company End */}
+            {/* created_by */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Created_by</label>
+              <input
+                {...register("created_by")}
+                className="border-gray-300 w-full rounded border p-2"
+                placeholder="Enter created_by"
+              />
+              {errors.created_by && (
+                <p className="text-red-500 text-sm text-red">
+                  {errors.created_by.message}
+                </p>
+              )}
+            </div>
+            {/* created_by End */}
             {/* date Posted  */}
             <div>
               <label className="block text-sm font-medium mb-1">Job Post Date</label>
@@ -598,4 +664,4 @@ const DynamicForm: React.FC = () => {
   );
 };
 
-export default DynamicForm;
+export default AddJobForm;
