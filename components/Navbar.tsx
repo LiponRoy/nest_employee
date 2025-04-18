@@ -86,7 +86,11 @@ export default function Navbar() {
 
                                         <DropdownMenuItem>
                                             <span onClick={() => router.push('/addJob')} className="cursor-pointer w-full">Add Job</span>
-                                        </DropdownMenuItem></div>}
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <span onClick={() => router.push('/addCompany')} className="cursor-pointer w-full">Add Company</span>
+                                        </DropdownMenuItem>
+                                    </div>}
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
 
