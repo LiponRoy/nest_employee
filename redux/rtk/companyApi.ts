@@ -13,8 +13,13 @@ export const CompanyApi = baseApi.injectEndpoints({
 			}),
 			invalidatesTags: ['Company'],
 		}),
+		getCompanyByCreator: builder.query<any, void>({
+			query: () => '/company/getCompanyByCreator',
+			providesTags: ['Company'],
+		}),
 	}),
 });
 
 // Export hooks
-export const { useCreateCompanyMutation } = CompanyApi;
+export const { useCreateCompanyMutation, useGetCompanyByCreatorQuery } =
+	CompanyApi;

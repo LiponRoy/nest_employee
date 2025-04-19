@@ -17,8 +17,16 @@ export const jobApi = baseApi.injectEndpoints({
 			}),
 			invalidatesTags: ['Job'],
 		}),
+		getJobByCreator: builder.query<any, void>({
+			query: () => '/job/getJobByCreator',
+			providesTags: ['Company'],
+		}),
 	}),
 });
 
 // Export hooks
-export const { useGetJobsQuery, useCreateJobsMutation } = jobApi;
+export const {
+	useGetJobsQuery,
+	useCreateJobsMutation,
+	useGetJobByCreatorQuery,
+} = jobApi;
