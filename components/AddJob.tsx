@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { errorToast, successToast } from '@/components/Toast';
 import { useGetProfileQuery } from '@/redux/rtk/auth';
 import { useCreateJobsMutation } from '@/redux/rtk/jobsApi';
+import { useGetCompanyNamesByCreatorQuery } from '@/redux/rtk/companyApi';
 
 export const jobTypeCategories = ['Full-time', 'Part-time'];
 
@@ -82,7 +83,7 @@ const formSchema = z.object({
         .min(1, 'educationQualification is required'),
 
     gender: z.string().min(1, 'gender is required'),
-    company: z.string().min(1, 'company is required'),
+    companyName: z.string().min(1, 'companyName is required'),
     // created_by: z.string().min(1, 'created_by is required'),
 });
 
@@ -94,6 +95,11 @@ const AddJobForm: React.FC = () => {
     const [createJob, { isLoading, isSuccess, error }] = useCreateJobsMutation();
     // Profile for current user RTK
     const { data: currentUser, isLoading: profileLoading } = useGetProfileQuery({});
+
+    // getting all company name by creator
+    const { data: companyNamesArray, error: companyError, isLoading: companyLoading } = useGetCompanyNamesByCreatorQuery();
+
+    console.log("companyNames:", companyNamesArray)
 
     const {
         control,
@@ -121,7 +127,7 @@ const AddJobForm: React.FC = () => {
             vacancy: 0,
             educationQualification: '',
             gender: '',
-            company: '',
+            companyName: '',
             // created_by: '',
         },
     });
@@ -537,19 +543,26 @@ const AddJobForm: React.FC = () => {
                         </div>
                         {/* Company */}
                         <div>
-                            <label className="block text-sm font-medium mb-1">Company</label>
-                            <input
-                                {...register('company')}
+                            <label className="block text-sm font-medium mb-1">company Name</label>
+                            <select
+                                {...register('companyName')}
                                 className="border-gray-300 w-full rounded border p-2"
-                                placeholder="Enter Company"
-                            />
-                            {errors.company && (
+                            >
+                                <option value="">Select Company </option>
+                                {companyNamesArray?.data?.map((company: string) => (
+                                    <option key={company} value={company}>
+                                        {company}
+                                    </option>
+                                ))}
+                            </select>
+                            {errors.companyName && (
                                 <p className="text-red-500 text-sm text-red">
-                                    {errors.company.message}
+                                    {errors.companyName.message}
                                 </p>
                             )}
                         </div>
                         {/* Company End */}
+
                         {/* date Posted  */}
                         <div>
                             <label className="block text-sm font-medium mb-1">

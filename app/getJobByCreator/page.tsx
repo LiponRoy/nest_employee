@@ -4,7 +4,7 @@ import React from 'react'
 
 const page = () => {
     const { data: job, error, isLoading } = useGetJobByCreatorQuery();
-    console.log("kkk:", job)
+
     return (
         <div>
             {job?.data?.map((val: any, i: any) => (
