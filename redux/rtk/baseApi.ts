@@ -7,8 +7,12 @@ export const baseApi = createApi({
 		baseUrl: getBaseUrl(),
 		//For cookies
 		credentials: 'include',
-		prepareHeaders: (headers) => {
-			headers.set('Content-Type', 'application/json');
+		// prepareHeaders: (headers) => {
+		// 	headers.set('Content-Type', 'application/json');
+		// 	return headers;
+		// },
+		prepareHeaders: (headers, { getState, endpoint }) => {
+			// Don't set Content-Type here, let it be handled automatically
 			return headers;
 		},
 	}),
