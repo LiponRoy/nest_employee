@@ -2,16 +2,12 @@ import { baseApi } from './baseApi';
 
 export const CompanyApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
-		createCompany: builder.mutation<
-			{ id: number; title: string },
-			{ title: string }
-		>({
-			query: (postData) => ({
+		createCompany: builder.mutation({
+			query: (formData: FormData) => ({
 				url: 'company/create',
 				method: 'POST',
-				body: postData,
+				body: formData,
 			}),
-			invalidatesTags: ['Company'],
 		}),
 		getCompanyByCreator: builder.query<any, void>({
 			query: () => '/company/getCompanyByCreator',
@@ -25,5 +21,8 @@ export const CompanyApi = baseApi.injectEndpoints({
 });
 
 // Export hooks
-export const { useCreateCompanyMutation, useGetCompanyByCreatorQuery,useGetCompanyNamesByCreatorQuery } =
-	CompanyApi;
+export const {
+	useCreateCompanyMutation,
+	useGetCompanyByCreatorQuery,
+	useGetCompanyNamesByCreatorQuery,
+} = CompanyApi;

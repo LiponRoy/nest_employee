@@ -23,13 +23,26 @@ const formSchema = z.object({
         z.number().positive('OfficeBranches must be greater than zero')
     ),
     FoundedDate: z.string().min(1, 'FoundedDate is required'),
-    // creator: z.string().min(1, 'creator is required'),
+    logoImage: z
+        .any()
+        .refine((files) => files instanceof FileList && files.length > 0, {
+            message: "File is required",
+        })
+        .refine(
+            (files) =>
+                files[0]?.type === "image/jpeg" || files[0]?.type === "image/png",
+            {
+                message: "Only JPEG or PNG images are allowed",
+            }
+        )
+        .refine((files) => files[0]?.size <= 5 * 1024 * 1024, {
+            message: "File size must be less than 5MB",
+        }),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
 
 const AddCOmpanyForm: React.FC = () => {
-
     // Job Create RTK
     const [createCompany, { isLoading, isSuccess, error }] = useCreateCompanyMutation();
     // Profile for current user RTK
@@ -68,8 +81,25 @@ const AddCOmpanyForm: React.FC = () => {
             ...data,
             creator: currentUser?.data._id, //  filled current User
         };
+
+        const formData = new FormData();
+        // Append simple fields
+        formData.append("name", payload.name);
+        formData.append("title", payload.title);
+        formData.append("about", payload.about);
+        formData.append("location", payload.location);
+        formData.append("teamMember", payload.teamMember.toString());
+        formData.append("officeBranches", payload.officeBranches.toString());
+        formData.append("FoundedDate", payload.FoundedDate);
+        formData.append("creator", payload.creator);
+        formData.append("logoImage", data.logoImage[0]); // Append the file
+
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
+        }
+
         try {
-            const result = await createCompany({ ...payload }).unwrap();
+            const result = await createCompany(formData).unwrap();
             console.log("result :", result)
             successToast('Company created successfully!');
             reset();
@@ -204,6 +234,22 @@ const AddCOmpanyForm: React.FC = () => {
                             )}
                         </div>
                         {/* Founded Date End */}
+                        {/* logoImage */}
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Logo Image</label>
+                            <input
+                                {...register('logoImage')}
+                                className="border-gray-300 w-full rounded border p-2"
+                                placeholder="Enter logoImage"
+                                type='file'
+                            />
+                            {/* {errors.logoImage && (
+                                <p className="text-red-500 text-sm text-red">
+                                    {errors.logoImage.message}
+                                </p>
+                            )} */}
+                        </div>
+                        {/* logoImage */}
 
 
                         <div className="flex w-full items-center justify-center ">
