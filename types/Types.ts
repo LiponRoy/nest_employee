@@ -11,7 +11,7 @@ export interface IJobType {
 	label: string;
 }
 export interface ILatestJobs extends Document {
-	id: number;
+	_id: string;
 	title: string;
 	description: string;
 	requirements: string[];

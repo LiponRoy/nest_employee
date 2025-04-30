@@ -11,25 +11,26 @@ const Jobs = () => {
   const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState("");
 
-    // Handle sort order
-    const [selectedOption, setSelectedOption] = useState(null);
-  
-    const handleSortOrder = (option: any) => {
-      if (option.value === "Price Low to High") {
-        setSortBy("price");
-        setSortOrder("asc");
-        setSelectedOption(option);
-      } else if (option.value === "Price High to Low") {
-        setSortBy("price");
-        setSortOrder("desc");
-        setSelectedOption(option);
-      } else {
-        setSortBy(""); // Reset sorting when "none" or "Exclusive" is selected
-      }
-      
-    };
-  
-    // Handle sort order End
+
+  // Handle sort order
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleSortOrder = (option: any) => {
+    if (option.value === "Price Low to High") {
+      setSortBy("price");
+      setSortOrder("asc");
+      setSelectedOption(option);
+    } else if (option.value === "Price High to Low") {
+      setSortBy("price");
+      setSortOrder("desc");
+      setSelectedOption(option);
+    } else {
+      setSortBy(""); // Reset sorting when "none" or "Exclusive" is selected
+    }
+
+  };
+
+  // Handle sort order End
   return (
     <div className="container-custom">
       <div className="w-full flex flex-col justify-center items-center">
@@ -43,70 +44,70 @@ const Jobs = () => {
           <div className="col-span-1 bg-slate-400 px-4">
             {/* left side filter bar */}
             {/* price range */}
-           <div className="w-full">
-           <PriceRange
-              min="12"
-              max="90000"
-              priceValue={priceRange}
+            <div className="w-full">
+              <PriceRange
+                min="12"
+                max="90000"
+                priceValue={priceRange}
               // handleOnchange={handleChange_PriceRange}
-            />
-           </div>
-             {/* price range End */}
-             {/* Sort order */}
-          <div className="w-full  mt-3 ">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Sort By
-            </label>
-            <SelectInput
-              options={sortOptions}
-              value={selectedOption}
-              onChange={handleSortOrder}
-              placeholder="Default"
-              newStyle={selectFieldStyle}
+              />
+            </div>
+            {/* price range End */}
+            {/* Sort order */}
+            <div className="w-full  mt-3 ">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Sort By
+              </label>
+              <SelectInput
+                options={sortOptions}
+                value={selectedOption}
+                onChange={handleSortOrder}
+                placeholder="Default"
+                newStyle={selectFieldStyle}
               //   className="border-2 border-orange-deep rounded-md focus:ring-0"
-            />
-          </div>
-          {/* Sort order End */}
-          {/* category filter */}
-                    <div className=" mt-2">
-            <h4 className="font-semibold">Categories</h4>
-            {allCategory?.map((day) => (
-              <div
-                key={day.title}
-                className="flex items-center justify-start my-2"
-              >
-                <label className="relative flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    value={day.title}
-                    checked={false}
-                    // onChange={() => handleDurationCheckboxChange(day.title)}
-                    className="peer hidden"
-                  />
-                  <div className="w-5 h-5 bg-orange-100 peer-checked:bg-orange-deep border rounded-full flex items-center justify-center">
-                    {true && (
-                      <svg
-                        className="w-4 h-4 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M5 13l4 4L19 7"
-                        ></path>
-                      </svg>
-                    )}
-                  </div>
-                </label>
-                <span className=" ml-1">{day.title}</span>
-              </div>
-            ))}
-          </div>
-          {/* category filter end */}
+              />
+            </div>
+            {/* Sort order End */}
+            {/* category filter */}
+            <div className=" mt-2">
+              <h4 className="font-semibold">Categories</h4>
+              {allCategory?.map((day) => (
+                <div
+                  key={day.title}
+                  className="flex items-center justify-start my-2"
+                >
+                  <label className="relative flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      value={day.title}
+                      checked={false}
+                      // onChange={() => handleDurationCheckboxChange(day.title)}
+                      className="peer hidden"
+                    />
+                    <div className="w-5 h-5 bg-orange-100 peer-checked:bg-orange-deep border rounded-full flex items-center justify-center">
+                      {true && (
+                        <svg
+                          className="w-4 h-4 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M5 13l4 4L19 7"
+                          ></path>
+                        </svg>
+                      )}
+                    </div>
+                  </label>
+                  <span className=" ml-1">{day.title}</span>
+                </div>
+              ))}
+            </div>
+            {/* category filter end */}
           </div>
           <div className="col-span-4 bg-slate-500">
             <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-2">
