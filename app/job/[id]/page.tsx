@@ -4,6 +4,9 @@ import { useParams } from 'next/navigation';
 import { useGetJobByIdQuery } from '@/redux/rtk/jobsApi';
 import { useApplyForJobMutation } from '@/redux/rtk/applicationApi';
 import { errorToast, successToast } from '@/components/Toast';
+import UserTable from '@/components/applyedJobsTable';
+
+
 
 const page = () => {
     const { id } = useParams();
@@ -28,7 +31,7 @@ const page = () => {
     if (error) return <div>Failed to load job.</div>;
 
     return (
-        <div className="flex flex-col justify-start items-start">
+        <div className="flex flex-col justify-start items-start w-full mx-10">
             <span>Details :{job?.data?.description}</span>
             <span>Location :{job?.data?.location}</span>
             <span>Salary :{job?.data?.maxSalary}</span>
@@ -43,6 +46,8 @@ const page = () => {
             </button>
             {isSuccess && <p className="text-green-600">Application submitted!</p>}
             {isError && <p className="text-red-600">Something went wrong.</p>}
+
+
         </div>
 
     )
