@@ -24,6 +24,23 @@ export const JobsCategory = [
 	{ id: 5, title: 'Teacher' },
 ];
 
+export const jobType = ['Full-time', 'Part-time'];
+
+export const Gender = ['Female Only', 'Male Only', 'Both'];
+
+export const categories: string[] = [
+	'UI/UX Designer',
+	'Software Developer',
+	'IT Support / Technician',
+	'Cybersecurity Specialist',
+	'Education & Training',
+	'Garments & Textile Industry',
+	'Healthcare & Pharmaceuticals',
+	'Marketing & Sales',
+	'Creative & Media',
+	'Government & NGO Jobs',
+];
+
 export const latestJobs: ILatestJobs[] = [
 	{
 		id: 1,

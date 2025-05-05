@@ -4,9 +4,11 @@ import { ILatestJobs } from "@/types/Types";
 import React from "react";
 import { ChevronsRight } from "lucide-react";
 import { useGetJobsQuery } from "@/redux/rtk/jobsApi";
+import { useRouter } from "next/navigation";
 
 
 const LatestJobs = () => {
+  const route = useRouter()
   const { data: jobs, error, isLoading } = useGetJobsQuery();
 
   if (isLoading) return <p>Loading...</p>;
@@ -34,6 +36,7 @@ const LatestJobs = () => {
 
                 <h4>jobType: {val.jobType}</h4>
               </div>
+              <button onClick={() => route.push(`/job/${val._id}`)}>Details</button>
             </div>
           </div>
         ))}
