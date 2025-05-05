@@ -199,14 +199,14 @@ const JobDetail = () => {
           <div className="col-span-2 w-full  flex flex-col justify-start items-end gap-y-4">
             <div className=" relative h-[338px] w-[412px] bg-bg-1 border border-slate-200 shadow-md flex flex-col justify-center items-center gap-y-1">
               <Image
-                src="/logo.png" 
+                src={job?.data?.companyId?.logoImage} 
                 alt="Example Image"
                 width={300} 
                 height={300} 
                 priority 
                 className="w-[120px] h-[90px]"
               />
-              <span className="text-[32px] font-semibold">Google.com</span>
+              <span className="text-[32px] font-semibold">{job?.data?.companyId?.name} </span>
               <span className="text-[18px] font-normal">Visit Website</span>
 
               <Button  onClick={handleApply} className="w-[80%] absolute bottom-6  rounded-md bg-orange-600 hover:bg-orange-700">
