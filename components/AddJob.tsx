@@ -84,22 +84,7 @@ const formSchema = z.object({
 
     gender: z.string().min(1, 'gender is required'),
     companyName: z.string().min(1, 'companyName is required'),
-    // created_by: z.string().min(1, 'created_by is required'),
-    logoImage: z
-        .any()
-        .refine((files) => files instanceof FileList && files.length > 0, {
-            message: "File is required",
-        })
-        .refine(
-            (files) =>
-                files[0]?.type === "image/jpeg" || files[0]?.type === "image/png",
-            {
-                message: "Only JPEG or PNG images are allowed",
-            }
-        )
-        .refine((files) => files[0]?.size <= 5 * 1024 * 1024, {
-            message: "File size must be less than 5MB",
-        }),
+
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -228,7 +213,6 @@ const AddJobForm: React.FC = () => {
         formData.append("gender", payload.gender);
         formData.append("companyName", payload.companyName);
         formData.append("created_by", payload.created_by);
-        formData.append("logoImage", data.logoImage[0]); // Append the file
 
 
         for (const [key, value] of formData.entries()) {
@@ -681,22 +665,6 @@ const AddJobForm: React.FC = () => {
                             </div>
                         </div>
                         {/* date Posted */}
-                        {/* logoImage */}
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Logo Image</label>
-                            <input
-                                {...register('logoImage')}
-                                className="border-gray-300 w-full rounded border p-2"
-                                placeholder="Enter logoImage"
-                                type='file'
-                            />
-                            {/* {errors.logoImage && (
-                                <p className="text-red-500 text-sm text-red">
-                                    {errors.logoImage.message}
-                                </p>
-                            )} */}
-                        </div>
-                        {/* Title End */}
 
                         <div className="flex w-full items-center justify-center ">
                             <Button className="w-full bg-secondary-1 hover:bg-orange-600">

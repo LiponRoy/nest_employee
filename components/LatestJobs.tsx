@@ -36,7 +36,7 @@ const LatestJobs = () => {
 
                 <h4>jobType: {val.jobType}</h4>
               </div>
-              <button onClick={() => route.push(`/job/${val._id}`)}>Details</button>
+              <button onClick={() => route.push(`/jobDetail/${val._id}`)}>Details</button>
             </div>
           </div>
         ))}
