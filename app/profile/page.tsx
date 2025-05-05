@@ -5,7 +5,7 @@ import { useAppliedJobsByUserQuery } from '@/redux/rtk/applicationApi';
 import { useGetProfileQuery } from '@/redux/rtk/auth';
 import React from 'react';
 
-const page = () => {
+const Profile = () => {
     const { data: user, isLoading } = useGetProfileQuery({});
 
     // this is for get single job
@@ -56,4 +56,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Profile;
