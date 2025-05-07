@@ -111,7 +111,7 @@ const JobDetail = () => {
                 <Backpack className="text-primary-1" />
 
                 <span className="text-[16px]">
-                  {`BDT ${job?.data?.minSalary} - ${job?.data?.maxSalary} Monthly`}
+                  {`BDT ${job?.data?.minSalary.toLocaleString("en-IN")} - ${job?.data?.maxSalary.toLocaleString("en-IN")} Monthly`}
                 </span>
               </div>
             </div>
@@ -246,7 +246,7 @@ const JobDetail = () => {
                   <Backpack size={20} />
                   <span className="text-[18px]">Offered Salary</span>
                 </div>
-                <span className="text-[16px]">{`BDT ${job?.data?.minSalary} - ${job?.data?.maxSalary} Monthly`}</span>
+                <span className="text-[16px]">{`BDT ${job?.data?.minSalary.toLocaleString("en-IN")} - ${job?.data?.maxSalary.toLocaleString("en-IN")} Monthly`}</span>
               </div>
               <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
                 <div className="flex justify-center items-center gap-1">

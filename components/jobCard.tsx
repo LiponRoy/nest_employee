@@ -63,7 +63,7 @@ export const JobCard = ({
        
         <div>
           <Label className="text-muted-foreground">Salary</Label>
-          <p className="text-base font-medium">{salary}</p>
+          <p className="text-base font-medium">{salary.toLocaleString("en-IN")}</p>
         </div>
 
         <Button
