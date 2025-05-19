@@ -1,20 +1,53 @@
 "use client";
 import { ILatestJobs } from "@/types/Types";
-import React from "react";
-import { useGetJobsQuery } from "@/redux/rtk/jobsApi";
+import React, { useEffect, useState } from "react";
+import { useGetJobsByFilterQuery, useGetJobsQuery } from "@/redux/rtk/jobsApi";
 import { JobCard } from "@/components/jobCard";
 import { useAppSelector } from "@/redux/hooks";
+import { useRouter } from "next/navigation";
 
 const Jobs = () => {
   const category = useAppSelector((state) => state.searchCategory.category);
   // console.log('Redux Category--Jobs:', category);
+  const router = useRouter();
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(4);
+  const [search, setSearch] = useState(category);
+    // const { data: jobs, error, isLoading: dataLoading } = useGetJobsQuery();
 
-  const { data: jobs, error, isLoading } = useGetJobsQuery();
+  const { data:jobs, isLoading, isError,error } = useGetJobsByFilterQuery(
+    {
+      page,
+      limit,
+      search,
+    },
+    {
+      skip: typeof window === "undefined",
+      refetchOnMountOrArgChange: true, // Always refetch on component mount or arg change
+      refetchOnFocus: true, // Refetch when the window regains focus
+      refetchOnReconnect: true, // Refetch when the browser regains network connection
+    }
+  );
+
+    // Update the URL when filters change
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (page) params.append("page", page.toString());
+    if (limit) params.append("limit", limit.toString());
+    if (search) params.set("searchTerm", search);
+
+    router.replace(`?${params.toString()}`);
+  }, [search, page, limit, router]);
+  // End -- This part only for showing filtered URL to Browser search bar
+
+
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading jobs!</p>;
 
   console.log("Jobs xxx ", jobs);
+
+
 
   return (
     <div className="container-custom flex flex-col justify-start items-start">

@@ -57,7 +57,7 @@ import React from "react";
 import { Backpack } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import RelatedJobs from "@/components/RelatedJobs";
+// import RelatedJobs from "@/components/RelatedJobs";
 import { useParams } from "next/navigation";
 import { useGetJobByIdQuery } from "@/redux/rtk/jobsApi";
 import { useApplyForJobMutation } from "@/redux/rtk/applicationApi";
@@ -271,7 +271,7 @@ const JobDetail = () => {
         <div className="w-full">
           <h4 className="text-[48px]">Related Jobs</h4>
 
-          <RelatedJobs />
+          {/* <RelatedJobs /> */}
         </div>
       </div>
     </>

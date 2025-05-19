@@ -29,7 +29,7 @@ const MyComponent = () => {
           value={categories}
           onChange={setCategories}
           newStyle={selectFieldStyle}
-          placeholder="Select Organization Type"
+          placeholder="Select Job Category"
         />
       </div>
       <div className=" col-span-1 flex justify-end ">
