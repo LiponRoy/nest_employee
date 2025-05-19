@@ -22,6 +22,7 @@ export interface ILatestJobs extends Document {
 	position: number;
 	company: number;
 	companyId:string;
+	category:string;
 	applications: string[];
 }
 

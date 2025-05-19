@@ -26,6 +26,7 @@ export const JobCard = ({
   jobType,
   location,
   salary,
+  category,
   id,
 }: JobCardProps) => {
   const route = useRouter();
@@ -64,6 +65,10 @@ export const JobCard = ({
         <div>
           <Label className="text-muted-foreground">Salary</Label>
           <p className="text-base font-medium">{salary.toLocaleString("en-IN")}</p>
+        </div>
+        <div>
+          <Label className="text-muted-foreground">Category</Label>
+          <p className="text-base font-medium">{category}</p>
         </div>
 
         <Button

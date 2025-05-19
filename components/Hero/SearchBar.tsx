@@ -1,50 +1,47 @@
-import { JobType, OrganizationsType, selectFieldStyle } from "@/constant/Constant";
-import { IJobType } from "@/types/Types";
+import {
+  ISearchCategories,
+  searchCategories,
+  selectFieldStyle,
+} from "@/constant/Constant";
 import { useState } from "react";
 import SelectInput from "../SelectInput";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+import { useAppDispatch} from "@/redux/hooks";
+import { setCategory } from "@/redux/slices/searchSlice";
 
 const MyComponent = () => {
-    const [selectedOrg, setSelectedOrg] = useState<IJobType | null>(null);
-    const [selectedOrgType, setSelectedOrgType] = useState<IJobType | null>(null);
+  const router = useRouter();
+  const [categories, setCategories] = useState<ISearchCategories | null>(null);
+  const dispatch = useAppDispatch();
 
-    return (
-        <div className="w-[60%] grid grid-cols-1 md:grid-cols-5 gap-4 bg-slate-200 rounded-md md:rounded-full border-4 border-slate-300 shadow-lg py-1 px-4 md:px-10 mx-4 md:mx-0 z-50">
-            <div className=" border md:border-r-slate-400 col-span-2 flex justify-start items-center">
-                <SelectInput
-                    options={JobType}
-                    value={selectedOrg}
-                    onChange={setSelectedOrg}
-                    newStyle={selectFieldStyle}
-                    placeholder="Select Jobs "
-                />
-            </div>
-            <div className=" border md:border-r-slate-400 col-span-2 flex justify-start items-center">
-                <SelectInput
-                    options={OrganizationsType}
-                    value={selectedOrgType}
-                    onChange={setSelectedOrgType}
-                    newStyle={selectFieldStyle}
-                    placeholder="Select Organization Type"
-                />
-            </div>
-            <div className=" col-span-1 flex justify-end ">
-                <Button className="w-full py-8 rounded-md md:rounded-xl  bg-orange-600 hover:bg-orange-700">
-                    Search Jobs
-                </Button>
-            </div>
+  const hendelChange = (cat: string) => {
+    router.push("/jobs");
+    dispatch(setCategory(cat));
+    console.log("cat...", cat);
+  };
 
-        </div>
-    );
+  return (
+    <div className="w-[60%] grid grid-cols-1 md:grid-cols-5 gap-4 bg-slate-200 rounded-md md:rounded-full border-4 border-slate-300 shadow-lg py-1 px-4 md:px-10 mx-4 md:mx-0 z-50">
+      <div className=" border md:border-r-slate-400 col-span-4 flex justify-start items-center">
+        <SelectInput
+          options={searchCategories}
+          value={categories}
+          onChange={setCategories}
+          newStyle={selectFieldStyle}
+          placeholder="Select Organization Type"
+        />
+      </div>
+      <div className=" col-span-1 flex justify-end ">
+        <Button onClick={()=>hendelChange(categories?.value)} className="w-full py-8 rounded-md md:rounded-xl  bg-orange-600 hover:bg-orange-700">
+          Search Jobs
+        </Button>
+      </div>
+    </div>
+  );
 };
 
 export default MyComponent;
-
-
-
-
-
-
 
 // "use client"
 

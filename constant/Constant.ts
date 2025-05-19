@@ -41,72 +41,25 @@ export const categories: string[] = [
 	'Government & NGO Jobs',
 ];
 
-export const latestJobs: ILatestJobs[] = [
-	{
-		id: 1,
-		companyName: 'Google',
-		title: 'Software Engineer',
-		description: 'bla bla bla',
-		position: 2,
-		jobType: 'Full Time',
-	},
-	{
-		id: 2,
-		companyName: 'Google',
-		title: 'Software Engineer',
-		description: 'bla bla bla',
-		position: 2,
-		jobType: 'Full Time',
-	},
-	{
-		id: 3,
-		companyName: 'Google',
-		title: 'Software Engineer',
-		description: 'bla bla bla',
-		position: 2,
-		jobType: 'Full Time',
-	},
-	{
-		id: 4,
-		companyName: 'Google',
-		title: 'Software Engineer',
-		description: 'bla bla bla',
-		position: 2,
-		jobType: 'Full Time',
-	},
-	{
-		id: 5,
-		companyName: 'Google',
-		title: 'Software Engineer',
-		description: 'bla bla bla',
-		position: 2,
-		jobType: 'Full Time',
-	},
-	{
-		id: 6,
-		companyName: 'Google',
-		title: 'Software Engineer',
-		description: 'bla bla bla',
-		position: 2,
-		jobType: 'Full Time',
-	},
-	{
-		id: 7,
-		companyName: 'Google',
-		title: 'Software Engineer',
-		description: 'bla bla bla',
-		position: 2,
-		jobType: 'Full Time',
-	},
-	{
-		id: 8,
-		companyName: 'Google',
-		title: 'Software Engineer',
-		description: 'bla bla bla',
-		position: 2,
-		jobType: 'Full Time',
-	},
+export type ISearchCategories = {
+  value: string;
+  label: string;
+};
+
+export const searchCategories:ISearchCategories[] = [
+  { value: 'UI/UX Designer', label: 'UI/UX Designer' },
+  { value: 'Software Developer', label: 'Software Developer' },
+  { value: 'IT Support / Technician', label: 'IT Support / Technician' },
+  { value: 'Cybersecurity Specialist', label: 'Cybersecurity Specialist' },
+  { value: 'Education & Training', label: 'Education & Training' },
+  { value: 'Garments & Textile Industry', label: 'Garments & Textile Industry' },
+  { value: 'Healthcare & Pharmaceuticals', label: 'Healthcare & Pharmaceuticals' },
+  { value: 'Marketing & Sales', label: 'Marketing & Sales' },
+  { value: 'Creative & Media', label: 'Creative & Media' },
+  { value: 'Government & NGO Jobs', label: 'Government & NGO Jobs' },
 ];
+
+
 
 export const companyTypes = [
 	'Partnership',
