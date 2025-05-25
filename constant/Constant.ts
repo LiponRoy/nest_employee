@@ -42,24 +42,38 @@ export const categories: string[] = [
 ];
 
 export type ISearchCategories = {
-  value: string;
-  label: string;
+	value: string;
+	label: string;
 };
 
-export const searchCategories:ISearchCategories[] = [
-  { value: 'UI/UX Designer', label: 'UI/UX Designer' },
-  { value: 'Software Developer', label: 'Software Developer' },
-  { value: 'IT Support / Technician', label: 'IT Support / Technician' },
-  { value: 'Cybersecurity Specialist', label: 'Cybersecurity Specialist' },
-  { value: 'Education & Training', label: 'Education & Training' },
-  { value: 'Garments & Textile Industry', label: 'Garments & Textile Industry' },
-  { value: 'Healthcare & Pharmaceuticals', label: 'Healthcare & Pharmaceuticals' },
-  { value: 'Marketing & Sales', label: 'Marketing & Sales' },
-  { value: 'Creative & Media', label: 'Creative & Media' },
-  { value: 'Government & NGO Jobs', label: 'Government & NGO Jobs' },
+export const searchCategories: ISearchCategories[] = [
+	{ value: 'UI/UX Designer', label: 'UI/UX Designer' },
+	{ value: 'Software Developer', label: 'Software Developer' },
+	{ value: 'IT Support / Technician', label: 'IT Support / Technician' },
+	{ value: 'Cybersecurity Specialist', label: 'Cybersecurity Specialist' },
+	{ value: 'Education & Training', label: 'Education & Training' },
+	{
+		value: 'Garments & Textile Industry',
+		label: 'Garments & Textile Industry',
+	},
+	{
+		value: 'Healthcare & Pharmaceuticals',
+		label: 'Healthcare & Pharmaceuticals',
+	},
+	{ value: 'Marketing & Sales', label: 'Marketing & Sales' },
+	{ value: 'Creative & Media', label: 'Creative & Media' },
+	{ value: 'Government & NGO Jobs', label: 'Government & NGO Jobs' },
 ];
 
-
+export const optionCategories = [
+	{ id: 1, title: 'UI/UX Designer', checked: false },
+	{ id: 2, title: 'Software Developer', checked: false },
+	{ id: 3, title: 'IT Support', checked: false },
+	{ id: 4, title: 'Cybersecurity', checked: false },
+	{ id: 5, title: 'Education', checked: false },
+	{ id: 6, title: 'Garments', checked: false },
+	{ id: 7, title: 'Marketing', checked: false },
+];
 
 export const companyTypes = [
 	'Partnership',
