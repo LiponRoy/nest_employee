@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { useGetJobsByFilterQuery } from "@/redux/rtk/jobsApi";
 import { JobCard } from "@/components/jobCard";
-import { optionCategories } from "@/constant/Constant";
+import { optionCategories, optionJobType } from "@/constant/Constant";
 import { ILatestJobs } from "@/types/Types";
 
 const Jobs = () => {
@@ -15,6 +15,7 @@ const Jobs = () => {
   const [page, setPage] = useState(1);
   const [limit] = useState(4);
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
+  const [jobType, setjobType] = useState<string[]>([]);
 
   // Avoid hydration mismatch
   const [hasMounted, setHasMounted] = useState(false);
@@ -26,7 +27,8 @@ const Jobs = () => {
     limit,
     search: globalCategory,
     categoryFilter,
-  }), [page, limit, globalCategory, categoryFilter]);
+    jobType
+  }), [page, limit, globalCategory, categoryFilter, jobType]);
 
   // Fetch jobs
   const { data: jobs, isLoading, error } = useGetJobsByFilterQuery(queryParams, {
@@ -45,6 +47,7 @@ const Jobs = () => {
     params.set("limit", limit.toString());
     if (globalCategory) params.set("searchTerm", globalCategory);
     if (categoryFilter.length > 0) params.set("category", categoryFilter.join(","));
+    if (jobType.length > 0) params.set("jobType", jobType.join(","));
 
     router.replace(`?${params.toString()}`);
   }, [queryParams, hasMounted, router]);
@@ -54,6 +57,14 @@ const Jobs = () => {
     setPage(1); // reset page on filter change
     setCategoryFilter((prev) =>
       prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
+    );
+  };
+
+  // Toggle category filter
+  const toggleJobType = (jopType: string) => {
+    setPage(1); // reset page on filter change
+    setjobType((prev) =>
+      prev.includes(jopType) ? prev.filter((c) => c !== jopType) : [...prev, jopType]
     );
   };
 
@@ -82,6 +93,27 @@ const Jobs = () => {
                 />
                 <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
                   {categoryFilter.includes(title) && (
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </div>
+                <span>{title}</span>
+              </label>
+            ))}
+          </div>
+          <div>
+            <h6 className="font-semibold">Job Type</h6>
+            {optionJobType.map(({ title }) => (
+              <label key={title} className="flex items-center gap-2 my-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={jobType.includes(title)}
+                  onChange={() => toggleJobType(title)}
+                  className="hidden peer"
+                />
+                <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                  {jobType.includes(title) && (
                     <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>

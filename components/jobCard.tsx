@@ -16,6 +16,7 @@ type JobCardProps = {
   jobType: string;
   logo: string;
   location: string;
+  category: string;
   salary: string | number;
   id: string;
 };

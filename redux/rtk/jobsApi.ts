@@ -7,7 +7,7 @@ export const jobApi = baseApi.injectEndpoints({
 			providesTags: ['Job'],
 		}),
 		getJobsByFilter: builder.query({
-			query: ({ page, limit, search = '', categoryFilter }) => {
+			query: ({ page, limit, search = '', categoryFilter, jobType }) => {
 				// Build the query parameters dynamically
 				const params = new URLSearchParams();
 
@@ -16,6 +16,7 @@ export const jobApi = baseApi.injectEndpoints({
 				if (search) params.append('searchTerm', search);
 				// if (categoryFilter) params.append('category', categoryFilter);
 				categoryFilter.forEach((d: any) => params.append('category', d));
+				jobType.forEach((d: any) => params.append('jobType', d));
 
 				return {
 					url: `/job/all/?${params.toString()}`,

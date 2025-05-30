@@ -75,6 +75,12 @@ export const optionCategories = [
 	{ id: 7, title: 'Marketing', checked: false },
 ];
 
+export const optionJobType = [
+	{ id: 1, title: 'Full-time', checked: false },
+	{ id: 2, title: 'Part-time', checked: false },
+	{ id: 3, title: 'Freelanc', checked: false },
+];
+
 export const companyTypes = [
 	'Partnership',
 	'Private Limited ',
