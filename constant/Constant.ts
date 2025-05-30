@@ -80,6 +80,11 @@ export const optionJobType = [
 	{ id: 2, title: 'Part-time', checked: false },
 	{ id: 3, title: 'Freelanc', checked: false },
 ];
+export const optionJobGender = [
+	{ id: 1, title: 'Both', checked: false },
+	{ id: 2, title: 'Female Only', checked: false },
+	{ id: 3, title: 'Male Only', checked: false },
+];
 
 export const companyTypes = [
 	'Partnership',

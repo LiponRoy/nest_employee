@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { useGetJobsByFilterQuery } from "@/redux/rtk/jobsApi";
 import { JobCard } from "@/components/jobCard";
-import { optionCategories, optionJobType } from "@/constant/Constant";
+import { optionCategories, optionJobGender, optionJobType } from "@/constant/Constant";
 import { ILatestJobs } from "@/types/Types";
 
 const Jobs = () => {
@@ -16,6 +16,7 @@ const Jobs = () => {
   const [limit] = useState(4);
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
   const [jobType, setjobType] = useState<string[]>([]);
+  const [gender, setGender] = useState<string[]>([]);
 
   // Avoid hydration mismatch
   const [hasMounted, setHasMounted] = useState(false);
@@ -27,8 +28,9 @@ const Jobs = () => {
     limit,
     search: globalCategory,
     categoryFilter,
-    jobType
-  }), [page, limit, globalCategory, categoryFilter, jobType]);
+    jobType,
+    gender
+  }), [page, limit, globalCategory, categoryFilter, jobType, gender]);
 
   // Fetch jobs
   const { data: jobs, isLoading, error } = useGetJobsByFilterQuery(queryParams, {
@@ -48,23 +50,29 @@ const Jobs = () => {
     if (globalCategory) params.set("searchTerm", globalCategory);
     if (categoryFilter.length > 0) params.set("category", categoryFilter.join(","));
     if (jobType.length > 0) params.set("jobType", jobType.join(","));
+    if (gender.length > 0) params.set("gender", gender.join(","));
 
     router.replace(`?${params.toString()}`);
   }, [queryParams, hasMounted, router]);
 
   // Toggle category filter
   const toggleCategory = (category: string) => {
-    setPage(1); // reset page on filter change
     setCategoryFilter((prev) =>
       prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
     );
   };
 
-  // Toggle category filter
+  // Toggle jobType filter
   const toggleJobType = (jopType: string) => {
-    setPage(1); // reset page on filter change
     setjobType((prev) =>
       prev.includes(jopType) ? prev.filter((c) => c !== jopType) : [...prev, jopType]
+    );
+  };
+
+  // Toggle gender filter
+  const toggleGender = (gender: string) => {
+    setGender((prev) =>
+      prev.includes(gender) ? prev.filter((c) => c !== gender) : [...prev, gender]
     );
   };
 
@@ -80,7 +88,7 @@ const Jobs = () => {
         {/* Filters */}
         <aside className="col-span-2 p-6 space-y-4">
           <h5 className="text-lg font-semibold">Filters</h5>
-
+          {/* // Job Category Filter CheckBoxs */}
           <div>
             <h6 className="font-semibold">Job Category</h6>
             {optionCategories.map(({ title }) => (
@@ -102,6 +110,7 @@ const Jobs = () => {
               </label>
             ))}
           </div>
+          {/* // Job Type Filter CheckBoxs */}
           <div>
             <h6 className="font-semibold">Job Type</h6>
             {optionJobType.map(({ title }) => (
@@ -114,6 +123,28 @@ const Jobs = () => {
                 />
                 <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
                   {jobType.includes(title) && (
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </div>
+                <span>{title}</span>
+              </label>
+            ))}
+          </div>
+          {/* // Gender Filter CheckBoxs */}
+          <div>
+            <h6 className="font-semibold">Gender</h6>
+            {optionJobGender.map(({ title }) => (
+              <label key={title} className="flex items-center gap-2 my-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={gender.includes(title)}
+                  onChange={() => toggleGender(title)}
+                  className="hidden peer"
+                />
+                <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                  {gender.includes(title) && (
                     <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
