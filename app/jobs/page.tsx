@@ -1,141 +1,120 @@
 "use client";
-import { ILatestJobs } from "@/types/Types";
-import React, { useEffect, useState } from "react";
-import { useGetJobsByFilterQuery, useGetJobsQuery } from "@/redux/rtk/jobsApi";
-import { JobCard } from "@/components/jobCard";
-import { useAppSelector } from "@/redux/hooks";
+
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/hooks";
+import { useGetJobsByFilterQuery } from "@/redux/rtk/jobsApi";
+import { JobCard } from "@/components/jobCard";
 import { optionCategories } from "@/constant/Constant";
+import { ILatestJobs } from "@/types/Types";
 
 const Jobs = () => {
-  const category = useAppSelector((state) => state.searchCategory.category);
-  // console.log('Redux Category--Jobs:', category);
   const router = useRouter();
+  const globalCategory = useAppSelector((state) => state.searchCategory.category);
+
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(4);
-  const [search, setSearch] = useState(category);
-  // const { data: jobs, error, isLoading: dataLoading } = useGetJobsQuery();
+  const [limit] = useState(4);
+  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
 
-  const { data: jobs, isLoading, isError, error } = useGetJobsByFilterQuery(
-    {
-      page,
-      limit,
-      search,
-    },
-    {
-      skip: typeof window === "undefined",
-      refetchOnMountOrArgChange: true, // Always refetch on component mount or arg change
-      refetchOnFocus: true, // Refetch when the window regains focus
-      refetchOnReconnect: true, // Refetch when the browser regains network connection
-    }
-  );
+  // Avoid hydration mismatch
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => setHasMounted(true), []);
 
-  // Update the URL when filters change
+  // Derived query params
+  const queryParams = useMemo(() => ({
+    page,
+    limit,
+    search: globalCategory,
+    categoryFilter,
+  }), [page, limit, globalCategory, categoryFilter]);
+
+  // Fetch jobs
+  const { data: jobs, isLoading, error } = useGetJobsByFilterQuery(queryParams, {
+    skip: !hasMounted,
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
+
+  // Sync URL with filter state
   useEffect(() => {
+    if (!hasMounted) return;
+
     const params = new URLSearchParams();
-    if (page) params.append("page", page.toString());
-    if (limit) params.append("limit", limit.toString());
-    if (search) params.set("searchTerm", search);
+    params.set("page", page.toString());
+    params.set("limit", limit.toString());
+    if (globalCategory) params.set("searchTerm", globalCategory);
+    if (categoryFilter.length > 0) params.set("category", categoryFilter.join(","));
 
     router.replace(`?${params.toString()}`);
-  }, [search, page, limit, router]);
-  // End -- This part only for showing filtered URL to Browser search bar
+  }, [queryParams, hasMounted, router]);
 
+  // Toggle category filter
+  const toggleCategory = (category: string) => {
+    setPage(1); // reset page on filter change
+    setCategoryFilter((prev) =>
+      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
+    );
+  };
 
-
+  if (!hasMounted) return null;
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading jobs!</p>;
-
-  console.log("Jobs xxx ", jobs);
-
-
+  if (error) return <p>Error loading jobs.</p>;
 
   return (
-    <div className="container-custom flex flex-col justify-start items-start">
-      <h4 className="text-start my-6 ml-2 text-lg">All jobs : </h4>
+    <div className="container-custom flex flex-col">
+      <h4 className="my-6 ml-2 text-lg">All jobs:</h4>
 
+      <div className="grid grid-cols-6 gap-4 p-4 min-h-screen">
+        {/* Filters */}
+        <aside className="col-span-2 p-6 space-y-4">
+          <h5 className="text-lg font-semibold">Filters</h5>
 
-      <div className="w-full grid grid-cols-6 min-h-screen gap-4 p-4 bg-gray-100">
-        <div className="col-span-2 flex flex-col justify-start items-start p-6">
-          <span className=" text-[18px] font-semibold mb-4">Filters</span>
-
-          {/* durations */}
-          <div className=" mt-2">
-            <h4 className="font-semibold mb-2">Categories</h4>
-            {optionCategories?.map((day) => (
-              <div
-                key={day.title}
-                className="flex items-center justify-start my-2"
-              >
-                <label className="relative flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    value={day.title}
-                    className="peer hidden"
-                  />
-                  <div className="w-5 h-5 bg-slate-200 peer-checked:bg-orange-deep border rounded flex items-center justify-center">
-                    {(
-                      <svg
-                        className="w-4 h-4 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M5 13l4 4L19 7"
-                        ></path>
-                      </svg>
-                    )}
-                  </div>
-                </label>
-                <span className=" ml-1">{day.title}</span>
-              </div>
+          <div>
+            <h6 className="font-semibold">Job Category</h6>
+            {optionCategories.map(({ title }) => (
+              <label key={title} className="flex items-center gap-2 my-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={categoryFilter.includes(title)}
+                  onChange={() => toggleCategory(title)}
+                  className="hidden peer"
+                />
+                <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                  {categoryFilter.includes(title) && (
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </div>
+                <span>{title}</span>
+              </label>
             ))}
           </div>
-          {/* durations end */}
-        </div>
-        <div className="col-span-4 bg-green-400">
-          <span>Right side</span>
-          <div className=" grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-            {jobs?.data?.map((val: ILatestJobs, i: string) => (
-              <JobCard
-                key={val._id || i}
-                logo={val?.companyId?.logoImage}
-                title={val.title}
-                jobType={val.jobType}
-                location={val.location}
-                salary={val.maxSalary}
-                category={val.category}
-                id={val._id}
-              />
-            ))}
-          </div>
-        </div>
-        {/* <div className="col-span-2">
-          <span>right side</span>
-        </div>
+        </aside>
 
-        <div className="col-span-4 grid grid-cols-1 md:grid-cols-2 gap-2">
-          {jobs?.data?.map((val: ILatestJobs, i: string) => (
-            <JobCard
-              key={val._id || i}
-              logo={val?.companyId?.logoImage}
-              title={val.title}
-              jobType={val.jobType}
-              location={val.location}
-              salary={val.maxSalary}
-              category={val.category}
-              id={val._id}
-            />
-          ))}
-        </div> */}
-
+        {/* Job Results */}
+        <section className="col-span-4  p-4">
+          {jobs?.data?.length ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {jobs.data.map((job: ILatestJobs) => (
+                <JobCard
+                  key={job._id}
+                  logo={job.companyId?.logoImage}
+                  title={job.title}
+                  jobType={job.jobType}
+                  location={job.location}
+                  salary={job.maxSalary}
+                  category={job.category}
+                  id={job._id}
+                />
+              ))}
+            </div>
+          ) : (
+            <p>No jobs found.</p>
+          )}
+        </section>
       </div>
-
     </div>
   );
 };

@@ -68,7 +68,7 @@ export const searchCategories: ISearchCategories[] = [
 export const optionCategories = [
 	{ id: 1, title: 'UI/UX Designer', checked: false },
 	{ id: 2, title: 'Software Developer', checked: false },
-	{ id: 3, title: 'IT Support', checked: false },
+	{ id: 3, title: 'IT Support / Technician', checked: false },
 	{ id: 4, title: 'Cybersecurity', checked: false },
 	{ id: 5, title: 'Education', checked: false },
 	{ id: 6, title: 'Garments', checked: false },
