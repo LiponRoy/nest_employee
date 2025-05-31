@@ -7,6 +7,7 @@ import { useGetJobsByFilterQuery } from "@/redux/rtk/jobsApi";
 import { JobCard } from "@/components/jobCard";
 import { optionCategories, optionJobGender, optionJobType } from "@/constant/Constant";
 import { ILatestJobs } from "@/types/Types";
+import { Button } from "@/components/ui/button";
 
 const Jobs = () => {
   const router = useRouter();
@@ -18,19 +19,28 @@ const Jobs = () => {
   const [jobType, setjobType] = useState<string[]>([]);
   const [gender, setGender] = useState<string[]>([]);
 
+  // for search
+  const [inputValue, setInputValue] = useState('');
+  const [searchValue, setSearchValue] = useState('');
+
   // Avoid hydration mismatch
   const [hasMounted, setHasMounted] = useState(false);
   useEffect(() => setHasMounted(true), []);
+
+  useEffect(() => {
+    console.log("search turm ,,", searchValue)
+  }, [searchValue])
 
   // Derived query params
   const queryParams = useMemo(() => ({
     page,
     limit,
     search: globalCategory,
+    searchValue,
     categoryFilter,
     jobType,
     gender
-  }), [page, limit, globalCategory, categoryFilter, jobType, gender]);
+  }), [page, limit, globalCategory, searchValue, categoryFilter, jobType, gender]);
 
   // Fetch jobs
   const { data: jobs, isLoading, error } = useGetJobsByFilterQuery(queryParams, {
@@ -48,6 +58,7 @@ const Jobs = () => {
     params.set("page", page.toString());
     params.set("limit", limit.toString());
     if (globalCategory) params.set("searchTerm", globalCategory);
+    if (searchValue) params.set("searchTerm", searchValue);
     if (categoryFilter.length > 0) params.set("category", categoryFilter.join(","));
     if (jobType.length > 0) params.set("jobType", jobType.join(","));
     if (gender.length > 0) params.set("gender", gender.join(","));
@@ -81,13 +92,32 @@ const Jobs = () => {
   if (error) return <p>Error loading jobs.</p>;
 
   return (
-    <div className="container-custom flex flex-col">
-      <h4 className="my-6 ml-2 text-lg">All jobs:</h4>
+    <div className="container-custom flex flex-col mt-6 ">
+      {/* // SearchBar */}
+      <div className="w-[95%] mx-auto">
+        <div className="w-full relative flex justify-center items-center ">
+          <input
+            type="text"
+            placeholder="Search by job title,category,description ..."
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            className="w-full border border-gray-300 p-2 rounded mr-2"
+          />
+          <Button
+            onClick={() => setSearchValue(inputValue)}
+            // className="mt-2 w-full bg-secondary-1  "
+            className="absolute right-1 bg-secondary-1 text-white px-14 py-2 rounded"
+          >
+            Search
+          </Button>
 
+
+        </div>
+      </div>
+      {/* // SearchBar End */}
       <div className="grid grid-cols-6 gap-4 p-4 min-h-screen">
         {/* Filters */}
-        <aside className="col-span-2 p-6 space-y-4">
-          <h5 className="text-lg font-semibold">Filters</h5>
+        <div className="col-span-2 px-6">
           {/* // Job Category Filter CheckBoxs */}
           <div>
             <h6 className="font-semibold">Job Category</h6>
@@ -154,7 +184,7 @@ const Jobs = () => {
               </label>
             ))}
           </div>
-        </aside>
+        </div>
 
         {/* Job Results */}
         <section className="col-span-4  p-4">

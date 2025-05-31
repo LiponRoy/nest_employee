@@ -11,6 +11,7 @@ export const jobApi = baseApi.injectEndpoints({
 				page,
 				limit,
 				search = '',
+				searchValue='',
 				categoryFilter,
 				jobType,
 				gender,
@@ -21,6 +22,7 @@ export const jobApi = baseApi.injectEndpoints({
 				if (page) params.append('page', page);
 				if (limit) params.append('limit', limit);
 				if (search) params.append('searchTerm', search);
+				if (searchValue) params.append('searchTerm', searchValue);
 				// if (categoryFilter) params.append('category', categoryFilter);
 				categoryFilter.forEach((d: any) => params.append('category', d));
 				jobType.forEach((d: any) => params.append('jobType', d));
