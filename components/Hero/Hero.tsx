@@ -1,7 +1,8 @@
 "use client"
 import React from 'react'
 import SearchBar from './SearchBar'
-import JobsCategorySlider from '../JobsCategorySlider'
+import GeneralInfo from '../Home/GeneralInfo'
+
 
 const Hero = () => {
     return (
@@ -21,7 +22,7 @@ const Hero = () => {
                 {/* cards */}
 
                 <div className="w-full mt-20">
-                    <JobsCategorySlider />
+                    <GeneralInfo />
                 </div>
             </div>
 

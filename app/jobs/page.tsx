@@ -14,7 +14,7 @@ const Jobs = () => {
   const globalCategory = useAppSelector((state) => state.searchCategory.category);
 
   const [page, setPage] = useState(1);
-  const [limit] = useState(4);
+  const [limit] = useState(20);
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
   const [jobType, setjobType] = useState<string[]>([]);
   const [gender, setGender] = useState<string[]>([]);
