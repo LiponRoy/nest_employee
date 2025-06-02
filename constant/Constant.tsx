@@ -1,3 +1,4 @@
+import { BriefcaseBusiness } from 'lucide-react';
 import { InavLinks, IJobType, ILatestJobs } from '@/types/Types';
 
 export const navLinks: InavLinks[] = [
@@ -103,6 +104,62 @@ export const allCategory = [
 	{ id: 2, title: 'IT & Networking', checked: false },
 	{ id: 3, title: 'Design & Creative', checked: false },
 	{ id: 4, title: 'Customer Service', checked: false },
+];
+
+export const PopularCategoriesData = [
+  {
+    name: "Developer",
+    title: "4 open position",
+    icon: <BriefcaseBusiness />,
+  },
+  {
+    name: "Developer",
+    title: "3 open position",
+    icon: <BriefcaseBusiness />,
+  },
+  {
+    name: "Developer",
+    title: "2 open position",
+    icon: <BriefcaseBusiness />,
+  }, {
+    name: "Developer",
+    title: "4 open position",
+    icon: <BriefcaseBusiness />,
+  },
+  {
+    name: "Developer",
+    title: "3 open position",
+    icon: <BriefcaseBusiness />,
+  },
+  {
+    name: "Developer",
+    title: "2 open position",
+    icon: <BriefcaseBusiness />,
+  },
+];
+
+export const GeneralInfoData = [
+  {
+    quantity: 512,
+    title: "LIVE JOBS",
+    icon: <BriefcaseBusiness />,
+  },
+  {
+    quantity: 90,
+    title: "VACANCIES",
+    icon: <BriefcaseBusiness />,
+  },
+  {
+    quantity: 70,
+    title: "COMPANIES",
+    icon: <BriefcaseBusiness />,
+  },
+  {
+    quantity: 170,
+    title: "NEW JOBS",
+    icon: <BriefcaseBusiness />,
+  },
+  
 ];
 
 export const selectFieldStyle = {
