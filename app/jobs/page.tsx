@@ -5,13 +5,19 @@ import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { useGetJobsByFilterQuery } from "@/redux/rtk/jobsApi";
 import { JobCard } from "@/components/jobCard";
-import { optionCategories, optionJobGender, optionJobType } from "@/constant/Constant";
+import {
+  optionCategories,
+  optionJobGender,
+  optionJobType,
+} from "@/constant/Constant";
 import { ILatestJobs } from "@/types/Types";
 import { Button } from "@/components/ui/button";
 
 const Jobs = () => {
   const router = useRouter();
-  const globalCategory = useAppSelector((state) => state.searchCategory.category);
+  const globalCategory = useAppSelector(
+    (state) => state.searchCategory.category
+  );
 
   const [page, setPage] = useState(1);
   const [limit] = useState(20);
@@ -20,30 +26,37 @@ const Jobs = () => {
   const [gender, setGender] = useState<string[]>([]);
 
   // for search
-  const [inputValue, setInputValue] = useState('');
-  const [searchValue, setSearchValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
 
   // Avoid hydration mismatch
   const [hasMounted, setHasMounted] = useState(false);
   useEffect(() => setHasMounted(true), []);
 
   useEffect(() => {
-    console.log("search turm ,,", searchValue)
-  }, [searchValue])
+    console.log("search turm ,,", searchValue);
+  }, [searchValue]);
 
   // Derived query params
-  const queryParams = useMemo(() => ({
-    page,
-    limit,
-    search: globalCategory,
-    searchValue,
-    categoryFilter,
-    jobType,
-    gender
-  }), [page, limit, globalCategory, searchValue, categoryFilter, jobType, gender]);
+  const queryParams = useMemo(
+    () => ({
+      page,
+      limit,
+      search: globalCategory,
+      searchValue,
+      categoryFilter,
+      jobType,
+      gender,
+    }),
+    [page, limit, globalCategory, searchValue, categoryFilter, jobType, gender]
+  );
 
   // Fetch jobs
-  const { data: jobs, isLoading, error } = useGetJobsByFilterQuery(queryParams, {
+  const {
+    data: jobs,
+    isLoading,
+    error,
+  } = useGetJobsByFilterQuery(queryParams, {
     skip: !hasMounted,
     refetchOnMountOrArgChange: true,
     refetchOnFocus: true,
@@ -59,7 +72,8 @@ const Jobs = () => {
     params.set("limit", limit.toString());
     if (globalCategory) params.set("searchTerm", globalCategory);
     if (searchValue) params.set("searchTerm", searchValue);
-    if (categoryFilter.length > 0) params.set("category", categoryFilter.join(","));
+    if (categoryFilter.length > 0)
+      params.set("category", categoryFilter.join(","));
     if (jobType.length > 0) params.set("jobType", jobType.join(","));
     if (gender.length > 0) params.set("gender", gender.join(","));
 
@@ -69,21 +83,27 @@ const Jobs = () => {
   // Toggle category filter
   const toggleCategory = (category: string) => {
     setCategoryFilter((prev) =>
-      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
     );
   };
 
   // Toggle jobType filter
   const toggleJobType = (jopType: string) => {
     setjobType((prev) =>
-      prev.includes(jopType) ? prev.filter((c) => c !== jopType) : [...prev, jopType]
+      prev.includes(jopType)
+        ? prev.filter((c) => c !== jopType)
+        : [...prev, jopType]
     );
   };
 
   // Toggle gender filter
   const toggleGender = (gender: string) => {
     setGender((prev) =>
-      prev.includes(gender) ? prev.filter((c) => c !== gender) : [...prev, gender]
+      prev.includes(gender)
+        ? prev.filter((c) => c !== gender)
+        : [...prev, gender]
     );
   };
 
@@ -110,8 +130,6 @@ const Jobs = () => {
           >
             Search
           </Button>
-
-
         </div>
       </div>
       {/* // SearchBar End */}
@@ -122,7 +140,10 @@ const Jobs = () => {
           <div>
             <h6 className="font-semibold">Job Category</h6>
             {optionCategories.map(({ title }) => (
-              <label key={title} className="flex items-center gap-2 my-2 cursor-pointer">
+              <label
+                key={title}
+                className="flex items-center gap-2 my-2 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={categoryFilter.includes(title)}
@@ -131,8 +152,18 @@ const Jobs = () => {
                 />
                 <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
                   {categoryFilter.includes(title) && (
-                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   )}
                 </div>
@@ -144,7 +175,10 @@ const Jobs = () => {
           <div>
             <h6 className="font-semibold">Job Type</h6>
             {optionJobType.map(({ title }) => (
-              <label key={title} className="flex items-center gap-2 my-2 cursor-pointer">
+              <label
+                key={title}
+                className="flex items-center gap-2 my-2 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={jobType.includes(title)}
@@ -153,8 +187,18 @@ const Jobs = () => {
                 />
                 <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
                   {jobType.includes(title) && (
-                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   )}
                 </div>
@@ -166,7 +210,10 @@ const Jobs = () => {
           <div>
             <h6 className="font-semibold">Gender</h6>
             {optionJobGender.map(({ title }) => (
-              <label key={title} className="flex items-center gap-2 my-2 cursor-pointer">
+              <label
+                key={title}
+                className="flex items-center gap-2 my-2 cursor-pointer"
+              >
                 <input
                   type="checkbox"
                   checked={gender.includes(title)}
@@ -175,8 +222,18 @@ const Jobs = () => {
                 />
                 <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
                   {gender.includes(title) && (
-                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   )}
                 </div>
@@ -192,13 +249,15 @@ const Jobs = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {jobs.data.map((job: ILatestJobs) => (
                 <JobCard
-                  key={job._id}
-                  logo={job.companyId?.logoImage}
+                  key={job._id || i}
+                  logo={job?.companyId?.logoImage}
+                  companyName={job?.companyId?.name}
                   title={job.title}
+                  gender={job.gender}
                   jobType={job.jobType}
+                  maxSalary={job.maxSalary}
+                  minSalary={job.minSalary}
                   location={job.location}
-                  salary={job.maxSalary}
-                  category={job.category}
                   id={job._id}
                 />
               ))}

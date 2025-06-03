@@ -14,20 +14,23 @@ const LatestJobs = () => {
   console.log("Jobs xxx ",jobs)
 
   return (
-    <div className="container-custom flex flex-col justify-center items-center">
+    <div className="container-custom flex flex-col justify-center items-center mt-8">
       {/* <h4 className="text-start my-6 ml-2 text-lg">Latest All jobs : </h4> */}
-       <div className="flex flex-col justify-center items-center my-6">
-        <span className=" text-[32px] font-medium">Latest All jobs</span>
+       <div className="w-full flex flex-col justify-start items-start my-6 bg-slate-100 p-2">
+        <span className=" text-[32px] font-medium">Latest All<span className="text-[#146B83] ml-2">jobs</span> </span>
       </div>
-      <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-2"> 
+      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6"> 
   {jobs?.data?.map((val: ILatestJobs, i: string) => (
     <JobCard
       key={val._id || i}
       logo={val?.companyId?.logoImage}
+      companyName={val?.companyId?.name}
       title={val.title}
+      gender={val.gender}
       jobType={val.jobType}
+      maxSalary={val.maxSalary}
+      minSalary={val.minSalary}
       location={val.location}
-      salary={val.maxSalary}
       id={val._id}
     />
   ))}

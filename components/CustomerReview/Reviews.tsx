@@ -11,9 +11,9 @@ const Reviews = () => {
     .slice(0, customerReviewsData.length);
   return (
     <div className="pt-[40px] container-custom">
-      <h2 className="text-center text-[36px] font-semibold mb-1">
-        Customer <span className="text-[#146B83]">Review</span>
-      </h2>
+       <div className="w-full flex flex-col justify-start items-start my-6 bg-slate-100 p-2">
+        <span className=" text-[32px] font-medium">Customer <span className="text-[#146B83]">Review</span></span>
+      </div>
       <Marquee
         pauseOnHover={true}
         speed={50}
