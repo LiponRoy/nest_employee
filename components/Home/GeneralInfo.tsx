@@ -28,37 +28,3 @@ const GeneralInfo = () => {
 
 export default GeneralInfo;
 
-
-
-
-// import Marquee from "react-fast-marquee";
-// import ReviewsCard from "./ReviewsCard";
-// import { reviewsData } from "./ReviewConstant";
-
-// const ReviewsMarquee = () => {
-//   const randomItems = reviewsData
-//     .sort(() => 0.5 - Math.random())
-//     .slice(0, reviewsData.length);
-//   return (
-//     <div className="pt-[20px] container-custom">
-//       <h2 className="text-center text-[32px] md:text-[48px] font-semibold mb-1">
-//         Customer <span className="text-[#146B83]">Review</span>
-//       </h2>
-//       <Marquee
-//         pauseOnHover={true}
-//         speed={50}
-//         gradient={false}
-//         play={true}
-//         // direction={direction}
-//         className="pb-[44px]"
-//       >
-//         {randomItems.map((review, index) => (
-//           <ReviewsCard key={index} {...review} />
-//         ))}
-//       </Marquee>
-//     </div>
-//   );
-// };
-
-// export default ReviewsMarquee;
-

@@ -12,7 +12,7 @@ const PopularCategories = () => {
         {PopularCategoriesData.map((value, i) => (
           <div
             key={i}
-            className="flex justify-start items-center border border-slate-200 rounded-md hover:bg-slate-100 p-2 cursor-pointer"
+            className="flex justify-start items-center border border-slate-200 rounded-md hover:bg-slate-100 p-6 cursor-pointer"
           >
             <div className="w-10 h-10 bg-slate-200 rounded-md flex justify-center items-center p-2 mr-4">
               {value.icon}
