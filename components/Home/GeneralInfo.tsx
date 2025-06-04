@@ -1,5 +1,6 @@
 import React from "react";
 import { GeneralInfoData } from "@/constant/Constant";
+import CountUp from 'react-countup';
 
 const GeneralInfo = () => {
   return (
@@ -13,7 +14,8 @@ const GeneralInfo = () => {
             <div className="text-2xl font-bold">{value.icon}</div>
             <div className="flex flex-col justify-start items-start">
               <span className="font-bold text-[18px] md:text-[32px]">
-                {value.quantity}
+               
+                <CountUp start={0} end={value.quantity} duration={5} separator="," />
               </span>
               <span className="font-normal text-[14px] md:text-[18px]">
                 {value.title}
