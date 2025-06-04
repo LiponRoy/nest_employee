@@ -3,6 +3,8 @@ import { PopularCategoriesData } from "@/constant/Constant";
 
 const PopularCategories = () => {
   return (
+
+
     <div className="container-custom mt-8">
       <div className="flex flex-col justify-center items-center my-6">
         <span className=" text-[32px] font-medium">Popular Job Categories</span>
