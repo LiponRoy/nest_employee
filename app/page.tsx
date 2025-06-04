@@ -1,4 +1,5 @@
 import Reviews from "@/components/CustomerReview/Reviews";
+import ScrollAnimatedWrapper from "@/components/GSAP/ScrollAnimatedWrapper ";
 import Hero from "@/components/Hero/Hero";
 import BannerForAuth from "@/components/Home/BannerForAuth";
 import PopularCategories from "@/components/Home/PopularCategories";
@@ -8,14 +9,12 @@ export default function Home() {
   return (
     <div className="">
       <Hero />
-      <PopularCategories/>
+      <ScrollAnimatedWrapper>
+        <PopularCategories />
+      </ScrollAnimatedWrapper>
       <LatestJobs />
-      <Reviews/>
-      <BannerForAuth/>
+      <Reviews />
+      <BannerForAuth />
     </div>
   );
 }
-
-
-
-

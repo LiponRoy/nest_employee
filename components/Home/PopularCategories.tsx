@@ -3,15 +3,11 @@ import { PopularCategoriesData } from "@/constant/Constant";
 
 const PopularCategories = () => {
   return (
-
-
     <div className="container-custom mt-8">
       <div className="flex flex-col justify-center items-center my-6">
         <span className=" text-[32px] font-medium">Popular Job Categories</span>
         <span className=" text-[16px] font-normal">2020 jobs live - 293 added today.</span>
       </div>
-
-      
       <div className="grid grid-col-1 md:grid-cols-3 gap-2 md:gap-6">
         {PopularCategoriesData.map((value, i) => (
           <div
