@@ -2,7 +2,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "./ui/button"; // You can also replace this with a normal <button> if needed
-import { Layers } from 'lucide-react';
+import { ArrowUpRight, Layers } from "lucide-react";
 
 type JobCardProps = {
   logo: string;
@@ -36,13 +36,13 @@ export const JobCard = ({
         <div className="w-full">
           <div className="flex items-center justify-start space-x-3">
             <div className="border-2 border-slate-200 rounded-md p-1">
-            <Image
-              src={logo}
-              alt={title}
-              width={32}
-              height={32}
-              className="w-10 h-10 object-contain "
-            />
+              <Image
+                src={logo}
+                alt={title}
+                width={32}
+                height={32}
+                className="w-10 h-10 object-contain "
+              />
             </div>
             <div>
               <h2 className="text-[24px] md:text-[28px] font-semibold text-gray-800">
@@ -68,28 +68,27 @@ export const JobCard = ({
 
             <div className="w-full flex justify-between items-end ">
               <div className="flex justify-center items-center gap-x-2">
-                <Layers size={20} className=" text-slate-400"/>
-                 <p className="text-[16px] md:text-normal font-medium">
-                BDT {maxSalary?.toLocaleString("en-IN")} - {" "}
-                {minSalary?.toLocaleString("en-IN")}
-              </p>
+                <Layers size={20} className=" text-slate-400" />
+                <p className="text-[16px] md:text-normal font-medium">
+                  BDT {maxSalary?.toLocaleString("en-IN")} -{" "}
+                  {minSalary?.toLocaleString("en-IN")}
+                </p>
               </div>
-             
-
-
               <div
-          className="border border-secondary-1 h-12 w-[25%] text-[18px] font-semibold rounded-md flex justify-center items-center cursor-pointer transition-all duration-500 ease-in-out group-hover:bg-primary-1 group-hover:text-white"
-          onClick={() => router.push(`/jobDetail/${id}`)}
-        >
-          <span>Details</span>
-        </div>
+                className="border border-secondary-1 h-12 w-[25%] text-[18px] font-semibold rounded-md flex justify-center items-center cursor-pointer transition-all duration-500 ease-in-out group-hover:bg-primary-1 group-hover:text-white"
+                onClick={() => router.push(`/jobDetail/${id}`)}
+              >
+                <ArrowUpRight
+                  size={18}
+                  className="text-secondary-1 group-hover:text-white mr-1"
+                />
+                <span className="text-slate-600 group-hover:text-white text-[18px]">
+                  Details
+                </span>
+              </div>
             </div>
-
-
-
           </div>
         </div>
-        
       </div>
     </div>
   );

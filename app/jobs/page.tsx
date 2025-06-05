@@ -12,7 +12,7 @@ import {
 } from "@/constant/Constant";
 import { ILatestJobs } from "@/types/Types";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { Search,ArrowUpRight  } from "lucide-react";
 
 const Jobs = () => {
   const router = useRouter();
@@ -243,6 +243,7 @@ const Jobs = () => {
                   // className="mt-2 w-full bg-secondary-1  "
                   className="absolute right-0 bg-secondary-1 text-white h-full w-[120px] rounded-lg "
                 >
+                  
                   Search
                 </Button>
               </div>
