@@ -1,9 +1,8 @@
 import { BriefcaseBusiness } from 'lucide-react';
-import { InavLinks, IJobType, ILatestJobs } from '@/types/Types';
+import { InavLinks, IJobType, } from '@/types/Types';
 
 export const navLinks: InavLinks[] = [
-	{ href: '/jobs', label: 'Jobs' },
-	{ href: '/jobDetail', label: 'jobDetail' },
+	{ href: '/jobs', label: 'Browse Jobs' },
 ];
 
 export const JobType: IJobType[] = [

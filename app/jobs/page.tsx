@@ -12,6 +12,7 @@ import {
 } from "@/constant/Constant";
 import { ILatestJobs } from "@/types/Types";
 import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 
 const Jobs = () => {
   const router = useRouter();
@@ -108,41 +109,21 @@ const Jobs = () => {
   };
 
   if (!hasMounted) return null;
-  if (isLoading) return <p>Loading...</p>;
+  // if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading jobs.</p>;
 
   return (
     <div className="container-custom flex flex-col mt-6 ">
-      {/* // SearchBar */}
-      <div className="w-[95%] mx-auto">
-        <div className="w-full relative flex justify-center items-center ">
-          <input
-            type="text"
-            placeholder="Search by job title,category,description ..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded mr-2"
-          />
-          <Button
-            onClick={() => setSearchValue(inputValue)}
-            // className="mt-2 w-full bg-secondary-1  "
-            className="absolute right-1 bg-secondary-1 text-white px-14 py-2 rounded"
-          >
-            Search
-          </Button>
-        </div>
-      </div>
-      {/* // SearchBar End */}
-      <div className="grid grid-cols-6 gap-4 p-4 min-h-screen">
+      <div className="grid grid-cols-4 gap-5 p-4 min-h-screen">
         {/* Filters */}
-        <div className="col-span-2 px-6">
+        <div className="hidden md:block col-span-1 px-6 border rounded-lg shadow-md p-6 bg-white ">
           {/* // Job Category Filter CheckBoxs */}
-          <div>
-            <h6 className="font-semibold">Job Category</h6>
+          <div className="mt-2">
+            <h6 className="font-normal text-[20px]">Job Category</h6>
             {optionCategories.map(({ title }) => (
               <label
                 key={title}
-                className="flex items-center gap-2 my-2 cursor-pointer"
+                className="flex items-center gap-2 my-2 cursor-pointer font-normal text-[18px]"
               >
                 <input
                   type="checkbox"
@@ -172,12 +153,12 @@ const Jobs = () => {
             ))}
           </div>
           {/* // Job Type Filter CheckBoxs */}
-          <div>
-            <h6 className="font-semibold">Job Type</h6>
+          <div className="mt-4">
+            <h6 className="font-normal text-[20px] mt-1">Job Type</h6>
             {optionJobType.map(({ title }) => (
               <label
                 key={title}
-                className="flex items-center gap-2 my-2 cursor-pointer"
+                className="flex items-center gap-2 my-2 cursor-pointer font-normal text-[18px]"
               >
                 <input
                   type="checkbox"
@@ -207,12 +188,12 @@ const Jobs = () => {
             ))}
           </div>
           {/* // Gender Filter CheckBoxs */}
-          <div>
-            <h6 className="font-semibold">Gender</h6>
+          <div className="mt-4">
+            <h6 className="font-normal text-[20px] ">Gender</h6>
             {optionJobGender.map(({ title }) => (
               <label
                 key={title}
-                className="flex items-center gap-2 my-2 cursor-pointer"
+                className="flex items-center gap-2 my-2 cursor-pointer font-normal text-[18px]"
               >
                 <input
                   type="checkbox"
@@ -244,27 +225,62 @@ const Jobs = () => {
         </div>
 
         {/* Job Results */}
-        <section className="col-span-4  p-4">
-          {jobs?.data?.length ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {jobs.data.map((job: ILatestJobs) => (
-                <JobCard
-                  key={job._id || i}
-                  logo={job?.companyId?.logoImage}
-                  companyName={job?.companyId?.name}
-                  title={job.title}
-                  gender={job.gender}
-                  jobType={job.jobType}
-                  maxSalary={job.maxSalary}
-                  minSalary={job.minSalary}
-                  location={job.location}
-                  id={job._id}
+        <section className="col-span-3 ">
+          <div className="w-full ">
+            {/* // SearchBar */}
+            <div className="w-full mx-auto ">
+              <div className="w-full relative flex justify-center items-center ">
+                <Search size={24} className=" absolute left-2 text-slate-500" />
+                <input
+                  type="text"
+                  placeholder="Search by job title,category,description ..."
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  className="w-full border border-gray-300 p-3 rounded-lg  pl-11"
                 />
-              ))}
+                <Button
+                  onClick={() => setSearchValue(inputValue)}
+                  // className="mt-2 w-full bg-secondary-1  "
+                  className="absolute right-0 bg-secondary-1 text-white h-full w-[120px] rounded-lg "
+                >
+                  Search
+                </Button>
+              </div>
             </div>
-          ) : (
-            <p>No jobs found.</p>
-          )}
+            {/* // SearchBar End */}
+            <div className=" my-3">
+              <span>
+                Found <span className=" mx-1">{jobs?.meta?.total} </span>Jobs
+              </span>
+            </div>
+
+            <div className="w-full mt-1">
+              {isLoading ? (
+                <div className=" w-full flex justify-center items-center">
+                  <span className="text-[28px]">Loading...</span>
+                </div>
+              ) : jobs?.data?.length ? (
+                <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {jobs.data.map((job: ILatestJobs) => (
+                    <JobCard
+                      key={job._id || i}
+                      logo={job?.companyId?.logoImage}
+                      companyName={job?.companyId?.name}
+                      title={job.title}
+                      gender={job.gender}
+                      jobType={job.jobType}
+                      maxSalary={job.maxSalary}
+                      minSalary={job.minSalary}
+                      location={job.location}
+                      id={job._id}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p>No jobs found.</p>
+              )}
+            </div>
+          </div>
         </section>
       </div>
     </div>

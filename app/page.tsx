@@ -12,7 +12,9 @@ export default function Home() {
       <ScrollAnimatedWrapper>
         <PopularCategories />
       </ScrollAnimatedWrapper>
-      <LatestJobs />
+      <ScrollAnimatedWrapper>
+       <LatestJobs />
+      </ScrollAnimatedWrapper>
       <Reviews />
       <BannerForAuth />
     </div>
