@@ -1,0 +1,44 @@
+import Marquee from "react-fast-marquee";
+import { companyLogo, ITrustedCompanies } from "./CompanyData";
+import Image from "next/image";
+
+const CompanyLogoData = () => {
+  const randomItems = companyLogo
+    .sort(() => 0.5 - Math.random())
+    .slice(0, companyLogo.length);
+  return (
+    <div className="pt-[40px] container-custom">
+      <div className="w-full flex flex-col justify-start items-start my-6 bg-slate-100 p-2">
+        <span className=" text-[32px] font-medium">
+          TRUSTED BY LEADING <span className="text-[#146B83]">COMPANIES</span>
+        </span>
+      </div>
+      <Marquee
+        // pauseOnHover={true}
+        speed={100}
+        gradient={false}
+        play={true}
+        direction={"right"}
+        className="pb-[44px] "
+      >
+        {randomItems.map((Company: ITrustedCompanies, i) => (
+          <div
+            key={i}
+            className="w-[80px] md:w-[160px] h-[100px] md:h-[150px] m-2 flex justify-center items-center bg-slate-50 shadow-sm"
+          >
+            <Image
+              src={Company.imageUrl}
+              alt="My Photo"
+              width={300}
+              height={300}
+            className="w-[120px] p-2 "
+
+            />
+          </div>
+        ))}
+      </Marquee>
+    </div>
+  );
+};
+
+export default CompanyLogoData;

@@ -4,13 +4,18 @@ import Hero from "@/components/Hero/Hero";
 import BannerForAuth from "@/components/Home/BannerForAuth";
 import PopularCategories from "@/components/Home/PopularCategories";
 import LatestJobs from "@/components/LatestJobs";
+import CompanyLogoData from "@/components/TrustedCompanies/CompanyLogoData";
 
 export default function Home() {
   return (
     <div className="">
       <Hero />
+      
       <ScrollAnimatedWrapper>
         <PopularCategories />
+      </ScrollAnimatedWrapper>
+      <ScrollAnimatedWrapper>
+        <CompanyLogoData />
       </ScrollAnimatedWrapper>
       <ScrollAnimatedWrapper>
        <LatestJobs />
