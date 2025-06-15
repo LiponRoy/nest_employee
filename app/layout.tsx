@@ -8,6 +8,7 @@ import ClientOnly from "@/components/ClientOnly";
 import Login from "@/components/login/Login";
 import { Toaster } from "react-hot-toast";
 import { Footer } from "@/components/Footer";
+import RegisterForEmployer from "@/components/Employer-register/RegisterForEmployer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,6 +41,7 @@ export default function RootLayout({
           <Toaster position="top-center" />
           <ClientOnly>
             <Register />
+            <RegisterForEmployer />
             <Login />
             <Navbar />
           </ClientOnly>

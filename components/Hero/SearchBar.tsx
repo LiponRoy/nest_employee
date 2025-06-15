@@ -22,8 +22,8 @@ const MyComponent = () => {
   };
 
   return (
-    <div className="w-[60%] grid grid-cols-1 md:grid-cols-5 gap-4 bg-slate-200 rounded-md md:rounded-full border-4 border-slate-300 shadow-lg py-1 px-4 md:px-10 mx-4 md:mx-0 z-50">
-      <div className=" border md:border-r-slate-400 col-span-4 flex justify-start items-center">
+    <div className="w-[60%] grid grid-cols-1 md:grid-cols-5 gap-4 bg-slate-200 rounded-md  border-4 border-slate-300 shadow-lg py-1 px-4 md:px-10 mx-4 md:mx-0 z-50">
+      <div className=" border md:border-r-slate-400 col-span-4 flex justify-start items-center shadow-lg">
         <SelectInput
           options={searchCategories}
           value={categories}

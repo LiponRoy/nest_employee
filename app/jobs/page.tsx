@@ -242,6 +242,7 @@ const Jobs = () => {
                   onClick={() => setSearchValue(inputValue)}
                   // className="mt-2 w-full bg-secondary-1  "
                   className="absolute right-0 bg-secondary-1 text-white h-full w-[120px] rounded-lg "
+                  
                 >
                   
                   Search

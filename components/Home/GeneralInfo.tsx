@@ -5,11 +5,11 @@ import CountUp from 'react-countup';
 const GeneralInfo = () => {
   return (
     <div className="w-[90%] md:w-[70%] mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 bg-slate-600 text-white opacity-80  rounded-xl">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2  text-white opacity-95 rounded-xl">
         {GeneralInfoData.map((value, i) => (
           <div
             key={i}
-            className="flex justify-start items-center space-x-4 border rounded-md  pl-8 py-2"
+            className="bg-slate-600 flex justify-start items-center space-x-4 border-2 border-white rounded-md  pl-8 py-2 shadow-md"
           >
             <div className="text-2xl font-bold">{value.icon}</div>
             <div className="flex flex-col justify-start items-start">

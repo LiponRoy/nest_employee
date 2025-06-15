@@ -25,6 +25,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOut, Settings, User } from "lucide-react";
+import { openEmployerRegisterModal } from "@/redux/slices/employerRegisterFormModalSlice";
 
 export default function Navbar() {
     const dispatch = useAppDispatch();
@@ -113,15 +114,25 @@ export default function Navbar() {
                         <div className="space-x-4">
                             <Button
                                 onClick={() => dispatch(openLoginModal())}
-                                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                                          className="bg-secondary-1 text-white px-4  rounded"
+
                             >
                                 Login
                             </Button>
                             <Button
                                 onClick={() => dispatch(openRegisterModal())}
-                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+                                         className="bg-secondary-1 text-white px-4  rounded"
+
                             >
                                 Register
+                            </Button>
+
+                            <Button
+                                onClick={() => dispatch(openEmployerRegisterModal())}
+                                         className="bg-secondary-1 text-white px-4  rounded"
+
+                            >
+                                Employer Register
                             </Button>
                         </div>
                     )}

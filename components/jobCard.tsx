@@ -75,7 +75,7 @@ export const JobCard = ({
                 </p>
               </div>
               <div
-                className="border border-secondary-1 h-12 w-[25%] text-[18px] font-semibold rounded-md flex justify-center items-center cursor-pointer transition-all duration-500 ease-in-out group-hover:bg-primary-1 group-hover:text-white"
+                className="border border-secondary-1 h-12 w-[25%] text-[18px] font-semibold rounded-md flex justify-center items-center cursor-pointer transition-all duration-500 ease-in-out group-hover:bg-secondary-1 group-hover:text-white"
                 onClick={() => router.push(`/jobDetail/${id}`)}
               >
                 <ArrowUpRight

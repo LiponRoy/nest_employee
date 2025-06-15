@@ -4,7 +4,7 @@ import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { RadioInput, TextInput } from "../FormInputs";
+import {TextInput } from "../FormInputs";
 import { Button } from "../ui/button";
 import { Modal } from "../Modal";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -21,7 +21,7 @@ const schema = z.object({
   password: z
     .string()
     .min(5, { message: "Password must be at least 5 characters" }),
-  role: z.enum(["job_seeker", "employer"], {
+  role: z.enum(["job_seeker"], {
     required_error: "Please select a role",
   }),
 });
@@ -30,7 +30,7 @@ type FormData = z.infer<typeof schema>;
 
 const Register = () => {
   const router = useRouter();
-  const [signup, { isLoading, error }] = useSignupMutation();
+  const [signup,] = useSignupMutation();
   //for modal
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.registerFormModal.isOpen);
@@ -80,27 +80,6 @@ const Register = () => {
             </div>
           </div>
 
-          <div>
-            <label className="block font-medium mb-2">Select Role:</label>
-            <div className="flex items-center gap-4">
-              <label className="flex items-center gap-2">
-
-                <RadioInput
-                  value="job_seeker"
-                  registerValue="role"
-                />
-                Job Seeker
-              </label>
-              <label className="flex items-center gap-2">
-
-                <RadioInput
-                  value="employer"
-                  registerValue="role"
-                />
-                Employer
-              </label>
-            </div>
-          </div>
           <Button
             className="w-full bg-secondary-1 hover:bg-orange-600 text-white"
           >Sign Up</Button>

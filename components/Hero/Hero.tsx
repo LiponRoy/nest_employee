@@ -14,11 +14,11 @@ const Hero = () => {
     //     </div>
     // </div>
     <section
-      className="relative h-screen flex items-center justify-center bg-cover bg-center"
+      className="relative h-[50vh] flex items-center justify-start bg-cover bg-center"
       style={{ backgroundImage: "url(/hero-bg.jpg)" }}
     >
-      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-      <div className="z-20 h-full w-full flex flex-col justify-center items-center gap-y-6 mx-10">
+      <div className="absolute inset-0 bg-primary-2 bg-opacity-80"></div>
+      <div className="relative z-20 h-full w-full flex flex-col justify-center items-center gap-y-6 mx-10">
         <span className="text-4xl font-medium text-white-creamy text-white p-2 rounded-md">
           Find Nearby Jobs <span className="text-secondary-1">From Here.</span>
         </span>
@@ -29,7 +29,7 @@ const Hero = () => {
         <SearchBar />
         {/* cards */}
 
-        <div className="w-full mt-20">
+        <div className="absolute -bottom-12 w-full ">
           <ScrollAnimatedWrapper>
             <GeneralInfo />
           </ScrollAnimatedWrapper>
