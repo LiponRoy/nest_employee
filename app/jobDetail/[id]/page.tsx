@@ -53,7 +53,7 @@
 // export default page
 
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Backpack } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -62,10 +62,14 @@ import { useParams } from "next/navigation";
 import { useGetJobByIdQuery } from "@/redux/rtk/jobsApi";
 import { useApplyForJobMutation } from "@/redux/rtk/applicationApi";
 import { errorToast, successToast } from "@/components/Toast";
+import { useGetProfileQuery } from "@/redux/rtk/auth";
 
 const JobDetail = () => {
   const { id } = useParams();
   const jobId = id as string;
+
+  // this is for get current login user
+  const { data: currentUser } = useGetProfileQuery({});
 
   // this is for get single job
   const { data: job, isLoading, error } = useGetJobByIdQuery(jobId);
@@ -73,13 +77,30 @@ const JobDetail = () => {
   const [applyForJob, { isLoading: isApplying, isSuccess, isError }] =
     useApplyForJobMutation();
 
+  // Role Based Access
+  const [isJobSeeker, setIsJobSeeker] = useState(false);
+  const [isEmployer, setIsEmployer] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    if (currentUser) {
+      setIsJobSeeker(currentUser.data.role === "job_seeker");
+      setIsEmployer(currentUser.data.role === "employer");
+      setIsAdmin(currentUser.data.role === "admin");
+    }
+  }, [currentUser]);
+  // Role Based Access End
+
   const handleApply = async () => {
+    if (isEmployer || isAdmin) {
+      successToast("To Apply Login As An Job Seeker");
+      return;
+    }
     try {
       await applyForJob(jobId).unwrap();
       successToast("Applied successfully!");
-    } catch (err) {
+    } catch (err:any) {
       console.error("Application failed:", err);
-      errorToast("Failed to apply.");
+      errorToast(err?.data?.message || 'An error occurred');
     }
   };
 
@@ -111,20 +132,22 @@ const JobDetail = () => {
                 <Backpack className="text-primary-1" />
 
                 <span className="text-[16px]">
-                  {`BDT ${job?.data?.minSalary.toLocaleString("en-IN")} - ${job?.data?.maxSalary.toLocaleString("en-IN")} Monthly`}
+                  {`BDT ${job?.data?.minSalary.toLocaleString(
+                    "en-IN"
+                  )} - ${job?.data?.maxSalary.toLocaleString("en-IN")} Monthly`}
                 </span>
               </div>
             </div>
-           
+
             <div className="flex justify-start items-center gap-x-2 mt-[24px]">
-            {job?.data?.skillAndExperience?.map((val, i) => (
-              <div
-                key={i}
-                className="w-full flex justify-start items-center gap-x-2 bg-slate-200 p-1 rounded-lg"
-              >
-                <span>{val?.title}</span>
-              </div>
-            ))}
+              {job?.data?.skillAndExperience?.map((val, i) => (
+                <div
+                  key={i}
+                  className="w-full flex justify-start items-center gap-x-2 bg-slate-200 p-1 rounded-lg"
+                >
+                  <span>{val?.title}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -134,39 +157,38 @@ const JobDetail = () => {
             {/* Job Description */}
             <div className="w-full flex flex-col justify-start items-start">
               <h4 className="text-[24px] font-semibold">Job Description :</h4>
-              <p>
-              {job?.data?.description}
-              </p>
+              <p>{job?.data?.description}</p>
             </div>
             {/* Job Description End */}
             {/* Job Responsibility */}
             <div className="w-full flex flex-col justify-start items-start">
               <h4 className="text-[24px] font-semibold">Responsibility :</h4>
               {job?.data?.responsibility?.map((val, i) => (
-              <div
-                key={i}
-                className="w-full flex justify-start items-center gap-x-2  p-1"
-              >
-                
-                <ul><li>- {val?.title}</li></ul>
-              </div>
-            ))}
-              
+                <div
+                  key={i}
+                  className="w-full flex justify-start items-center gap-x-2  p-1"
+                >
+                  <ul>
+                    <li>- {val?.title}</li>
+                  </ul>
+                </div>
+              ))}
             </div>
             {/* Job Responsibility End */}
             {/* Job requirements */}
             <div className="w-full flex flex-col justify-start items-start">
               <h4 className="text-[24px] font-semibold">Requirements :</h4>
-              
+
               {job?.data?.requirements?.map((val, i) => (
-              <div
-                key={i}
-                className="w-full flex justify-start items-center gap-x-2  p-1"
-              >
-                
-                <ul><li>- {val?.title}</li></ul>
-              </div>
-            ))}
+                <div
+                  key={i}
+                  className="w-full flex justify-start items-center gap-x-2  p-1"
+                >
+                  <ul>
+                    <li>- {val?.title}</li>
+                  </ul>
+                </div>
+              ))}
             </div>
             {/* requirements End */}
             {/* Salary and Benefits */}
@@ -174,17 +196,17 @@ const JobDetail = () => {
               <h4 className="text-[24px] font-semibold">
                 Salary and Benefits :
               </h4>
-              
+
               {job?.data?.salaryAndBenefits?.map((val, i) => (
-              <div
-                key={i}
-                className="w-full flex justify-start items-center gap-x-2  p-1"
-              >
-                
-                <ul><li>- {val?.title}</li></ul>
-              </div>
-            ))}
-              
+                <div
+                  key={i}
+                  className="w-full flex justify-start items-center gap-x-2  p-1"
+                >
+                  <ul>
+                    <li>- {val?.title}</li>
+                  </ul>
+                </div>
+              ))}
             </div>
             {/* Salary and Benefits End */}
             <Button
@@ -192,25 +214,32 @@ const JobDetail = () => {
               disabled={isApplying}
               className="w-[50%] rounded-md bg-orange-600 hover:bg-orange-700 "
             >
-              Apply This Possition
+              {/* Apply This Possition */}
+              {isJobSeeker? "Apply This Possition" : "Login to Apply"}
             </Button>
           </div>
           {/* company logo and apply job section */}
           <div className="col-span-2 w-full  flex flex-col justify-start items-end gap-y-4">
             <div className=" relative h-[338px] w-[412px] bg-bg-1 border border-slate-200 shadow-md flex flex-col justify-center items-center gap-y-1">
               <Image
-                src={job?.data?.companyId?.logoImage} 
+                src={job?.data?.companyId?.logoImage}
                 alt="Example Image"
-                width={300} 
-                height={300} 
-                priority 
+                width={300}
+                height={300}
+                priority
                 className="w-[120px] h-[90px]"
               />
-              <span className="text-[32px] font-semibold">{job?.data?.companyId?.name} </span>
+              <span className="text-[32px] font-semibold">
+                {job?.data?.companyId?.name}{" "}
+              </span>
               <span className="text-[18px] font-normal">Visit Website</span>
 
-              <Button  onClick={handleApply} className="w-[80%] absolute bottom-6  rounded-md bg-orange-600 hover:bg-orange-700">
-                Apply This Possition
+              <Button
+                onClick={handleApply}
+                className="w-[80%] absolute bottom-6  rounded-md bg-orange-600 hover:bg-orange-700"
+              >
+                
+              {isJobSeeker? "Apply This Position" : "Login to Apply"}
               </Button>
             </div>
             {/* Job Overview */}
@@ -239,14 +268,20 @@ const JobDetail = () => {
                   <Backpack size={20} />
                   <span className="text-[18px]">Experience</span>
                 </div>
-                <span className="text-[16px]">{job?.data?.experienceLevel} Years</span>
+                <span className="text-[16px]">
+                  {job?.data?.experienceLevel} Years
+                </span>
               </div>
               <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
                 <div className="flex justify-center items-center gap-1">
                   <Backpack size={20} />
                   <span className="text-[18px]">Offered Salary</span>
                 </div>
-                <span className="text-[16px]">{`BDT ${job?.data?.minSalary.toLocaleString("en-IN")} - ${job?.data?.maxSalary.toLocaleString("en-IN")} Monthly`}</span>
+                <span className="text-[16px]">{`BDT ${job?.data?.minSalary.toLocaleString(
+                  "en-IN"
+                )} - ${job?.data?.maxSalary.toLocaleString(
+                  "en-IN"
+                )} Monthly`}</span>
               </div>
               <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
                 <div className="flex justify-center items-center gap-1">
