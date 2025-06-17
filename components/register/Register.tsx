@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { closeRegisterModal } from "@/redux/slices/registerFormModalSlice";
 import { useSignupMutation } from "@/redux/rtk/auth";
 import { useRouter } from "next/navigation";
+import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
 
 const schema = z.object({
   name: z
@@ -55,6 +56,11 @@ const Register = () => {
     }
   };
 
+  const goToLoginModal=()=>{
+    dispatch(openLoginModal())
+    dispatch(closeRegisterModal())
+  }
+
   const bodyContent = (
 
     <div className="flex flex-col flex-1 justify-center p-8 ">
@@ -81,10 +87,13 @@ const Register = () => {
           </div>
 
           <Button
-            className="w-full bg-secondary-1 hover:bg-orange-600 text-white"
+            className="w-full bg-secondary-1 hover:bg-secondary-1 text-white"
           >Sign Up</Button>
         </form>
       </FormProvider>
+      <div onClick={()=>goToLoginModal()} className="mt-5 cursor-pointer">
+        <span>Go to LOGIN !</span>
+      </div>
     </div>
   );
 

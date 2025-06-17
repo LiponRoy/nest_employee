@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useSignupMutation } from "@/redux/rtk/auth";
 import { useRouter } from "next/navigation";
 import { closeEmployerRegisterModal } from "@/redux/slices/employerRegisterFormModalSlice";
+import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
 
 const schema = z.object({
   name: z
@@ -57,6 +58,11 @@ const RegisterForEmployer = () => {
     }
   };
 
+    const goToLoginModal=()=>{
+      dispatch(openLoginModal())
+      dispatch(closeEmployerRegisterModal())
+    }
+
   const bodyContent = (
     <div className=" grid grid-cols-6">
       {/* <div className="col-span-1 h-full bg-blue-900"></div> */}
@@ -92,6 +98,9 @@ const RegisterForEmployer = () => {
             </Button>
           </form>
         </FormProvider>
+        <div onClick={()=>goToLoginModal()} className="mt-5 cursor-pointer">
+        <span>Go to LOGIN !</span>
+      </div>
       </div>
     </div>
   );

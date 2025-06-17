@@ -211,7 +211,7 @@ export default function Navbar() {
                 {/* Login */}
                 <DropdownMenuItem asChild>
                   <div
-                    onClick={() => dispatch(openEmployerRegisterModal())}
+                    onClick={() => dispatch(openLoginModal())}
                     className="
               px-6 py-5
               flex flex-col items-start gap-1
