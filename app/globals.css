@@ -103,3 +103,27 @@
 .flex-between-col {
 	@apply flex flex-col justify-between items-center;
 }
+
+/* customized color animation  */
+.gradient-animation {
+  background: linear-gradient(90deg, #215AAC, #000000);
+  background-size: 200% 200%;
+  /*Makesthegradientlargeenoughtomove*/animation: gradientMove 15s linear infinite;
+  opacity: 80%;
+  /*Applyanimation*/-webkit-animation: gradientMove 15s linear infinite;
+  -webkit-animation: gradientMove 15s linear infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}

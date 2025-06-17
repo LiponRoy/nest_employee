@@ -10,7 +10,7 @@ const Hero = () => {
       className="relative h-[40vh] md:h-[50vh] flex items-start justify-start bg-cover bg-center"
       style={{ backgroundImage: "url(/hero-bg.jpg)" }}
     >
-      <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+      <div className="absolute inset-0 gradient-animation bg-opacity-60"></div>
       <div className="relative z-20 h-full w-full flex flex-col justify-start md:justify-center items-center gap-y-6 mx-10 pt-6 md:pt-0">
        <div className="flex flex-col md:flex-row justify-center items-center md:space-x-1">
          <span className="text-[28px] md:text-4xl font-medium text-white-creamy text-white  rounded-md">
