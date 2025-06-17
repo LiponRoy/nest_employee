@@ -107,32 +107,32 @@ export const allCategory = [
 
 export const PopularCategoriesData = [
   {
-    name: "Developer",
-    title: "4 open position",
+    name: "Software Developer",
+    title: "154 open position",
     icon: <BriefcaseBusiness />,
   },
   {
-    name: "Developer",
-    title: "3 open position",
+    name: "Software Developer",
+    title: "53 open position",
     icon: <BriefcaseBusiness />,
   },
   {
-    name: "Developer",
-    title: "2 open position",
+    name: "IT Support",
+    title: "122 open position",
     icon: <BriefcaseBusiness />,
   }, {
-    name: "Developer",
-    title: "4 open position",
+    name: "Cybersecurity Specialist",
+    title: "94 open position",
     icon: <BriefcaseBusiness />,
   },
   {
-    name: "Developer",
-    title: "3 open position",
+    name: "Education & Training",
+    title: "255 open position",
     icon: <BriefcaseBusiness />,
   },
   {
-    name: "Developer",
-    title: "2 open position",
+    name: "Garments & Textile Industry",
+    title: "12 open position",
     icon: <BriefcaseBusiness />,
   },
 ];

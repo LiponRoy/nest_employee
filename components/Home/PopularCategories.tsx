@@ -3,11 +3,10 @@ import { PopularCategoriesData } from "@/constant/Constant";
 
 const PopularCategories = () => {
   return (
-    <div className="container-custom mt-20">
-      
+    <div className="container-custom mt-10 md:mt-20 ">
       <div className="w-full flex flex-col justify-start items-start my-6 bg-slate-100 p-2">
-        <span className=" text-[32px] font-medium">
-          Popular Job<span className="text-[#146B83] ml-2">Categories</span>
+        <span className="text-[24px] md:text-[32px] font-medium">
+          Popular Job<span className="text-primary-1 ml-2">Categories</span>
         </span>
       </div>
       <div className="grid grid-col-1 md:grid-cols-3 gap-2 md:gap-6">

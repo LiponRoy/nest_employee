@@ -7,10 +7,10 @@ const CompanyLogoData = () => {
     .sort(() => 0.5 - Math.random())
     .slice(0, companyLogo.length);
   return (
-    <div className="pt-[40px] container-custom">
+    <div className="pt-[10px] md:pt-[30px] container-custom">
       <div className="w-full flex flex-col justify-start items-start my-6 bg-slate-100 p-2">
-        <span className=" text-[32px] font-medium">
-          TRUSTED BY LEADING <span className="text-[#146B83]">COMPANIES</span>
+        <span className="text-[24px] md:text-[32px] font-medium">
+          Trusted by Leading <span className="text-primary-1">Companies</span>
         </span>
       </div>
       <Marquee
@@ -19,7 +19,7 @@ const CompanyLogoData = () => {
         gradient={false}
         play={true}
         direction={"right"}
-        className="pb-[44px] "
+        className="pb-[14px] "
       >
         {randomItems.map((Company: ITrustedCompanies, i) => (
           <div

@@ -13,14 +13,14 @@ const LatestJobs = () => {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading jobs!</p>;
 
-  console.log("Jobs xxx ", jobs);
+
 
   return (
-    <div className="container-custom flex flex-col justify-center items-center mt-8">
+    <div className="container-custom flex flex-col justify-center items-center ">
       {/* <h4 className="text-start my-6 ml-2 text-lg">Latest All jobs : </h4> */}
-      <div className="w-full flex flex-col justify-start items-start my-6 bg-slate-100 p-2">
-        <span className=" text-[32px] font-medium">
-          Latest All<span className="text-[#146B83] ml-2">jobs</span>{" "}
+      <div className="w-full flex flex-col justify-start items-start my-4 bg-slate-100 p-2">
+        <span className=" text-[24px] md:text-[32px] font-medium">
+          Latest All<span className="text-primary-1 ml-2">jobs</span>{" "}
         </span>
       </div>
       <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">

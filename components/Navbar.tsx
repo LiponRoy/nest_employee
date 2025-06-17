@@ -22,7 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ListFilter , User } from "lucide-react";
+import { ListFilter, User } from "lucide-react";
 import { openEmployerRegisterModal } from "@/redux/slices/employerRegisterFormModalSlice";
 
 export default function Navbar() {
@@ -41,11 +41,11 @@ export default function Navbar() {
   }, [user]);
   // Role Based Access End
 
-  const [otherState, setOtherState] = useState(false);
+  // const [otherState, setOtherState] = useState(false);
 
-  const otherController = () => {
-    setOtherState(!otherState);
-  };
+  // const otherController = () => {
+  //   setOtherState(!otherState);
+  // };
 
   return (
     <nav className="sticky top-0 z-50 container-custom flex items-center justify-between px-6 py-4 bg-bg-1 dark:bg-slate-900 bg-opacity-90 shadow-md">
@@ -54,7 +54,7 @@ export default function Navbar() {
         className="text-2xl font-bold flex justify-center items-center gap-1"
       >
         <span className="text-secondary-1">Nest</span>
-        <span className="text-primary-2">Employee</span>
+        <span className="text-primary-1">Employee</span>
       </Link>
 
       <div className="hidden md:flex gap-6 items-center">
@@ -62,7 +62,7 @@ export default function Navbar() {
           <Link
             key={link.href}
             href={link.href}
-            className="text-primary-2 font-semibold hover:text-secondary-1 dark:text-gray-200 transition-colors duration-500 hover:text-orange-deep"
+            className="text-primary-1 font-semibold hover:text-secondary-1 dark:text-gray-200 transition-colors duration-500 hover:text-orange-deep"
           >
             {link.label}
           </Link>
@@ -70,7 +70,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-4">
           {isLoading ? (
-            <p className="text-primary-2">Loading...</p>
+            <p className="text-primary-1">Loading...</p>
           ) : user ? (
             // Only for login user
             <div className="flex items-center gap-4">
@@ -138,46 +138,94 @@ export default function Navbar() {
               </DropdownMenu>
             </div>
           ) : (
-            <div className="group cursor-pointer relative ">
-              <div className=" flex justify-center items-center gap-x-1 ">
-                <span
-                  onClick={otherController}
-                  className="cursor-pointer hover:text-teal_blue  py-1 "
-                >
-                  Login or Create Account
-                </span>
-                <ListFilter size={12} />
-              </div>
-              <div className="absolute left-0 top-8 hidden group-hover:block w-full  rounded-lg">
-                <div className=" flex flex-col justify-start items-start space-y-1  text-white">
-                  <span
+            <DropdownMenu >
+              <DropdownMenuTrigger
+                className="
+          flex items-center justify-end
+          w-full md:w-auto py-3
+          bg-white/10 text-primary-1
+          hover:text-secondary-1
+          rounded-xl 
+          backdrop-blur-md
+          hover:bg-white/20 transition duration-200
+          font-medium cursor-pointer
+        "
+              >
+                <span>Login or Create Account</span>
+                <ListFilter size={18} className="ml-2 text-primary-1" />
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent
+                className="
+          w-[220px]
+          mt-4
+          bg-slate-300 text-slate-800
+          rounded-md 
+          border border-slate-400
+          overflow-hidden
+          z-50
+        "
+              >
+                {/* Job Seeker */}
+                <DropdownMenuItem asChild>
+                  <div
                     onClick={() => dispatch(openRegisterModal())}
-                    className=" cursor-pointer hover:border-b-[2px] hover:border-teal_blue hover:text-teal_blue w-[260px] h-32 bg-primary-2 hover:bg-primary-1 border border-slate-200 rounded-md flex flex-col justify-center items-center space-y-2"
+                    className="
+              px-2 py-4
+              flex flex-col items-start gap-1
+              hover:bg-white/20 transition-colors duration-150
+              cursor-pointer
+            "
                   >
-                    <span className=" text-[20px] font-semibold">Job Seeker</span>
-                    <span className=" text-[14px] font-light">Find your dream job today!</span>
-                    <span className="text-[14px] font-light bg-secondary-1 px-6 py-1 rounded-md">Register</span>
-                     {/* Register */}
-                  </span>
-                  <span
-                   onClick={() => dispatch(openEmployerRegisterModal())}
-                    className=" cursor-pointer hover:border-b-[2px] hover:border-teal_blue hover:text-teal_blue w-[260px] h-32 bg-primary-2 hover:bg-primary-1 border border-slate-200 rounded-md flex flex-col justify-center items-center space-y-2"
+                    <span className="text-lg font-semibold">Job Seeker</span>
+                    <span className="text-sm opacity-80">
+                      Find your dream job today
+                    </span>
+                    <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
+                      Register
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="border-white/20" />
+                {/* Employer */}
+                <DropdownMenuItem asChild>
+                  <div
+                    onClick={() => dispatch(openEmployerRegisterModal())}
+                    className="
+              px-6 py-5
+              flex flex-col items-start gap-1
+              hover:bg-white/20 transition-colors duration-150
+              cursor-pointer
+            "
                   >
-                    <span className=" text-[20px] font-semibold">Employer</span>
-                    <span className=" text-[14px] font-light">Find the best candidates!</span>
-                    <span className="text-[14px] font-light bg-secondary-1 px-6 py-1 rounded-md">Register</span>
-                    
-                  </span>
-                  <span
-                   onClick={() => dispatch(openLoginModal())}
-                    className=" cursor-pointer hover:border-b-[2px] hover:border-teal_blue hover:text-teal_blue w-[260px] h-32 bg-primary-2 hover:bg-primary-1 border border-slate-200 rounded-md flex flex-col justify-center items-center space-y-2"
+                    <span className="text-lg font-semibold">Employer</span>
+                    <span className="text-sm opacity-80">
+                      Find the best candidates
+                    </span>
+                    <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
+                      Register
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="border-white/20" />
+                {/* Login */}
+                <DropdownMenuItem asChild>
+                  <div
+                    onClick={() => dispatch(openEmployerRegisterModal())}
+                    className="
+              px-6 py-5
+              flex flex-col items-start gap-1
+              hover:bg-white/20 transition-colors duration-150
+              cursor-pointer
+            "
                   >
-                    
-                    <span className="text-[14px] font-light bg-secondary-1 px-6 py-1 rounded-md">Login</span>
-                  </span>
-                </div>
-              </div>
-            </div>
+                    <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
+                      Login
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
       </div>

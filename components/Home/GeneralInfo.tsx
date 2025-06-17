@@ -1,25 +1,22 @@
 import React from "react";
 import { GeneralInfoData } from "@/constant/Constant";
-import CountUp from 'react-countup';
+import CountUp from "react-countup";
 
 const GeneralInfo = () => {
   return (
-    <div className="w-[90%] md:w-[70%] mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2  text-white opacity-95 rounded-xl">
-        {GeneralInfoData.map((value, i) => (
+    <div className="container-custom mx-auto py-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-6">
+        {GeneralInfoData.map((item, index) => (
           <div
-            key={i}
-            className="bg-slate-600 flex justify-start items-center space-x-4 border-2 border-white rounded-md  pl-8 py-2 shadow-md"
+            key={index}
+            className="bg-white bg-opacity-10 backdrop-blur-md border border-white/20 rounded-md shadow-md p-2 md:p-6 flex items-center gap-4 text-white hover:shadow-lg transition duration-300 ease-in-out"
           >
-            <div className="text-2xl font-bold">{value.icon}</div>
-            <div className="flex flex-col justify-start items-start">
-              <span className="font-bold text-[18px] md:text-[32px]">
-               
-                <CountUp start={0} end={value.quantity} duration={5} separator="," />
+            <div className="hidden md:flex text-4xl">{item.icon}</div>
+            <div className="flex flex-col">
+              <span className="text-xl md:text-2xl font-semibold">
+                <CountUp start={0} end={item.quantity} duration={2} separator="," />
               </span>
-              <span className="font-normal text-[14px] md:text-[18px]">
-                {value.title}
-              </span>
+              <span className="text-[10px] md:text-sm font-light">{item.title}</span>
             </div>
           </div>
         ))}
@@ -29,4 +26,3 @@ const GeneralInfo = () => {
 };
 
 export default GeneralInfo;
-

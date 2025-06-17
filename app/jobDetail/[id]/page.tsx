@@ -212,7 +212,7 @@ const JobDetail = () => {
             <Button
               onClick={handleApply}
               disabled={isApplying}
-              className="w-[50%] rounded-md bg-orange-600 hover:bg-orange-700 "
+              className="w-[50%] rounded-md bg-secondary-1 hover:bg-secondary-1 "
             >
               {/* Apply This Possition */}
               {isJobSeeker? "Apply This Possition" : "Login to Apply"}
@@ -236,7 +236,7 @@ const JobDetail = () => {
 
               <Button
                 onClick={handleApply}
-                className="w-[80%] absolute bottom-6  rounded-md bg-orange-600 hover:bg-orange-700"
+                className="w-[80%] absolute bottom-6  rounded-md bg-secondary-1 hover:bg-secondary-1"
               >
                 
               {isJobSeeker? "Apply This Position" : "Login to Apply"}

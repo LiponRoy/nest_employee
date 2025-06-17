@@ -17,9 +17,8 @@ export default {
 				'2xl': '1536px', // Larger desktops
 			},
 			colors: {
-				'primary-1': '#007CAD', // thin blue
-				'primary-2': '#004F6D', // deep blues
-				'secondary-1': '#FF532A', // orange
+				'primary-1': '#215AAC', // blue-700
+				'secondary-1': '#6CB33E', // green-500
 				'heading-text': '#202020', // thin black
 				'para-text': '#282828', // thin black
 				'bg-1': '#F8FAFB', // white-creamy

@@ -10,9 +10,9 @@ const Reviews = () => {
     .sort(() => 0.5 - Math.random())
     .slice(0, customerReviewsData.length);
   return (
-    <div className="pt-[40px] container-custom">
+    <div className="pt-[20px] container-custom">
        <div className="w-full flex flex-col justify-start items-start my-6 bg-slate-100 p-2">
-        <span className=" text-[32px] font-medium">Customer <span className="text-[#146B83]">Review</span></span>
+        <span className=" text-[24px] md:text-[32px] font-medium">Customer <span className="text-primary-1">Review</span></span>
       </div>
       <Marquee
         pauseOnHover={true}
