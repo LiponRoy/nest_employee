@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { navLinks } from "@/constant/Constant";
 import { useAppDispatch } from "@/redux/hooks";
 import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
@@ -40,6 +40,14 @@ export default function Navbar() {
     }
   }, [user]);
   // Role Based Access End
+
+  // mobile sidebar
+  const [open, setOpen] = useState(false);
+
+  const handleNavigate = (path) => {
+    router.push(path);
+    setOpen(false); // Close sheet
+  };
 
   // const [otherState, setOtherState] = useState(false);
 
@@ -138,7 +146,7 @@ export default function Navbar() {
               </DropdownMenu>
             </div>
           ) : (
-            <DropdownMenu >
+            <DropdownMenu>
               <DropdownMenuTrigger
                 className="
           flex items-center justify-end
@@ -192,7 +200,7 @@ export default function Navbar() {
                   <div
                     onClick={() => dispatch(openEmployerRegisterModal())}
                     className="
-              px-6 py-5
+              px-2 py-5
               flex flex-col items-start gap-1
               hover:bg-white/20 transition-colors duration-150
               cursor-pointer
@@ -213,12 +221,16 @@ export default function Navbar() {
                   <div
                     onClick={() => dispatch(openLoginModal())}
                     className="
-              px-6 py-5
+              px-2 py-5
               flex flex-col items-start gap-1
               hover:bg-white/20 transition-colors duration-150
               cursor-pointer
             "
                   >
+                    <span className="text-lg font-semibold">Login</span>
+                    <span className="text-sm opacity-80">
+                      If you are already registered
+                    </span>
                     <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
                       Login
                     </span>
@@ -231,24 +243,121 @@ export default function Navbar() {
       </div>
 
       {/*   For mobile view */}
-      <Sheet>
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="md:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden bg-secondary-1 text-white"
+          >
             <Menu className="w-6 h-6" />
           </Button>
         </SheetTrigger>
         <SheetContent side="right" className="p-6 md:p-10">
-          <div className="flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-lg font-medium text-gray-800 dark:text-gray-200"
+          {user ? (
+            <div className="flex flex-col justify-start items-start space-y-4 mt-4">
+              {/* if user login */}
+
+              <span
+                onClick={() => handleNavigate("/profile")}
+                className="cursor-pointer w-full"
               >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+                Profile
+              </span>
+              {isUserEmployer && (
+                <div className="flex flex-col justify-start items-start space-y-4">
+                  <span
+                    onClick={() => handleNavigate("/getJobByCreator")}
+                    className="cursor-pointer w-full"
+                  >
+                    Jobs
+                  </span>
+                  <span
+                    onClick={() => handleNavigate("/getCompanyByCreator")}
+                    className="cursor-pointer w-full"
+                  >
+                    Companies
+                  </span>
+                  <span
+                    onClick={() => handleNavigate("/addJob")}
+                    className="cursor-pointer w-full"
+                  >
+                    Add Job
+                  </span>
+                  <span
+                    onClick={() => handleNavigate("/addCompany")}
+                    className="cursor-pointer w-full"
+                  >
+                    Add Company
+                  </span>
+                </div>
+              )}
+              <LogoutButton />
+            </div>
+          ) : (
+            <div className="flex flex-col justify-start items-start space-y-2 mt-6 ">
+              <div
+                onClick={() => {
+                  dispatch(openRegisterModal());
+                  setOpen(false);
+                }}
+                className="
+               w-full px-2 py-4
+              flex flex-col items-start gap-1
+              hover:bg-slate-200 transition-colors duration-150
+              cursor-pointer border-b border-slate-200
+            "
+              >
+                <span className="text-lg font-semibold">Job Seeker</span>
+                <span className="text-sm opacity-80">
+                  Find your dream job today
+                </span>
+                <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
+                  Register
+                </span>
+              </div>
+              <div
+                onClick={() => {
+                  dispatch(openEmployerRegisterModal());
+                  setOpen(false);
+                }}
+                className="
+               w-full px-2 py-5
+              flex flex-col items-start gap-1
+              hover:bg-white/20 transition-colors duration-150
+              cursor-pointer border-b border-slate-200
+            "
+              >
+                <span className="text-lg font-semibold">Employer</span>
+                <span className="text-sm opacity-80">
+                  Find the best candidates
+                </span>
+                <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
+                  Register
+                </span>
+              </div>
+              <div
+                onClick={() => {
+                  dispatch(openLoginModal());
+                  setOpen(false);
+                }}
+                className="
+              w-full px-2 py-5
+              flex flex-col items-start gap-1
+              hover:bg-white/20 transition-colors duration-150
+              cursor-pointer border-b border-slate-200
+            "
+              >
+                <span className="text-lg font-semibold">Login</span>
+                <span className="text-sm opacity-80">
+                  If you are already registered
+                </span>
+                <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
+                  Login
+                </span>
+              </div>
+            </div>
+          )}
         </SheetContent>
       </Sheet>
     </nav>
