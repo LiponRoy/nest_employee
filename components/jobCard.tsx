@@ -31,7 +31,7 @@ export const JobCard = ({
   const router = useRouter();
 
   return (
-    <div className="group  md:w-full h-[235px] border rounded-lg shadow-md p-6 bg-white relative">
+    <div className="group  w-full h-[235px] border rounded-lg shadow-md p-6 bg-white relative">
       <div className="w-full flex flex-col justify-start items-start">
         <div className="w-full">
           <div className="flex items-center justify-start space-x-3">

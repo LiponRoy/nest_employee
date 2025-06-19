@@ -12,7 +12,7 @@ import {
 } from "@/constant/Constant";
 import { ILatestJobs } from "@/types/Types";
 import { Button } from "@/components/ui/button";
-import { Search,ArrowUpRight  } from "lucide-react";
+import { Search, ArrowUpRight } from "lucide-react";
 
 const Jobs = () => {
   const router = useRouter();
@@ -25,6 +25,8 @@ const Jobs = () => {
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
   const [jobType, setjobType] = useState<string[]>([]);
   const [gender, setGender] = useState<string[]>([]);
+  //for filter sidebar toggle
+  const [toggle, setToggle] = useState(false);
 
   // for search
   const [inputValue, setInputValue] = useState("");
@@ -107,6 +109,8 @@ const Jobs = () => {
         : [...prev, gender]
     );
   };
+
+  console.log("Toggle is : ", toggle);
 
   if (!hasMounted) return null;
   // if (isLoading) return <p>Loading...</p>;
@@ -225,7 +229,7 @@ const Jobs = () => {
         </div>
 
         {/* Job Results */}
-        <section className="col-span-3 ">
+        <section className="col-span-4 md:col-span-3 ">
           <div className="w-full ">
             {/* // SearchBar */}
             <div className="w-full mx-auto ">
@@ -233,7 +237,7 @@ const Jobs = () => {
                 <Search size={24} className=" absolute left-2 text-slate-500" />
                 <input
                   type="text"
-                  placeholder="Search by job title,category,description ..."
+                  placeholder="Search by job title,category.."
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   className="w-full border border-gray-300 p-3 rounded-lg  pl-11"
@@ -241,16 +245,20 @@ const Jobs = () => {
                 <Button
                   onClick={() => setSearchValue(inputValue)}
                   // className="mt-2 w-full bg-secondary-1  "
-                  className="absolute right-0 bg-secondary-1 text-white h-full w-[120px] rounded-lg "
-                  
+                  className="absolute right-0 bg-secondary-1 text-white h-full w-[60px] md:w-[120px] rounded-lg text-[12px] md:text-[16px]"
                 >
-                  
                   Search
                 </Button>
               </div>
             </div>
             {/* // SearchBar End */}
-            <div className=" my-3">
+            <div className=" my-3 flex justify-between items-center w-full">
+              <span
+                onClick={() => setToggle(!toggle)}
+                className=" bg-secondary-1 p-1 px-2 text-white rounded-md cursor-pointer"
+              >
+                Filter ++
+              </span>
               <span>
                 Found <span className=" mx-1">{jobs?.meta?.total} </span>Jobs
               </span>
@@ -284,6 +292,135 @@ const Jobs = () => {
             </div>
           </div>
         </section>
+        {/* // mobile sideBar for filtering */}
+
+        {toggle && (
+          <div className="md:hidden fixed right-0 w-[60%] h-full bg-slate-100 z-50 transition-transform duration-300 ease-in-out translate-x-0">
+            <div
+              onClick={() => setToggle(false)}
+              className=" absolute top-3 left-3 bg-red-400  w-8 h-8 text-white rounded-full flex-center cursor-pointer"
+            >
+              X
+            </div>
+            {/* Filters */}
+            <div className="pl-6 pt-12 rounded-lg ">
+              {/* // Job Category Filter CheckBoxs */}
+              <div className="mt-2">
+                <h6 className="font-normal text-[16px]">Job Category</h6>
+                {optionCategories.map(({ title }) => (
+                  <label
+                    key={title}
+                    className="flex items-center gap-2 my-2 cursor-pointer font-normal text-[14px]"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={categoryFilter.includes(title)}
+                      onChange={() => toggleCategory(title)}
+                      className="hidden peer"
+                    />
+                    <div className="w-4 h-4 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                      {categoryFilter.includes(title) && (
+                        <svg
+                          className="w-4 h-4 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                    <span>{title}</span>
+                  </label>
+                ))}
+              </div>
+              {/* // Job Type Filter CheckBoxs */}
+              <div className="mt-4">
+                <h6 className="font-normal text-[16px] mt-1">Job Type</h6>
+                {optionJobType.map(({ title }) => (
+                  <label
+                    key={title}
+                    className="flex items-center gap-2 my-2 cursor-pointer font-normal text-[14px]"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={jobType.includes(title)}
+                      onChange={() => toggleJobType(title)}
+                      className="hidden peer"
+                    />
+                    <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                      {jobType.includes(title) && (
+                        <svg
+                          className="w-4 h-4 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                    <span>{title}</span>
+                  </label>
+                ))}
+              </div>
+              {/* // Gender Filter CheckBoxs */}
+              <div className="mt-4">
+                <h6 className="font-normal text-[16px] ">Gender</h6>
+                {optionJobGender.map(({ title }) => (
+                  <label
+                    key={title}
+                    className="flex items-center gap-2 my-2 cursor-pointer font-normal text-[14px]"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={gender.includes(title)}
+                      onChange={() => toggleGender(title)}
+                      className="hidden peer"
+                    />
+                    <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                      {gender.includes(title) && (
+                        <svg
+                          className="w-4 h-4 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                    <span>{title}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div  onClick={() => setToggle(false)} className="bg-secondary-1 rounded-md w-[80%] mx-auto py-2 flex justify-center items-center capitalize text-white mt-4">Apply Filter</div>
+          </div>
+        )}
+        {toggle && (
+          <div
+            onClick={() => setToggle(false)}
+            className="absolute right-0 left-0  h-full bg-black opacity-60"
+          ></div>
+        )}
+
+        {/* // End mobile sideBar for filtering */}
       </div>
     </div>
   );

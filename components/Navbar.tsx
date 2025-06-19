@@ -242,7 +242,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/*   For mobile view */}
+      {/*   For mobile sidebar view */}
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button
