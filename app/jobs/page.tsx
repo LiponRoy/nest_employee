@@ -410,13 +410,13 @@ const Jobs = () => {
                 ))}
               </div>
             </div>
-            <div  onClick={() => setToggle(false)} className="bg-secondary-1 rounded-md w-[80%] mx-auto py-2 flex justify-center items-center capitalize text-white mt-4">Apply Filter</div>
+            <div  onClick={() => setToggle(false)} className="bg-secondary-1 rounded-md w-[80%]  mx-auto py-2 flex justify-center items-center capitalize text-white mt-4">Apply Filter</div>
           </div>
         )}
         {toggle && (
           <div
             onClick={() => setToggle(false)}
-            className="absolute right-0 left-0  h-full bg-black opacity-60"
+            className="absolute right-0 left-0 bottom-0 top-0 bg-black opacity-60"
           ></div>
         )}
 

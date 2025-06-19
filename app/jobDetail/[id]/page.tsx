@@ -110,10 +110,10 @@ const JobDetail = () => {
     <>
       <div className="container-custom">
         {/* Header */}
-        <div className="w-full h-1/2 bg-bg-1  pb-20 pt-5">
+        <div className="w-full h-1/2 bg-bg-1 pb-5 md:pb-10 pt-5">
           <div className="w-full h-full flex flex-col justify-start items-start">
             <span className="text-[48px]">{job?.data?.title}</span>
-            <div className="flex justify-start items-center gap-x-6 mt-[22px]">
+            <div className="flex flex-col md:flex-row justify-start items-start md:items-center gap-x-6 mt-[22px] space-y-3 md:space-y-0">
               <div className="flex justify-center items-center gap-x-1">
                 <Backpack className="text-primary-1" />
                 <span className="text-[18px]">{job?.data?.location}</span>
@@ -219,7 +219,7 @@ const JobDetail = () => {
             </Button>
           </div>
           {/* company logo and apply job section */}
-          <div className="col-span-2 w-full  flex flex-col justify-start items-end gap-y-4">
+          <div className="col-span-2  flex flex-col justify-center items-center md:items-end gap-y-4">
             <div className=" relative h-[338px] w-[412px] bg-bg-1 border border-slate-200 shadow-md flex flex-col justify-center items-center gap-y-1">
               <Image
                 src={job?.data?.companyId?.logoImage}
@@ -244,7 +244,7 @@ const JobDetail = () => {
             </div>
             {/* Job Overview */}
 
-            <div className=" relative h-[338px] w-[412px] bg-bg-1 border border-slate-200 shadow-md flex flex-col justify-start items-start gap-y-1 ">
+            <div className=" relative h-[338px] w-[400px] md:w-[412px] bg-bg-1 border border-slate-200 shadow-md flex flex-col justify-start items-start gap-y-1 ">
               <div className="w-full h-10 text-start flex justify-start items-center bg-slate-200">
                 <span className="text-[24px] ml-1">Job Overview</span>
               </div>
