@@ -9,7 +9,7 @@ const GeneralInfo = () => {
         {GeneralInfoData.map((item, index) => (
           <div
             key={index}
-            className="bg-white bg-opacity-10 backdrop-blur-md border border-white/20 rounded-md shadow-md p-2 md:p-6 flex items-center gap-4 text-white hover:shadow-lg transition duration-300 ease-in-out"
+            className="bg-white bg-opacity-10 backdrop-blur-md border border-white/20 rounded-md shadow-md p-2 md:p-4 flex items-center gap-4 text-white hover:shadow-lg transition duration-300 ease-in-out"
           >
             <div className="hidden md:flex text-4xl">{item.icon}</div>
             <div className="flex flex-col">

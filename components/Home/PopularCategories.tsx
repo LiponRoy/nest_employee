@@ -3,7 +3,7 @@ import { PopularCategoriesData } from "@/constant/Constant";
 
 const PopularCategories = () => {
   return (
-    <div className="container-custom mt-10 md:mt-20 ">
+    <div className="container-custom mt-10 md:mt-12">
       <div className="w-full flex flex-col justify-start items-start my-6 bg-slate-100 p-2">
         <span className="text-[24px] md:text-[32px] font-medium">
           Popular Job<span className="text-primary-1 ml-2">Categories</span>

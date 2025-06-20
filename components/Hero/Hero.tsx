@@ -7,7 +7,7 @@ import ScrollAnimatedWrapper from "../GSAP/ScrollAnimatedWrapper ";
 const Hero = () => {
   return (
     <section
-      className="relative h-[40vh] md:h-[50vh] flex items-start justify-start bg-cover bg-center"
+      className="relative h-[45vh] md:h-[60vh] flex items-start justify-start bg-cover bg-center"
       style={{ backgroundImage: "url(/hero-bg.jpg)" }}
     >
       <div className="absolute inset-0 gradient-animation bg-opacity-60"></div>
