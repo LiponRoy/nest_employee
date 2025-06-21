@@ -8,7 +8,7 @@ const page = () => {
     return (
         <div>
             {company?.data?.map((val: any, i: any) => (
-                <div key={i} className="flex flex-col justify-center items-center m-2 border border-slate-200">
+                <div key={i} className="grid grid-cols-4 m-2 border border-slate-200 gap-2">
                     <span>{val.name}</span>
 
                 </div>

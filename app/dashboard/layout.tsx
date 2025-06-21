@@ -21,7 +21,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Main Content */}
-      <div className="flex-1 bg-gray-50 p-4 md:p-6">
+      <div className="flex-1 bg-gray-50 p-2 md:p-1">
         {/* Mobile Menu Button */}
         <button
           className="md:hidden mb-4"

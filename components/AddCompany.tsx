@@ -112,10 +112,10 @@ const AddCOmpanyForm: React.FC = () => {
 
 
     return (
-        <div className="flex justify-center items-center">
-            <div className="w-1/2 flex items-center justify-center bg-white p-6">
+        <div className="w-full flex justify-center items-center"> 
+            <div className="w-full flex items-center justify-center bg-white p-2">
                 <div className="w-full">
-                    <h4 className='text-2xl font-semibold my-4 bg-slate-200 p-2' >Add Company</h4>
+                    <h4 className='text-2xl font-semibold my-2 bg-slate-200 p-2' >Add Company</h4>
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="mb-10 w-full space-y-6 "
