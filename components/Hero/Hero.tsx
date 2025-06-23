@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import SearchBar from "./SearchBar";
+import SearchBar from "../searchBar/SearchBar";
 import GeneralInfo from "../Home/GeneralInfo";
 import ScrollAnimatedWrapper from "../GSAP/ScrollAnimatedWrapper ";
 

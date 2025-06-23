@@ -13,6 +13,7 @@ import {
 import { ILatestJobs } from "@/types/Types";
 import { Button } from "@/components/ui/button";
 import { Search, ArrowUpRight } from "lucide-react";
+import SearchInput from "@/components/searchBar/SearchFilter";
 
 const Jobs = () => {
   const router = useRouter();
@@ -29,7 +30,6 @@ const Jobs = () => {
   const [toggle, setToggle] = useState(false);
 
   // for search
-  const [inputValue, setInputValue] = useState("");
   const [searchValue, setSearchValue] = useState("");
 
   // Avoid hydration mismatch
@@ -83,6 +83,13 @@ const Jobs = () => {
     router.replace(`?${params.toString()}`);
   }, [queryParams, hasMounted, router]);
 
+
+   const handleSearch = (query: string) => {
+    setSearchValue(query)
+  };
+
+//......................................................................
+
   // Toggle category filter
   const toggleCategory = (category: string) => {
     setCategoryFilter((prev) =>
@@ -135,7 +142,7 @@ const Jobs = () => {
                   onChange={() => toggleCategory(title)}
                   className="hidden peer"
                 />
-                <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-full flex items-center justify-center">
                   {categoryFilter.includes(title) && (
                     <svg
                       className="w-4 h-4 text-white"
@@ -170,7 +177,7 @@ const Jobs = () => {
                   onChange={() => toggleJobType(title)}
                   className="hidden peer"
                 />
-                <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-full flex items-center justify-center">
                   {jobType.includes(title) && (
                     <svg
                       className="w-4 h-4 text-white"
@@ -205,7 +212,7 @@ const Jobs = () => {
                   onChange={() => toggleGender(title)}
                   className="hidden peer"
                 />
-                <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-full flex items-center justify-center">
                   {gender.includes(title) && (
                     <svg
                       className="w-4 h-4 text-white"
@@ -232,30 +239,12 @@ const Jobs = () => {
         <section className="col-span-4 md:col-span-3 ">
           <div className="w-full ">
             {/* // SearchBar */}
-            <div className="w-full mx-auto ">
-              <div className="w-full relative flex justify-center items-center ">
-                <Search size={24} className=" absolute left-2 text-slate-500" />
-                <input
-                  type="text"
-                  placeholder="Search by job title,category.."
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  className="w-full border border-gray-300 p-3 rounded-lg  pl-11"
-                />
-                <Button
-                  onClick={() => setSearchValue(inputValue)}
-                  // className="mt-2 w-full bg-secondary-1  "
-                  className="absolute right-0 bg-secondary-1 text-white h-full w-[60px] md:w-[120px] rounded-lg text-[12px] md:text-[16px]"
-                >
-                  Search
-                </Button>
-              </div>
-            </div>
+      <SearchInput onSearch={handleSearch} />
             {/* // SearchBar End */}
             <div className=" my-3 flex justify-between items-center w-full">
               <span
                 onClick={() => setToggle(!toggle)}
-                className=" bg-secondary-1 p-1 px-2 text-white rounded-md cursor-pointer"
+                className="md:hidden bg-secondary-1 p-1 px-2 text-white rounded-md cursor-pointer"
               >
                 Filter ++
               </span>
@@ -318,7 +307,7 @@ const Jobs = () => {
                       onChange={() => toggleCategory(title)}
                       className="hidden peer"
                     />
-                    <div className="w-4 h-4 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                    <div className="w-4 h-4 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-full flex items-center justify-center">
                       {categoryFilter.includes(title) && (
                         <svg
                           className="w-4 h-4 text-white"
@@ -353,7 +342,7 @@ const Jobs = () => {
                       onChange={() => toggleJobType(title)}
                       className="hidden peer"
                     />
-                    <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                    <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-full flex items-center justify-center">
                       {jobType.includes(title) && (
                         <svg
                           className="w-4 h-4 text-white"
@@ -388,7 +377,7 @@ const Jobs = () => {
                       onChange={() => toggleGender(title)}
                       className="hidden peer"
                     />
-                    <div className="w-5 h-5 bg-orange-200 peer-checked:bg-secondary-1 border rounded flex items-center justify-center">
+                    <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-full flex items-center justify-center">
                       {gender.includes(title) && (
                         <svg
                           className="w-4 h-4 text-white"
