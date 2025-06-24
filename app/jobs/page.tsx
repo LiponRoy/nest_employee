@@ -142,7 +142,7 @@ const Jobs = () => {
                   onChange={() => toggleCategory(title)}
                   className="hidden peer"
                 />
-                <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-full flex items-center justify-center">
+                <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-md flex items-center justify-center">
                   {categoryFilter.includes(title) && (
                     <svg
                       className="w-4 h-4 text-white"
@@ -177,7 +177,7 @@ const Jobs = () => {
                   onChange={() => toggleJobType(title)}
                   className="hidden peer"
                 />
-                <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-full flex items-center justify-center">
+                <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-md flex items-center justify-center">
                   {jobType.includes(title) && (
                     <svg
                       className="w-4 h-4 text-white"
@@ -212,7 +212,7 @@ const Jobs = () => {
                   onChange={() => toggleGender(title)}
                   className="hidden peer"
                 />
-                <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-full flex items-center justify-center">
+                <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-md flex items-center justify-center">
                   {gender.includes(title) && (
                     <svg
                       className="w-4 h-4 text-white"

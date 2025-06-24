@@ -112,11 +112,6 @@ export const PopularCategoriesData = [
     icon: <BriefcaseBusiness />,
   },
   {
-    name: "Software Developer",
-    title: "53 open position",
-    icon: <BriefcaseBusiness />,
-  },
-  {
     name: "IT Support",
     title: "122 open position",
     icon: <BriefcaseBusiness />,
@@ -133,6 +128,11 @@ export const PopularCategoriesData = [
   {
     name: "Garments & Textile Industry",
     title: "12 open position",
+    icon: <BriefcaseBusiness />,
+  },
+  {
+    name: "Healthcare",
+    title: "53 open position",
     icon: <BriefcaseBusiness />,
   },
 ];

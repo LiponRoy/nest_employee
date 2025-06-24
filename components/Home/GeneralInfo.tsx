@@ -4,7 +4,7 @@ import CountUp from "react-countup";
 
 const GeneralInfo = () => {
   return (
-    <div className="container-custom mx-auto py-8">
+    <div className=" mx-auto py-8">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-6">
         {GeneralInfoData.map((item, index) => (
           <div
