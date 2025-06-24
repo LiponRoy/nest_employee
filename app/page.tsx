@@ -3,6 +3,7 @@ import ScrollAnimatedWrapper from "@/components/GSAP/ScrollAnimatedWrapper ";
 import Hero from "@/components/Hero/Hero";
 import BannerForAuth from "@/components/Home/BannerForAuth";
 import PopularCategories from "@/components/Home/PopularCategories";
+import JobInterviewsFAQ from "@/components/JobInterviewsFAQ";
 import LatestJobs from "@/components/LatestJobs";
 import CompanyLogoData from "@/components/TrustedCompanies/CompanyLogoData";
 
@@ -20,6 +21,7 @@ export default function Home() {
        <LatestJobs />
       </ScrollAnimatedWrapper>
       <Reviews />
+      <JobInterviewsFAQ/>
       <BannerForAuth />
     </div>
   );
