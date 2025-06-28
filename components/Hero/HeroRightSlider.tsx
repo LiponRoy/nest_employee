@@ -10,7 +10,7 @@ const HeroRightSlider = () => {
     infinite: true,
     autoplay: true,
     autoplaySpeed: 5000,
-    speed: 600,
+    speed: 1200,
     slidesToShow: 1,
     slidesToScroll: 1,
     pauseOnHover: true,
@@ -73,8 +73,8 @@ const sliderContent = [
       <Slider {...settings}>
         {sliderContent.map((item, index) => (
           <div key={index} className="p-2 space-y-2">
-            <h4 className="font-semibold text-base">{item.title}</h4>
-            <p className="text-sm">{item.description}</p>
+            <h4 className="font-semibold text-[18px] text-justify mb-1">{item.title}</h4>
+            <p className="text-[16px] font-light text-justify">{item.description}</p>
           </div>
         ))}
       </Slider>

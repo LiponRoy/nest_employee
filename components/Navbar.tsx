@@ -159,7 +159,7 @@ export default function Navbar() {
           font-medium cursor-pointer
         "
               >
-                <span>Login or Create Account</span>
+                <span className=" mx-2">Login or Create Account</span>
                 <ListFilter size={18} className="ml-2 text-primary-1" />
               </DropdownMenuTrigger>
 
