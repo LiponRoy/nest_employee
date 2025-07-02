@@ -63,10 +63,14 @@ import { useGetJobByIdQuery } from "@/redux/rtk/jobsApi";
 import { useApplyForJobMutation } from "@/redux/rtk/applicationApi";
 import { errorToast, successToast } from "@/components/Toast";
 import { useGetProfileQuery } from "@/redux/rtk/auth";
+import { useAppDispatch } from "@/redux/hooks";
+import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
 
 const JobDetail = () => {
   const { id } = useParams();
   const jobId = id as string;
+    const dispatch = useAppDispatch();
+
 
   // this is for get current login user
   const { data: currentUser } = useGetProfileQuery({});
@@ -91,6 +95,9 @@ const JobDetail = () => {
   // Role Based Access End
 
   const handleApply = async () => {
+    if(!currentUser){
+       dispatch(openLoginModal())
+    }
     if (isEmployer || isAdmin) {
       successToast("To Apply Login As An Job Seeker");
       return;
@@ -212,11 +219,12 @@ const JobDetail = () => {
             <Button
               onClick={handleApply}
               disabled={isApplying}
-              className="w-[50%] rounded-md bg-secondary-1 hover:bg-secondary-1 "
+              className="w-[50%] rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
             >
-              {/* Apply This Possition */}
-              {isJobSeeker? "Apply This Possition" : "Login to Apply"}
+              {/* // Apply Btn */}
+              {isJobSeeker? "Apply This Possition" : "Login as jobseeker to apply"}
             </Button>
+            
           </div>
           {/* company logo and apply job section */}
           <div className="col-span-2  flex flex-col justify-center items-center md:items-end gap-y-4">
@@ -236,10 +244,10 @@ const JobDetail = () => {
 
               <Button
                 onClick={handleApply}
-                className="w-[80%] absolute bottom-6  rounded-md bg-secondary-1 hover:bg-secondary-1"
+                className="w-[80%] absolute bottom-6  rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
               >
-                
-              {isJobSeeker? "Apply This Position" : "Login to Apply"}
+                {/* // Apply Btn */}
+              {isJobSeeker? "Apply This Position" : "Login as jobseeker to apply"}
               </Button>
             </div>
             {/* Job Overview */}

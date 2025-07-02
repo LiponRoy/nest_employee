@@ -42,7 +42,7 @@ const Login = () => {
     // console.log("modal data: ", data);
     try {
       await login(data).unwrap();
-      router.push("/profile");
+      router.push("/jobs");
       successToast("login Successfully")
       dispatch(closeLoginModal())
     } catch (err) {

@@ -12,6 +12,7 @@ import { useSignupMutation } from "@/redux/rtk/auth";
 import { useRouter } from "next/navigation";
 import { closeEmployerRegisterModal } from "@/redux/slices/employerRegisterFormModalSlice";
 import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
+import { successToast } from "../Toast";
 
 const schema = z.object({
   name: z
@@ -51,8 +52,11 @@ const RegisterForEmployer = () => {
     // console.log("modal data: ", data);
     try {
       await signup(data).unwrap();
-      router.push("/"); // Redirect after signup
-      window.alert("Signup Successfully");
+       router.push("/"); // Redirect after signup
+            successToast("Employer Signup Successfully")
+            dispatch(closeEmployerRegisterModal())
+            dispatch(openLoginModal());
+
     } catch (err) {
       console.error("Signup failed", err);
     }
@@ -64,7 +68,7 @@ const RegisterForEmployer = () => {
     }
 
   const bodyContent = (
-    <div className=" grid grid-cols-6">
+    <div className="w-full grid grid-cols-6">
       {/* <div className="col-span-1 h-full bg-blue-900"></div> */}
       <div
         className="col-span-2 h-full flex items-center justify-center bg-cover bg-center "

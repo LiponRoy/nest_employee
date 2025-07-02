@@ -12,6 +12,7 @@ import { closeRegisterModal } from "@/redux/slices/registerFormModalSlice";
 import { useSignupMutation } from "@/redux/rtk/auth";
 import { useRouter } from "next/navigation";
 import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
+import { successToast } from "../Toast";
 
 const schema = z.object({
   name: z
@@ -50,7 +51,10 @@ const Register = () => {
     try {
       await signup(data).unwrap();
       router.push("/"); // Redirect after signup
-      window.alert("Signup Successfully");
+      successToast("Signup Successfully")
+      dispatch(closeRegisterModal())
+      dispatch(openLoginModal());
+
     } catch (err) {
       console.error("Signup failed", err);
     }
