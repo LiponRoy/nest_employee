@@ -60,265 +60,317 @@ import Image from "next/image";
 // import RelatedJobs from "@/components/RelatedJobs";
 import { useParams } from "next/navigation";
 import { useGetJobByIdQuery } from "@/redux/rtk/jobsApi";
-import { useApplyForJobMutation } from "@/redux/rtk/applicationApi";
+import {
+    useAppliedJobsByUserQuery,
+    useApplyForJobMutation,
+} from "@/redux/rtk/applicationApi";
 import { errorToast, successToast } from "@/components/Toast";
 import { useGetProfileQuery } from "@/redux/rtk/auth";
 import { useAppDispatch } from "@/redux/hooks";
 import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
+import Jobs from "./../../jobs/page";
 
 const JobDetail = () => {
-  const { id } = useParams();
-  const jobId = id as string;
+    const { id } = useParams();
+    const [alreadyApplied, setAlreadyApplied] = useState(false);
+    const jobId = id as string;
     const dispatch = useAppDispatch();
 
+    // this is for get current login user
+    const { data: currentUser } = useGetProfileQuery({});
 
-  // this is for get current login user
-  const { data: currentUser } = useGetProfileQuery({});
+    // this is for get single job
+    const { data: job, isLoading, error } = useGetJobByIdQuery(jobId);
+    // this is for apply job
+    const [applyForJob, { isLoading: isApplying, isSuccess, isError }] =
+        useApplyForJobMutation();
 
-  // this is for get single job
-  const { data: job, isLoading, error } = useGetJobByIdQuery(jobId);
-  // this is for apply job
-  const [applyForJob, { isLoading: isApplying, isSuccess, isError }] =
-    useApplyForJobMutation();
+    // Role Based Access
+    const [isJobSeeker, setIsJobSeeker] = useState(false);
+    const [isEmployer, setIsEmployer] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+    useEffect(() => {
+        if (currentUser) {
+            setIsJobSeeker(currentUser.data.role === "job_seeker");
+            setIsEmployer(currentUser.data.role === "employer");
+            setIsAdmin(currentUser.data.role === "admin");
+        }
+    }, [currentUser]);
+    // Role Based Access End
 
-  // Role Based Access
-  const [isJobSeeker, setIsJobSeeker] = useState(false);
-  const [isEmployer, setIsEmployer] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  useEffect(() => {
-    if (currentUser) {
-      setIsJobSeeker(currentUser.data.role === "job_seeker");
-      setIsEmployer(currentUser.data.role === "employer");
-      setIsAdmin(currentUser.data.role === "admin");
-    }
-  }, [currentUser]);
-  // Role Based Access End
+    useEffect(() => {
+        isAlreadyApplied();
+    }, [currentUser]);
 
-  const handleApply = async () => {
-    if(!currentUser){
-       dispatch(openLoginModal())
-    }
-    if (isEmployer || isAdmin) {
-      successToast("To Apply Login As An Job Seeker");
-      return;
-    }
-    try {
-      await applyForJob(jobId).unwrap();
-      successToast("Applied successfully!");
-    } catch (err:any) {
-      console.error("Application failed:", err);
-      errorToast(err?.data?.message || 'An error occurred');
-    }
-  };
+    const isAlreadyApplied = () => {
+        const exists = currentUser?.data?.myAppliedJobs.some((item) => item === id);
+        setAlreadyApplied(exists);
+    };
 
-  if (isLoading) return <div>Loading job details...</div>;
-  if (error) return <div>Failed to load job.</div>;
-  return (
-    <>
-      <div className="container-custom">
-        {/* Header */}
-        <div className="w-full h-1/2 bg-bg-1 pb-5 md:pb-10 pt-5">
-          <div className="w-full h-full flex flex-col justify-start items-start">
-            <span className="text-[48px]">{job?.data?.title}</span>
-            <div className="flex flex-col md:flex-row justify-start items-start md:items-center gap-x-6 mt-[22px] space-y-3 md:space-y-0">
-              <div className="flex justify-center items-center gap-x-1">
-                <Backpack className="text-primary-1" />
-                <span className="text-[18px]">{job?.data?.location}</span>
-              </div>
-              <div className="flex justify-center items-center gap-x-1">
-                <Backpack className="text-primary-1" />
+    const handleApply = async () => {
+        if (!currentUser) {
+            dispatch(openLoginModal());
+        }
+        if (isEmployer || isAdmin) {
+            successToast("To Apply Login As An Job Seeker");
+            return;
+        }
+        try {
+            await applyForJob(jobId).unwrap();
+            successToast("Applied successfully!");
+        } catch (err: any) {
+            console.error("Application failed:", err);
+            errorToast(err?.data?.message || "An error occurred");
+        }
+    };
 
-                <span className="text-[18px]">{job?.data?.jobType}</span>
-              </div>
-              <div className="flex justify-center items-center gap-x-1">
-                <Backpack className="text-primary-1" />
+    if (isLoading) return <div>Loading job details...</div>;
+    if (error) return <div>Failed to load job.</div>;
+    return (
+        <>
+            <div className="container-custom">
+                {/* Header */}
+                <div className="w-full h-1/2 bg-bg-1 pb-5 md:pb-10 pt-5">
+                    <div className="w-full h-full flex flex-col justify-start items-start">
+                        <span className="text-[48px]">{job?.data?.title}</span>
+                        <div className="flex flex-col md:flex-row justify-start items-start md:items-center gap-x-6 mt-[22px] space-y-3 md:space-y-0">
+                            <div className="flex justify-center items-center gap-x-1">
+                                <Backpack className="text-primary-1" />
+                                <span className="text-[18px]">
+                                    {job?.data?.location}
+                                </span>
+                            </div>
+                            <div className="flex justify-center items-center gap-x-1">
+                                <Backpack className="text-primary-1" />
 
-                <span className="text-[18px]">1 Years Ago</span>
-              </div>
-              <div className="flex justify-center items-center gap-x-1">
-                <Backpack className="text-primary-1" />
+                                <span className="text-[18px]">
+                                    {job?.data?.jobType}
+                                </span>
+                            </div>
+                            <div className="flex justify-center items-center gap-x-1">
+                                <Backpack className="text-primary-1" />
 
-                <span className="text-[16px]">
-                  {`BDT ${job?.data?.minSalary.toLocaleString(
-                    "en-IN"
-                  )} - ${job?.data?.maxSalary.toLocaleString("en-IN")} Monthly`}
-                </span>
-              </div>
+                                <span className="text-[18px]">1 Years Ago</span>
+                            </div>
+                            <div className="flex justify-center items-center gap-x-1">
+                                <Backpack className="text-primary-1" />
+
+                                <span className="text-[16px]">
+                                    {`BDT ${job?.data?.minSalary.toLocaleString(
+                                        "en-IN"
+                                    )} - ${job?.data?.maxSalary.toLocaleString(
+                                        "en-IN"
+                                    )} Monthly`}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-start items-center gap-x-2 mt-[24px]">
+                            {job?.data?.skillAndExperience?.map((val, i) => (
+                                <div
+                                    key={i}
+                                    className="w-full flex justify-start items-center gap-x-2 bg-slate-200 p-1 rounded-lg"
+                                >
+                                    <span>{val?.title}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                {/* Header End*/}
+                <div className="grid grid-cols-1 md:grid-cols-5">
+                    <div className="col-span-3 space-y-2">
+                        {/* Job Description */}
+                        <div className="w-full flex flex-col justify-start items-start">
+                            <h4 className="text-[24px] font-semibold">
+                                Job Description :
+                            </h4>
+                            <p>{job?.data?.description}</p>
+                        </div>
+                        {/* Job Description End */}
+                        {/* Job Responsibility */}
+                        <div className="w-full flex flex-col justify-start items-start">
+                            <h4 className="text-[24px] font-semibold">
+                                Responsibility :
+                            </h4>
+                            {job?.data?.responsibility?.map((val, i) => (
+                                <div
+                                    key={i}
+                                    className="w-full flex justify-start items-center gap-x-2  p-1"
+                                >
+                                    <ul>
+                                        <li>- {val?.title}</li>
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+                        {/* Job Responsibility End */}
+                        {/* Job requirements */}
+                        <div className="w-full flex flex-col justify-start items-start">
+                            <h4 className="text-[24px] font-semibold">
+                                Requirements :
+                            </h4>
+
+                            {job?.data?.requirements?.map((val, i) => (
+                                <div
+                                    key={i}
+                                    className="w-full flex justify-start items-center gap-x-2  p-1"
+                                >
+                                    <ul>
+                                        <li>- {val?.title}</li>
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+                        {/* requirements End */}
+                        {/* Salary and Benefits */}
+                        <div className="w-full flex flex-col justify-start items-start">
+                            <h4 className="text-[24px] font-semibold">
+                                Salary and Benefits :
+                            </h4>
+
+                            {job?.data?.salaryAndBenefits?.map((val, i) => (
+                                <div
+                                    key={i}
+                                    className="w-full flex justify-start items-center gap-x-2  p-1"
+                                >
+                                    <ul>
+                                        <li>- {val?.title}</li>
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+                        {/* Salary and Benefits End */}
+
+                        {alreadyApplied?<div className="w-[20%] absolute  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">Already applied</div>:<Button
+                            onClick={handleApply}
+                            disabled={isApplying || alreadyApplied}
+                            className="w-[50%] rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
+                        >
+                            {/* // Apply Btn */}
+                            {isJobSeeker
+                                ? "Apply This Possition"
+                                : "Login as jobseeker to apply"}
+                        </Button>}
+                        
+                    </div>
+                    {/* company logo and apply job section */}
+                    <div className="col-span-2  flex flex-col justify-center items-center md:items-end gap-y-4">
+                        <div className=" relative h-[338px] w-[412px] bg-bg-1 border border-slate-200 shadow-md flex flex-col justify-center items-center gap-y-1">
+                            <Image
+                                src={job?.data?.companyId?.logoImage}
+                                alt="Example Image"
+                                width={300}
+                                height={300}
+                                priority
+                                className="w-[120px] h-[90px]"
+                            />
+                            <span className="text-[32px] font-semibold">
+                                {job?.data?.companyId?.name}{" "}
+                            </span>
+                            <span className="text-[18px] font-normal">
+                                Visit Website
+                            </span>
+                            {alreadyApplied?<div className="w-[80%] absolute bottom-6  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">Already applied</div>:<Button
+                                onClick={handleApply}
+                                disabled={isApplying}
+                                className="w-[80%] absolute bottom-6  rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
+                            >
+                                {/* // Apply Btn */}
+                                {isJobSeeker
+                                    ? "Apply This Position"
+                                    : "Login as jobseeker to apply"}
+                            </Button>}
+
+                            
+                        </div>
+                        {/* Job Overview */}
+
+                        <div className=" relative h-[338px] w-[400px] md:w-[412px] bg-bg-1 border border-slate-200 shadow-md flex flex-col justify-start items-start gap-y-1 ">
+                            <div className="w-full h-10 text-start flex justify-start items-center bg-slate-200">
+                                <span className="text-[24px] ml-1">
+                                    Job Overview
+                                </span>
+                            </div>
+
+                            <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
+                                <div className="flex justify-center items-center gap-1">
+                                    <Backpack size={20} />
+                                    <span className="text-[18px]">
+                                        Date Posted
+                                    </span>
+                                </div>
+                                <span className="text-[16px]">
+                                    {job?.data?.datePosted}
+                                </span>
+                            </div>
+                            <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
+                                <div className="flex justify-center items-center gap-1">
+                                    <Backpack size={20} />
+                                    <span className="text-[18px]">Vacancy</span>
+                                </div>
+                                <span className="text-[16px]">
+                                    {job?.data?.vacancy}
+                                </span>
+                            </div>
+                            <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
+                                <div className="flex justify-center items-center gap-1">
+                                    <Backpack size={20} />
+                                    <span className="text-[18px]">
+                                        Experience
+                                    </span>
+                                </div>
+                                <span className="text-[16px]">
+                                    {job?.data?.experienceLevel} Years
+                                </span>
+                            </div>
+                            <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
+                                <div className="flex justify-center items-center gap-1">
+                                    <Backpack size={20} />
+                                    <span className="text-[18px]">
+                                        Offered Salary
+                                    </span>
+                                </div>
+                                <span className="text-[16px]">{`BDT ${job?.data?.minSalary.toLocaleString(
+                                    "en-IN"
+                                )} - ${job?.data?.maxSalary.toLocaleString(
+                                    "en-IN"
+                                )} Monthly`}</span>
+                            </div>
+                            <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
+                                <div className="flex justify-center items-center gap-1">
+                                    <Backpack size={20} />
+                                    <span className="text-[18px]">Gender</span>
+                                </div>
+                                <span className="text-[16px]">
+                                    {job?.data?.gender}
+                                </span>
+                            </div>
+                            <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
+                                <div className="flex justify-center items-center gap-1">
+                                    <Backpack size={20} />
+                                    <span className="text-[18px]">
+                                        Job Deadline
+                                    </span>
+                                </div>
+                                <span className="text-[16px]">
+                                    {job?.data?.dateDeadline}
+                                </span>
+                            </div>
+                        </div>
+                        {/* Job Overview End */}
+                    </div>
+                    {/* company logo and apply job section */}
+                </div>
+                {/* // related Job */}
+                <div className="w-full">
+                    <h4 className="text-[48px]">Related Jobs</h4>
+
+                    {/* <RelatedJobs /> */}
+                </div>
             </div>
-
-            <div className="flex justify-start items-center gap-x-2 mt-[24px]">
-              {job?.data?.skillAndExperience?.map((val, i) => (
-                <div
-                  key={i}
-                  className="w-full flex justify-start items-center gap-x-2 bg-slate-200 p-1 rounded-lg"
-                >
-                  <span>{val?.title}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        {/* Header End*/}
-        <div className="grid grid-cols-1 md:grid-cols-5">
-          <div className="col-span-3 space-y-2">
-            {/* Job Description */}
-            <div className="w-full flex flex-col justify-start items-start">
-              <h4 className="text-[24px] font-semibold">Job Description :</h4>
-              <p>{job?.data?.description}</p>
-            </div>
-            {/* Job Description End */}
-            {/* Job Responsibility */}
-            <div className="w-full flex flex-col justify-start items-start">
-              <h4 className="text-[24px] font-semibold">Responsibility :</h4>
-              {job?.data?.responsibility?.map((val, i) => (
-                <div
-                  key={i}
-                  className="w-full flex justify-start items-center gap-x-2  p-1"
-                >
-                  <ul>
-                    <li>- {val?.title}</li>
-                  </ul>
-                </div>
-              ))}
-            </div>
-            {/* Job Responsibility End */}
-            {/* Job requirements */}
-            <div className="w-full flex flex-col justify-start items-start">
-              <h4 className="text-[24px] font-semibold">Requirements :</h4>
-
-              {job?.data?.requirements?.map((val, i) => (
-                <div
-                  key={i}
-                  className="w-full flex justify-start items-center gap-x-2  p-1"
-                >
-                  <ul>
-                    <li>- {val?.title}</li>
-                  </ul>
-                </div>
-              ))}
-            </div>
-            {/* requirements End */}
-            {/* Salary and Benefits */}
-            <div className="w-full flex flex-col justify-start items-start">
-              <h4 className="text-[24px] font-semibold">
-                Salary and Benefits :
-              </h4>
-
-              {job?.data?.salaryAndBenefits?.map((val, i) => (
-                <div
-                  key={i}
-                  className="w-full flex justify-start items-center gap-x-2  p-1"
-                >
-                  <ul>
-                    <li>- {val?.title}</li>
-                  </ul>
-                </div>
-              ))}
-            </div>
-            {/* Salary and Benefits End */}
-            <Button
-              onClick={handleApply}
-              disabled={isApplying}
-              className="w-[50%] rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
-            >
-              {/* // Apply Btn */}
-              {isJobSeeker? "Apply This Possition" : "Login as jobseeker to apply"}
-            </Button>
-            
-          </div>
-          {/* company logo and apply job section */}
-          <div className="col-span-2  flex flex-col justify-center items-center md:items-end gap-y-4">
-            <div className=" relative h-[338px] w-[412px] bg-bg-1 border border-slate-200 shadow-md flex flex-col justify-center items-center gap-y-1">
-              <Image
-                src={job?.data?.companyId?.logoImage}
-                alt="Example Image"
-                width={300}
-                height={300}
-                priority
-                className="w-[120px] h-[90px]"
-              />
-              <span className="text-[32px] font-semibold">
-                {job?.data?.companyId?.name}{" "}
-              </span>
-              <span className="text-[18px] font-normal">Visit Website</span>
-
-              <Button
-                onClick={handleApply}
-                className="w-[80%] absolute bottom-6  rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
-              >
-                {/* // Apply Btn */}
-              {isJobSeeker? "Apply This Position" : "Login as jobseeker to apply"}
-              </Button>
-            </div>
-            {/* Job Overview */}
-
-            <div className=" relative h-[338px] w-[400px] md:w-[412px] bg-bg-1 border border-slate-200 shadow-md flex flex-col justify-start items-start gap-y-1 ">
-              <div className="w-full h-10 text-start flex justify-start items-center bg-slate-200">
-                <span className="text-[24px] ml-1">Job Overview</span>
-              </div>
-
-              <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
-                <div className="flex justify-center items-center gap-1">
-                  <Backpack size={20} />
-                  <span className="text-[18px]">Date Posted</span>
-                </div>
-                <span className="text-[16px]">{job?.data?.datePosted}</span>
-              </div>
-              <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
-                <div className="flex justify-center items-center gap-1">
-                  <Backpack size={20} />
-                  <span className="text-[18px]">Vacancy</span>
-                </div>
-                <span className="text-[16px]">{job?.data?.vacancy}</span>
-              </div>
-              <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
-                <div className="flex justify-center items-center gap-1">
-                  <Backpack size={20} />
-                  <span className="text-[18px]">Experience</span>
-                </div>
-                <span className="text-[16px]">
-                  {job?.data?.experienceLevel} Years
-                </span>
-              </div>
-              <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
-                <div className="flex justify-center items-center gap-1">
-                  <Backpack size={20} />
-                  <span className="text-[18px]">Offered Salary</span>
-                </div>
-                <span className="text-[16px]">{`BDT ${job?.data?.minSalary.toLocaleString(
-                  "en-IN"
-                )} - ${job?.data?.maxSalary.toLocaleString(
-                  "en-IN"
-                )} Monthly`}</span>
-              </div>
-              <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
-                <div className="flex justify-center items-center gap-1">
-                  <Backpack size={20} />
-                  <span className="text-[18px]">Gender</span>
-                </div>
-                <span className="text-[16px]">{job?.data?.gender}</span>
-              </div>
-              <div className="w-full h-10 text-start flex justify-between items-center border-b border-slate-200 my-1 px-2">
-                <div className="flex justify-center items-center gap-1">
-                  <Backpack size={20} />
-                  <span className="text-[18px]">Job Deadline</span>
-                </div>
-                <span className="text-[16px]">{job?.data?.dateDeadline}</span>
-              </div>
-            </div>
-            {/* Job Overview End */}
-          </div>
-          {/* company logo and apply job section */}
-        </div>
-        {/* // related Job */}
-        <div className="w-full">
-          <h4 className="text-[48px]">Related Jobs</h4>
-
-          {/* <RelatedJobs /> */}
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 };
 
 export default JobDetail;

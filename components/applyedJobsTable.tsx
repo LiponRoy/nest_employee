@@ -27,7 +27,7 @@ export default function applyedJobsTable({ applyedJobs }: any) {
             <TableBody>
                 {applyedJobs?.map((job) => (
                     <TableRow key={job._id}>
-                        <TableCell>{job.job?.title}</TableCell>
+                        <TableCell>{job.job?._id}</TableCell>
                         <TableCell>{job?.status}</TableCell>
                         {/* <TableCell>{job.role}</TableCell> */}
                     </TableRow>
