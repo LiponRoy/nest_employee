@@ -21,9 +21,15 @@ export const applicationApi = baseApi.injectEndpoints({
 			query: () => '/application/appliedJobsAll',
 			providesTags: ['Application'],
 		}),
+
+		getApplicantsByJobId: builder.query<any, string>({
+			query: (id) => `application/getApplicantsByJobId/${id}`,
+		}),
+
+
 	}),
 });
 
 // Export hooks
-export const { useApplyForJobMutation, useAppliedJobsByUserQuery } =
+export const { useApplyForJobMutation, useAppliedJobsByUserQuery,useGetApplicantsByJobIdQuery } =
 	applicationApi;

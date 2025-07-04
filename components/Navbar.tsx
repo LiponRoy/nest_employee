@@ -106,36 +106,14 @@ export default function Navbar() {
 
                       <DropdownMenuItem>
                         <span
-                          onClick={() => router.push("/getJobByCreator")}
+                          onClick={() => router.push("/dashboard")}
                           className="cursor-pointer w-full"
                         >
-                          Jobs
+                          Dashboard
                         </span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <span
-                          onClick={() => router.push("/getCompanyByCreator")}
-                          className="cursor-pointer w-full"
-                        >
-                          Companes
-                        </span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <span
-                          onClick={() => router.push("/addJob")}
-                          className="cursor-pointer w-full"
-                        >
-                          Add Job
-                        </span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <span
-                          onClick={() => router.push("/addCompany")}
-                          className="cursor-pointer w-full "
-                        >
-                          Add Company
-                        </span>
-                      </DropdownMenuItem>
+                     
+                    
                     </div>
                   )}
                   <DropdownMenuSeparator />
@@ -266,30 +244,14 @@ export default function Navbar() {
               </span>
               {isUserEmployer && (
                 <div className="flex flex-col justify-start items-start space-y-4">
+                  
                   <span
-                    onClick={() => handleNavigate("/getJobByCreator")}
+                    onClick={() => handleNavigate("/dashboard")}
                     className="cursor-pointer w-full"
                   >
-                    Jobs
+                    dashboard
                   </span>
-                  <span
-                    onClick={() => handleNavigate("/getCompanyByCreator")}
-                    className="cursor-pointer w-full"
-                  >
-                    Companies
-                  </span>
-                  <span
-                    onClick={() => handleNavigate("/addJob")}
-                    className="cursor-pointer w-full"
-                  >
-                    Add Job
-                  </span>
-                  <span
-                    onClick={() => handleNavigate("/addCompany")}
-                    className="cursor-pointer w-full"
-                  >
-                    Add Company
-                  </span>
+                  
                 </div>
               )}
               <LogoutButton />
