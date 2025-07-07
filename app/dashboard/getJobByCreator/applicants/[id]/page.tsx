@@ -37,6 +37,8 @@ const page = () => {
 
   // End reject User code
 
+
+
     return (
         <div className="w-full">
             {applicants?.data?.data.map((val: any, i: any) => (
