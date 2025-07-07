@@ -214,3 +214,14 @@ export const selectFieldStyle = {
 		},
 	}),
 };
+
+export const bangladeshDivisions = [
+  "Dhaka",
+  "Chattogram",
+  "Khulna",
+  "Rajshahi",
+  "Barishal",
+  "Sylhet",
+  "Rangpur",
+  "Mymensingh",
+];

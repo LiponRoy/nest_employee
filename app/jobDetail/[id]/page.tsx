@@ -63,6 +63,7 @@ import { useGetJobByIdQuery } from "@/redux/rtk/jobsApi";
 import {
     useAppliedJobsByUserQuery,
     useApplyForJobMutation,
+    useGetIsAppliedQuery,
 } from "@/redux/rtk/applicationApi";
 import { errorToast, successToast } from "@/components/Toast";
 import { useGetProfileQuery } from "@/redux/rtk/auth";
@@ -72,7 +73,7 @@ import Jobs from "./../../jobs/page";
 
 const JobDetail = () => {
     const { id } = useParams();
-    const [alreadyApplied, setAlreadyApplied] = useState(false);
+    // const [alreadyApplied] = useState(false);
     const jobId = id as string;
     const dispatch = useAppDispatch();
 
@@ -84,6 +85,12 @@ const JobDetail = () => {
     // this is for apply job
     const [applyForJob, { isLoading: isApplying, isSuccess, isError }] =
         useApplyForJobMutation();
+
+        // for already applied true or false  
+        const {
+  data: isAppliedData,
+//   isLoading:isAppliedLogin,
+} = useGetIsAppliedQuery(jobId); // only if logged in
 
     // Role Based Access
     const [isJobSeeker, setIsJobSeeker] = useState(false);
@@ -98,14 +105,14 @@ const JobDetail = () => {
     }, [currentUser]);
     // Role Based Access End
 
-    useEffect(() => {
-        isAlreadyApplied();
-    }, [currentUser]);
+    // useEffect(() => {
+    //     isAlreadyApplied();
+    // }, [currentUser]);
 
-    const isAlreadyApplied = () => {
-        const exists = currentUser?.data?.myAppliedJobs.some((item) => item === id);
-        setAlreadyApplied(exists);
-    };
+    // const isAlreadyApplied = () => {
+    //     const exists = currentUser?.data?.myAppliedJobs.some((item) => item === id);
+    //     setAlreadyApplied(exists);
+    // };
 
     const handleApply = async () => {
         if (!currentUser) {
@@ -150,7 +157,7 @@ const JobDetail = () => {
                             <div className="flex justify-center items-center gap-x-1">
                                 <Backpack className="text-primary-1" />
 
-                                <span className="text-[18px]">1 Years Ago</span>
+                                <span className="text-[18px]">division : {job?.data?.division}</span>
                             </div>
                             <div className="flex justify-center items-center gap-x-1">
                                 <Backpack className="text-primary-1" />
@@ -242,9 +249,9 @@ const JobDetail = () => {
                         </div>
                         {/* Salary and Benefits End */}
 
-                        {alreadyApplied?<div className="w-[20%] absolute  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">Already applied</div>:<Button
+                        {isAppliedData?.applied?<div className="w-[20%] absolute  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">Already applied</div>:<Button
                             onClick={handleApply}
-                            disabled={isApplying || alreadyApplied}
+                            disabled={isApplying || isAppliedData?.applied}
                             className="w-[50%] rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
                         >
                             {/* // Apply Btn */}
@@ -271,7 +278,7 @@ const JobDetail = () => {
                             <span className="text-[18px] font-normal">
                                 Visit Website
                             </span>
-                            {alreadyApplied?<div className="w-[80%] absolute bottom-6  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">Already applied</div>:<Button
+                            {isAppliedData?.applied?<div className="w-[80%] absolute bottom-6  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">Already applied</div>:<Button
                                 onClick={handleApply}
                                 disabled={isApplying}
                                 className="w-[80%] absolute bottom-6  rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
