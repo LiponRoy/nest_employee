@@ -8,7 +8,7 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const page = () => {
+const AllJobs = () => {
     const router = useRouter();
      const [isModalOpen, setIsModalOpen] = useState(false);
     const { data: job, error, isLoading } = useGetJobByCreatorQuery();
@@ -101,14 +101,6 @@ setIsModalOpen(false);
     );
 };
 
-export default page;
+export default AllJobs;
 
-{
-    /* <Button
-          variant="secondary"
-          className="bg-secondary-1 hover:bg-secondary-2 transition text-white px-4 py-2 text-sm flex items-center gap-2 rounded-lg"
-          onClick={() => router.push(`/jobDetail/${id}`)}
-        >
-          Details <ArrowUpRight size={16} />
-        </Button> */
-}
+

@@ -40,6 +40,17 @@ export const applicationApi = baseApi.injectEndpoints({
     }),
 
     // applicationApi.ts
+    acceptApplicant: builder.mutation<
+      { success: boolean; message: string }, // expected response
+      { jobSeeker_id: string; jobId: string } // input args
+    >({
+      query: ({ jobSeeker_id, jobId }) => ({
+        url: `application/accept/${jobSeeker_id}/${jobId}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: (result, error, { jobId }) => [{ type: 'Application', id: jobId }],
+    }),
+
     rejectApplicant: builder.mutation<
       { success: boolean; message: string }, // expected response
       { jobSeeker_id: string; jobId: string } // input args
@@ -59,5 +70,6 @@ export const {
   useAppliedJobsByUserQuery,
   useGetApplicantsByJobIdQuery,
   useGetIsAppliedQuery,
+  useAcceptApplicantMutation,
   useRejectApplicantMutation,
 } = applicationApi;
