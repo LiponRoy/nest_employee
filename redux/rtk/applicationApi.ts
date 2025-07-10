@@ -16,18 +16,27 @@ export const applicationApi = baseApi.injectEndpoints({
         url: `application/create/${jobId}`,
         method: "POST",
       }),
+      invalidatesTags: (result, error,jobId ) => [{ type: 'Application', id: jobId }],
+
     }),
     appliedJobsByUser: builder.query<any, void>({
       query: () => "/application/appliedJobsAll",
-      providesTags: ["Application"],
+      // providesTags: ["Application"],
+      providesTags: (result, error) => [{ type: 'Application'}],
+
     }),
 
     getApplicantsByJobId: builder.query<any, string>({
-      query: (id) => `application/getApplicantsByJobId/${id}`,
+      query: (jobId) => `application/getApplicantsByJobId/${jobId}`,
+      // providesTags: ["Application"],
+      providesTags: (result, error, jobId) => [{ type: 'Application', id: jobId }],
     }),
 
     getIsApplied: builder.query<{ applied: boolean }, string>({
-      query: (jobId) => `/application/is-applied/${jobId}`,
+      query: (jobId) => `application/is-applied/${jobId}`,
+      // providesTags: ["Application"],
+      providesTags: (result, error, jobId) => [{ type: 'Application', id: jobId }],
+
     }),
 
     // applicationApi.ts
@@ -39,6 +48,7 @@ export const applicationApi = baseApi.injectEndpoints({
         url: `application/reject/${jobSeeker_id}/${jobId}`,
         method: "PATCH",
       }),
+      invalidatesTags: (result, error, { jobId }) => [{ type: 'Application', id: jobId }],
     }),
   }),
 });

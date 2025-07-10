@@ -14,7 +14,10 @@ const page = () => {
         data: applicants,
         isLoading,
         error,
-    } = useGetApplicantsByJobIdQuery(jobId);
+        refetch,
+    } = useGetApplicantsByJobIdQuery(jobId,{
+        refetchOnMountOrArgChange: true,
+    });
 
 // this is for reject User code
  const [rejectApplicant, { isLoading:rejectLoading }] = useRejectApplicantMutation();
@@ -25,7 +28,7 @@ const page = () => {
         jobSeeker_id: jobSeekerId,
         jobId,
       }).unwrap();
-
+await refetch(); // manually re-fetch the data
       successToast(res.message || "Applicant rejected successfully");
     } catch (error: any) {
       const errorMessage =

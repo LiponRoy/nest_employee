@@ -1,57 +1,3 @@
-// "use client"
-// import React from 'react'
-// import { useParams } from 'next/navigation';
-// import { useGetJobByIdQuery } from '@/redux/rtk/jobsApi';
-// import { useApplyForJobMutation } from '@/redux/rtk/applicationApi';
-// import { errorToast, successToast } from '@/components/Toast';
-// import UserTable from '@/components/applyedJobsTable';
-
-// const page = () => {
-//     const { id } = useParams();
-//     const jobId = id as string;
-
-//     // this is for get single job
-//     const { data: job, isLoading, error } = useGetJobByIdQuery(jobId);
-//     // this is for apply job
-//     const [applyForJob, { isLoading: isApplying, isSuccess, isError }] = useApplyForJobMutation();
-
-//     const handleApply = async () => {
-//         try {
-//             await applyForJob(jobId).unwrap();
-//             successToast('Applied successfully!');
-//         } catch (err) {
-//             console.error('Application failed:', err);
-//             errorToast("Failed to apply.")
-//         }
-//     };
-
-//     if (isLoading) return <div>Loading job details...</div>;
-//     if (error) return <div>Failed to load job.</div>;
-
-//     return (
-//         <div className="flex flex-col justify-start items-start w-full mx-10">
-//             <span>Details :{job?.data?.description}</span>
-//             <span>Location :{job?.data?.location}</span>
-//             <span>Salary :{job?.data?.maxSalary}</span>
-//             <span>JobId :{job?.data?._id}</span>
-
-//             <button
-//                 onClick={handleApply}
-//                 className="mt-4 px-4 py-2 via-green-400"
-//                 disabled={isApplying}
-//             >
-//                 {isApplying ? 'Applying...' : 'Apply Job'}
-//             </button>
-//             {isSuccess && <p className="text-green-600">Application submitted!</p>}
-//             {isError && <p className="text-red-600">Something went wrong.</p>}
-
-//         </div>
-
-//     )
-// }
-
-// export default page
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { Backpack } from "lucide-react";
@@ -69,11 +15,9 @@ import { errorToast, successToast } from "@/components/Toast";
 import { useGetProfileQuery } from "@/redux/rtk/auth";
 import { useAppDispatch } from "@/redux/hooks";
 import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
-import Jobs from "./../../jobs/page";
 
 const JobDetail = () => {
     const { id } = useParams();
-    // const [alreadyApplied] = useState(false);
     const jobId = id as string;
     const dispatch = useAppDispatch();
 
@@ -86,11 +30,15 @@ const JobDetail = () => {
     const [applyForJob, { isLoading: isApplying, isSuccess, isError }] =
         useApplyForJobMutation();
 
-        // for already applied true or false  
-        const {
-  data: isAppliedData,
-//   isLoading:isAppliedLogin,
-} = useGetIsAppliedQuery(jobId); // only if logged in
+    // for already applied true or false
+    const {
+        data: isAppliedData,
+        isFetching: isCheckingApplied,
+        refetch: refetchIsApplied,
+    } = useGetIsAppliedQuery(jobId, {
+        refetchOnMountOrArgChange: true,
+    });
+    // End for already applied true or false
 
     // Role Based Access
     const [isJobSeeker, setIsJobSeeker] = useState(false);
@@ -105,15 +53,6 @@ const JobDetail = () => {
     }, [currentUser]);
     // Role Based Access End
 
-    // useEffect(() => {
-    //     isAlreadyApplied();
-    // }, [currentUser]);
-
-    // const isAlreadyApplied = () => {
-    //     const exists = currentUser?.data?.myAppliedJobs.some((item) => item === id);
-    //     setAlreadyApplied(exists);
-    // };
-
     const handleApply = async () => {
         if (!currentUser) {
             dispatch(openLoginModal());
@@ -124,6 +63,7 @@ const JobDetail = () => {
         }
         try {
             await applyForJob(jobId).unwrap();
+            await refetchIsApplied(); // <- Force re-check IsApplied
             successToast("Applied successfully!");
         } catch (err: any) {
             console.error("Application failed:", err);
@@ -157,7 +97,9 @@ const JobDetail = () => {
                             <div className="flex justify-center items-center gap-x-1">
                                 <Backpack className="text-primary-1" />
 
-                                <span className="text-[18px]">division : {job?.data?.division}</span>
+                                <span className="text-[18px]">
+                                    division : {job?.data?.division}
+                                </span>
                             </div>
                             <div className="flex justify-center items-center gap-x-1">
                                 <Backpack className="text-primary-1" />
@@ -249,17 +191,22 @@ const JobDetail = () => {
                         </div>
                         {/* Salary and Benefits End */}
 
-                        {isAppliedData?.applied?<div className="w-[20%] absolute  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">Already applied</div>:<Button
-                            onClick={handleApply}
-                            disabled={isApplying || isAppliedData?.applied}
-                            className="w-[50%] rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
-                        >
-                            {/* // Apply Btn */}
-                            {isJobSeeker
-                                ? "Apply This Possition"
-                                : "Login as jobseeker to apply"}
-                        </Button>}
-                        
+                        {isAppliedData && isAppliedData?.data?.data ? (
+                            <div className="w-[20%] absolute  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">
+                                Already applied
+                            </div>
+                        ) : (
+                            <Button
+                                onClick={handleApply}
+                                disabled={isApplying || isAppliedData?.applied}
+                                className="w-[50%] rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
+                            >
+                                {/* // Apply Btn */}
+                                {isJobSeeker
+                                    ? "Apply This Possition"
+                                    : "Login as jobseeker to apply"}
+                            </Button>
+                        )}
                     </div>
                     {/* company logo and apply job section */}
                     <div className="col-span-2  flex flex-col justify-center items-center md:items-end gap-y-4">
@@ -278,18 +225,22 @@ const JobDetail = () => {
                             <span className="text-[18px] font-normal">
                                 Visit Website
                             </span>
-                            {isAppliedData?.applied?<div className="w-[80%] absolute bottom-6  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">Already applied</div>:<Button
-                                onClick={handleApply}
-                                disabled={isApplying}
-                                className="w-[80%] absolute bottom-6  rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
-                            >
-                                {/* // Apply Btn */}
-                                {isJobSeeker
-                                    ? "Apply This Position"
-                                    : "Login as jobseeker to apply"}
-                            </Button>}
-
-                            
+                            {isAppliedData && isAppliedData?.data?.data ? (
+                                <div className="w-[80%] absolute bottom-6  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">
+                                    Already applied
+                                </div>
+                            ) : (
+                                <Button
+                                    onClick={handleApply}
+                                    disabled={isApplying}
+                                    className="w-[80%] absolute bottom-6  rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px]"
+                                >
+                                    {/* // Apply Btn */}
+                                    {isJobSeeker
+                                        ? "Apply This Position"
+                                        : "Login as jobseeker to apply"}
+                                </Button>
+                            )}
                         </div>
                         {/* Job Overview */}
 
