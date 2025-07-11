@@ -92,15 +92,7 @@ export default function Navbar() {
                 <DropdownMenuContent align="end" className="w-24 mt-4">
                   {/* <DropdownMenuLabel className="font-bold">My Account</DropdownMenuLabel> */}
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <span
-                      onClick={() => router.push("/profile")}
-                      className="cursor-pointer w-full"
-                    >
-                      Profile
-                    </span>
-                  </DropdownMenuItem>
-                  {isUserEmployer && (
+                
                     <div>
                       <DropdownMenuSeparator />
 
@@ -115,7 +107,7 @@ export default function Navbar() {
                      
                     
                     </div>
-                  )}
+                  
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <LogoutButton />

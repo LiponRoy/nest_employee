@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useGetProfileQuery } from "@/redux/rtk/auth";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard" },
@@ -10,6 +12,12 @@ const navItems = [
   { href: "/dashboard/addCompany", label: "Create a company" },
   { href: "/dashboard/getJobByCreator", label: "Posted Jobs" },
   { href: "/dashboard/getCompanyByCreator", label: "All companes" },
+];
+
+const jobseekerNavItems = [
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/dashboard/JobSeeker_Profile", label: "Profile" },
+  { href: "/dashboard/JobSeeker-AppliedJobs", label: "Applied Jobs" },
 ];
 
 export default function Sidebar({
@@ -20,6 +28,22 @@ export default function Sidebar({
   onClose: () => void;
 }) {
   const pathname = usePathname();
+
+    // Role Based Access
+    const { data: user, isLoading } = useGetProfileQuery({});
+
+    const [isUserEmployer, setIsUserEmployer] = useState(false);
+    const [isJobseeker, setIsJobseeker] = useState(false);
+
+    useEffect(() => {
+      if (user) {
+        setIsUserEmployer(user.data.role === "employer");
+        setIsJobseeker(user.data.role === "job_seeker");
+      }
+    }, [user]);
+    // Role Based Access End
+
+
 
   return (
     <aside
@@ -42,7 +66,20 @@ export default function Sidebar({
       <h2 className="text-xl font-bold mb-6 hidden md:block">Dashboard</h2>
 
       <ul className="space-y-4">
-        {navItems.map((item) => (
+      {isUserEmployer && navItems?.map((item) => (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              className={`block px-3 py-2 rounded hover:bg-gray-100 ${
+                pathname === item.href ? "bg-gray-200 font-semibold" : ""
+              }`}
+              onClick={onClose} // close drawer on mobile
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      {isJobseeker && jobseekerNavItems?.map((item) => (
           <li key={item.href}>
             <Link
               href={item.href}
