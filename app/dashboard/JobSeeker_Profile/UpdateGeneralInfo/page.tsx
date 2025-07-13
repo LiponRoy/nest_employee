@@ -1,6 +1,8 @@
 "use client"
-import { TextInput } from '@/components/FormInputs';
+import { TextInput,SelectInput } from '@/components/FormInputs';
+import { errorToast, successToast } from '@/components/Toast';
 import { Button } from '@/components/ui/button';
+import { useUpdateProfileGeneralInfoMutation } from '@/redux/rtk/profileApi';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -27,6 +29,19 @@ type FormData = z.infer<typeof profileGeneralInfoSchema>;
 
 const UpdateGeneralInfo = () => {
 
+   const [updateProfileGeneralInfo, { isLoading, error }] = useUpdateProfileGeneralInfoMutation();
+
+  const genterCtegores=[{
+    value:"male",
+    label:"male"
+  },{
+    value:"female",
+    label:"female"
+  },{
+    value:"other",
+    label:"other"
+  }];
+
     const methods = useForm<FormData>({
       resolver: zodResolver(profileGeneralInfoSchema),
       // defaultValues: {
@@ -34,28 +49,30 @@ const UpdateGeneralInfo = () => {
       // },
     });
    
-    const onSubmit: SubmitHandler<FormData> = async (data) => { 
+    const onSubmit: SubmitHandler<FormData> = async (data:any) => { 
       console.log("modal data: ", data);
-      try {
-        // await signup(data).unwrap();
-        // router.push("/"); // Redirect after signup
-        // successToast("Signup Successfully")
-        // dispatch(closeRegisterModal())
-        // dispatch(openLoginModal());
-  
-      } catch (err) {
-        console.error("Signup failed", err);
-      }
+         try {
+           await updateProfileGeneralInfo(data).unwrap();
+           successToast("GeneralInfo Update Successfully")
+         } catch (err) {
+           errorToast("Something went wrong !!", err)
+           console.error("GeneralInfo Update Failed", err);
+         }
     };
+
+
   return (
     <div>
       
-    <div className="flex flex-col flex-1 justify-center p-8 ">
+    <div className="flex flex-col flex-1 justify-center  ">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
+          <div className="w-full flex justify-center items-center bg-red-500">
+          
+          </div>
           <TextInput name="phone" label="Phone" />
-          <TextInput name="gender" label="Gender" />
           <TextInput name="age" label="Age" />
+          <SelectInput name="gender" label="gender" options={genterCtegores}/>
           <TextInput name="bio" label="bio"  />
           <TextInput name="address" label="address"  />
           <TextInput name="about" label="about"  />
