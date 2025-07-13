@@ -2,10 +2,20 @@ import { baseApi } from "./baseApi";
 
 export const profileApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-     
+        getProfileByLoginUser: builder.query< void>({
+      query: () => "/profile/profileDataById",
+    }),
         updateProfileGeneralInfo: builder.mutation({
             query: (formData: FormData) => ({
                 url: "/profile/updateGeneralInfo",
+                method: "PUT",
+                body: formData,
+            }),
+            invalidatesTags: (result, error) => [{ type: 'Profile'}],
+        }),
+        updateProfileEducationInfo: builder.mutation({
+            query: (formData: FormData) => ({
+                url: "/profile/updateEducation",
                 method: "PUT",
                 body: formData,
             }),
@@ -16,5 +26,8 @@ export const profileApi = baseApi.injectEndpoints({
 
 // Export hooks
 export const {
-useUpdateProfileGeneralInfoMutation
+
+useUpdateProfileGeneralInfoMutation,
+useUpdateProfileEducationInfoMutation,
+useGetProfileByLoginUserQuery
 } = profileApi;
