@@ -11,7 +11,7 @@ import { useUpdateProfileEducationInfoMutation } from "@/redux/rtk/profileApi";
 
 // 1️⃣ Zod schema updated
 const formSchema = z.object({
-  responsibility: z
+  education: z
     .array(
       z.object({
         instituteName: z.string().min(1, "instituteName is required"),
@@ -20,7 +20,7 @@ const formSchema = z.object({
         passingYear: z.string().min(1, "PassingYear is required"),
       })
     )
-    .min(1, "At least one responsibility is required"),
+    .min(1, "At least one education is required"),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -32,34 +32,34 @@ const UpdateEducationInfo: React.FC = () => {
     control,
     register,
     handleSubmit,
-    reset,
+    // reset,
     formState: { errors },
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
     defaultValues: {
-      responsibility: [{ instituteName: "", degree: "", cgpa: "" , passingYear: "" }],
+      education: [{ instituteName: "", degree: "", cgpa: "" , passingYear: "" }],
     },
   });
 
   const {
-    fields: responsibilityFields,
-    append: appendResponsibility,
-    remove: removeResponsibility,
+    fields: educationFields,
+    append: appendEducation,
+    remove: removeEducation,
   } = useFieldArray({
     control,
-    name: "responsibility",
+    name: "education",
   });
 
   const onSubmit = async (data: FormSchema) => {
-    console.log("data xx :", data);
+    console.log("Edu data xx :", data);
     const formData = new FormData();
 
-    data.responsibility.forEach((res, index) => {
-      formData.append(`responsibility[${index}][instituteName]`, res.instituteName);
-      formData.append(`responsibility[${index}][degree]`, res.degree);
-      formData.append(`responsibility[${index}][cgpa]`, res.cgpa);
-      formData.append(`responsibility[${index}][passingYear]`, res.passingYear);
+    data.education.forEach((res, index) => {
+      formData.append(`education[${index}][instituteName]`, res.instituteName);
+      formData.append(`education[${index}][degree]`, res.degree);
+      formData.append(`education[${index}][cgpa]`, res.cgpa);
+      formData.append(`education[${index}][passingYear]`, res.passingYear);
     });
 
      try {
@@ -84,18 +84,18 @@ const UpdateEducationInfo: React.FC = () => {
           >
             {/* Responsibility Section */}
             <div>
-              {responsibilityFields.map((field, index) => (
+              {educationFields.map((field, index) => (
                 <div key={field.id} className="mb-4 p-3 border rounded">
                   {/* instituteName */}
                   <div className="mb-2">
                     <input
-                      {...register(`responsibility.${index}.instituteName`)}
+                      {...register(`education.${index}.instituteName`)}
                       className="border-gray-300 w-full rounded border p-2"
                       placeholder="instituteName"
                     />
-                    {errors.responsibility?.[index]?.instituteName && (
+                    {errors.education?.[index]?.instituteName && (
                       <p className="text-red-500 text-sm">
-                        {errors.responsibility[index].instituteName?.message}
+                        {errors.education[index].instituteName?.message}
                       </p>
                     )}
                   </div>
@@ -103,13 +103,13 @@ const UpdateEducationInfo: React.FC = () => {
                   {/* degree */}
                   <div className="mb-2">
                     <textarea
-                      {...register(`responsibility.${index}.degree`)}
+                      {...register(`education.${index}.degree`)}
                       className="border-gray-300 w-full rounded border p-2"
                       placeholder="degree"
                     />
-                    {errors.responsibility?.[index]?.degree && (
+                    {errors.education?.[index]?.degree && (
                       <p className="text-red-500 text-sm">
-                        {errors.responsibility[index].degree?.message}
+                        {errors.education[index].degree?.message}
                       </p>
                     )}
                   </div>
@@ -117,33 +117,33 @@ const UpdateEducationInfo: React.FC = () => {
                   {/* cgpa */}
                   <div className="mb-2">
                     <input
-                      {...register(`responsibility.${index}.cgpa`)}
+                      {...register(`education.${index}.cgpa`)}
                       className="border-gray-300 w-full rounded border p-2"
                       placeholder="cgpa"
                     />
-                    {errors.responsibility?.[index]?.cgpa && (
+                    {errors.education?.[index]?.cgpa && (
                       <p className="text-red-500 text-sm">
-                        {errors.responsibility[index].cgpa?.message}
+                        {errors.education[index].cgpa?.message}
                       </p>
                     )}
                   </div>
                   {/* passingYear */}
                   <div className="mb-2">
                     <input
-                      {...register(`responsibility.${index}.passingYear`)}
+                      {...register(`education.${index}.passingYear`)}
                       className="border-gray-300 w-full rounded border p-2"
                       placeholder="passingYear"
                     />
-                    {errors.responsibility?.[index]?.passingYear && (
+                    {errors.education?.[index]?.passingYear && (
                       <p className="text-red-500 text-sm">
-                        {errors.responsibility[index].passingYear?.message}
+                        {errors.education[index].passingYear?.message}
                       </p>
                     )}
                   </div>
 
                   <button
                     type="button"
-                    onClick={() => removeResponsibility(index)}
+                    onClick={() => removeEducation(index)}
                     className="text-red-500 flex items-center mt-1"
                   >
                     <FiDelete size={20} className="mr-1" />
@@ -156,7 +156,7 @@ const UpdateEducationInfo: React.FC = () => {
                 <button
                   type="button"
                   onClick={() =>
-                    appendResponsibility({
+                    appendEducation({
                       instituteName: "",
                       degree: "",
                       cgpa: "",
