@@ -2,9 +2,9 @@
 import { TextInput,SelectInput } from '@/components/FormInputs';
 import { errorToast, successToast } from '@/components/Toast';
 import { Button } from '@/components/ui/button';
-import { useUpdateProfileGeneralInfoMutation } from '@/redux/rtk/profileApi';
+import { useGetGeneralInfoByLoginUserQuery, useUpdateProfileGeneralInfoMutation } from '@/redux/rtk/profileApi';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from "zod";
 
@@ -15,8 +15,6 @@ const profileGeneralInfoSchema = z.object({
   gender: z.enum(["male", "female", "other"]),
   age: z
     .string(),
-    // .min(0, "Age must be positive")
-    // .max(120, "Age seems unrealistic"),
   bio: z
     .string()
     .min(10, "Bio must be at least 10 characters")
@@ -31,6 +29,9 @@ const UpdateGeneralInfo = () => {
 
    const [updateProfileGeneralInfo, { isLoading, error }] = useUpdateProfileGeneralInfoMutation();
 
+       const { data: general,} = useGetGeneralInfoByLoginUserQuery({});
+  
+
   const genterCtegores=[{
     value:"male",
     label:"male"
@@ -42,12 +43,26 @@ const UpdateGeneralInfo = () => {
     label:"other"
   }];
 
-    const methods = useForm<FormData>({
-      resolver: zodResolver(profileGeneralInfoSchema),
-      // defaultValues: {
-      //   role: "job_seeker", // Default value set to "job_seeker"
-      // },
-    });
+     const methods = useForm<FormData>({
+    resolver: zodResolver(profileGeneralInfoSchema),
+  });
+
+  const { reset } = methods;
+
+  // Populate form when profile data arrives
+  useEffect(() => {
+    if (general?.data?.generalInfo) {
+      const { phone, gender, age, bio, address, about } = general?.data?.generalInfo;
+      reset({
+        phone: phone || "",
+        gender: gender || "male",
+        age: age?.toString() || "",
+        bio: bio || "",
+        address: address || "",
+        about: about || "",
+      });
+    }
+  }, [general, reset]);
    
     const onSubmit: SubmitHandler<FormData> = async (data:any) => { 
       console.log("modal data: ", data);

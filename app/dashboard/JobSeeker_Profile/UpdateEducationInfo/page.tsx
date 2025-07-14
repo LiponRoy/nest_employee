@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,7 +7,7 @@ import { MdOutlinePlaylistAdd } from "react-icons/md";
 import { FiDelete } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { errorToast, successToast } from "@/components/Toast";
-import { useUpdateProfileEducationInfoMutation } from "@/redux/rtk/profileApi";
+import { useGetEducationByLoginUserQuery, useUpdateProfileEducationInfoMutation } from "@/redux/rtk/profileApi";
 
 // 1️⃣ Zod schema updated
 const formSchema = z.object({
@@ -27,12 +27,15 @@ type FormSchema = z.infer<typeof formSchema>;
 
 const UpdateEducationInfo: React.FC = () => {
      const [updateProfileEducationInfo, { isLoading, error }] = useUpdateProfileEducationInfoMutation();
+
+     // for getting profile education data to auto fill 
+      const { data: profileData, isLoading: isProfileLoading } = useGetEducationByLoginUserQuery({});
   
   const {
     control,
     register,
     handleSubmit,
-    // reset,
+    reset,
     formState: { errors },
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -51,19 +54,18 @@ const UpdateEducationInfo: React.FC = () => {
     name: "education",
   });
 
-  const onSubmit = async (data: FormSchema) => {
-    console.log("Edu data xx :", data);
-    const formData = new FormData();
+  // Auto-fill form when profile data arrives
+  useEffect(() => {
+    if (profileData?.data?.education && profileData.data.education.length > 0) {
+      reset({ education: profileData.data.education });
+    }
+  }, [profileData, reset]);
 
-    data.education.forEach((res, index) => {
-      formData.append(`education[${index}][instituteName]`, res.instituteName);
-      formData.append(`education[${index}][degree]`, res.degree);
-      formData.append(`education[${index}][cgpa]`, res.cgpa);
-      formData.append(`education[${index}][passingYear]`, res.passingYear);
-    });
+  const onSubmit = async (data: FormSchema) => {
+    console.log("Edu data xxxxx :", data);
 
      try {
-               await updateProfileEducationInfo(formData).unwrap();
+              await updateProfileEducationInfo(data).unwrap(); // 
                successToast("Education Info Update Successfully")
              } catch (err) {
                errorToast("Something went wrong !!", err)
