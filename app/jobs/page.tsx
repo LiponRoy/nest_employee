@@ -14,6 +14,7 @@ import { ILatestJobs } from "@/types/Types";
 import { Button } from "@/components/ui/button";
 import { Search, ArrowUpRight } from "lucide-react";
 import SearchInput from "@/components/searchBar/SearchFilter";
+import { SkeletonLoader } from "@/components/SkeletonLoader";
 
 const Jobs = () => {
   const router = useRouter();
@@ -253,32 +254,24 @@ const Jobs = () => {
               </span>
             </div>
 
-            <div className="w-full mt-1">
-              {isLoading ? (
-                <div className=" w-full flex justify-center items-center">
-                  <span className="text-[28px]">Loading...</span>
-                </div>
-              ) : jobs?.data?.length ? (
-                <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {jobs.data.map((job: ILatestJobs) => (
-                    <JobCard
-                      key={job._id || i}
-                      logo={job?.companyId?.logoImage}
-                      companyName={job?.companyId?.name}
-                      title={job.title}
-                      gender={job.gender}
-                      jobType={job.jobType}
-                      maxSalary={job.maxSalary}
-                      minSalary={job.minSalary}
-                      location={job.location}
-                      id={job._id}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p>No jobs found.</p>
-              )}
-            </div>
+            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {isLoading ?
+                      <SkeletonLoader/>:!isLoading && jobs?.data?.length > 0 &&
+                      jobs?.data?.slice(0, 8).map((val: ILatestJobs, i: number) => (
+                        <JobCard
+                          key={val._id || i}
+                          logo={val.companyId?.logoImage}
+                          companyName={val.companyId?.name}
+                          title={val.title}
+                          gender={val.gender}
+                          jobType={val.jobType}
+                          maxSalary={val.maxSalary}
+                          minSalary={val.minSalary}
+                          location={val.location}
+                          id={val._id}
+                        />
+                      ))}
+                  </div>
           </div>
         </section>
         {/* // mobile sideBar for filtering */}
