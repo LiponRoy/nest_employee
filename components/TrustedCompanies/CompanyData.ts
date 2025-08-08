@@ -5,37 +5,49 @@ export interface ITrustedCompanies {
 
 export const companyLogo: ITrustedCompanies[] = [
   {
-    imageUrl: "/companyLogos/CompanyLogo1.png",
+    imageUrl: "/companyLogos/1.png",
   },
   {
-    imageUrl: "/companyLogos/CompanyLogo2.png",
+    imageUrl: "/companyLogos/2.png",
   },
   {
-    imageUrl: "/companyLogos/CompanyLogo3.png",
+    imageUrl: "/companyLogos/3.png",
   },
   {
-    imageUrl: "/companyLogos/CompanyLogo4.png",
+    imageUrl: "/companyLogos/4.png",
   },
   {
-    imageUrl: "/companyLogos/CompanyLogo5.png",
+    imageUrl: "/companyLogos/5.png",
   },
   {
-    imageUrl: "/companyLogos/CompanyLogo6.png",
+    imageUrl: "/companyLogos/6.png",
   },
   {
-    imageUrl: "/companyLogos/CompanyLogo7.png",
+    imageUrl: "/companyLogos/7.png",
   },
   {
-    imageUrl: "/companyLogos/CompanyLogo8.png",
+    imageUrl: "/companyLogos/8.png",
   },
   {
-    imageUrl: "/companyLogos/CompanyLogo9.png",
+    imageUrl: "/companyLogos/9.png",
   },
   {
-    imageUrl: "/companyLogos/CompanyLogo10.png",
+    imageUrl: "/companyLogos/10.png",
   },
   {
-    imageUrl: "/companyLogos/CompanyLogo11.png",
+    imageUrl: "/companyLogos/11.png",
+  },
+  {
+    imageUrl: "/companyLogos/12.png",
+  },
+  {
+    imageUrl: "/companyLogos/13.png",
+  },
+  {
+    imageUrl: "/companyLogos/14.png",
+  },
+  {
+    imageUrl: "/companyLogos/15.png",
   },
   
 ];

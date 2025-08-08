@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
@@ -11,8 +10,6 @@ import {
   optionJobType,
 } from "@/constant/Constant";
 import { ILatestJobs } from "@/types/Types";
-import { Button } from "@/components/ui/button";
-import { Search, ArrowUpRight } from "lucide-react";
 import SearchInput from "@/components/searchBar/SearchFilter";
 import { SkeletonLoader } from "@/components/SkeletonLoader";
 
@@ -22,7 +19,7 @@ const Jobs = () => {
     (state) => state.searchCategory.category
   );
 
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const [limit] = useState(20);
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
   const [jobType, setjobType] = useState<string[]>([]);
