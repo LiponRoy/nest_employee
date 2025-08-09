@@ -47,6 +47,7 @@ export type ISearchCategories = {
 };
 
 export const searchCategories: ISearchCategories[] = [
+	{ value: 'All Category', label: 'All Category' },
 	{ value: 'UI/UX Designer', label: 'UI/UX Designer' },
 	{ value: 'Software Developer', label: 'Software Developer' },
 	{ value: 'IT Support / Technician', label: 'IT Support / Technician' },
@@ -84,6 +85,17 @@ export const optionJobGender = [
 	{ id: 1, title: 'Both', checked: false },
 	{ id: 2, title: 'Female Only', checked: false },
 	{ id: 3, title: 'Male Only', checked: false },
+];
+
+export const optionDivision = [
+	{ id: 3, title: 'Dhaka', checked: false },
+	{ id: 3, title: 'Chattogram', checked: false },
+	{ id: 3, title: 'Khulna', checked: false },
+	{ id: 3, title: 'Rajshahi', checked: false },
+	{ id: 3, title: 'Barishal', checked: false },
+	{ id: 3, title: 'Sylhet', checked: false },
+	{ id: 3, title: 'Rangpur', checked: false },
+	{ id: 3, title: 'Mymensingh', checked: false },
 ];
 
 export const companyTypes = [
@@ -162,57 +174,86 @@ export const GeneralInfoData = [
 ];
 
 export const selectFieldStyle = {
-	container: (provided: any) => ({
-		...provided,
-		// width: '500px', // Ensures the container is full width
-	}),
-	control: (provided: any) => ({
-		...provided,
-		backgroundColor: 'transparent',
-		borderColor: 'none', // White border
-		boxShadow: 'none', // No focus ring
-		color: 'black', // Black text
-		cursor: 'pointer', // Pointer cursor
-		width: '100%', // Full width
-		'&:hover': {
-			borderColor: '#E5E7EB', // Light gray on hover
-		},
-	}),
-	singleValue: (provided: any) => ({
-		...provided,
-		color: 'black', // Black selected text
-	}),
-	placeholder: (provided: any) => ({
-		...provided,
-		color: '#6B7280', // Gray placeholder
-	}),
-	dropdownIndicator: (provided: any) => ({
-		...provided,
-		color: '#D3D3D3', // Black dropdown arrow
-		cursor: 'pointer', // Pointer cursor
-		'&:hover': { color: '#4B5563' }, // Darker gray hover effect
-	}),
-	indicatorSeparator: () => ({
-		display: 'none', // Remove separator line
-	}),
-	menu: (provided: any) => ({
-		...provided,
-		backgroundColor: '#F3F4F6', // Gray-100 dropdown background
-		color: 'black',
-		borderRadius: '8px', // Rounded corners for a modern look
-		border: '1px solid #D1D5DB', // Light gray border
-	}),
-	option: (provided: any, state: any) => ({
-		...provided,
-		backgroundColor: state.isFocused ? '#E5E7EB' : '#F3F4F6', // Light gray hover effect
-		color: 'black',
-		padding: '10px',
-		borderRadius: '4px', // Smooth edges
-		cursor: 'pointer', // Pointer cursor
-		'&:hover': {
-			backgroundColor: '#D1D5DB', // Slightly darker gray on hover
-		},
-	}),
+  container: (provided: any) => ({
+    ...provided,
+    width: "100%",
+  }),
+  control: (provided: any) => ({
+    ...provided,
+    backgroundColor: "transparent",
+    border: "none !important",
+    borderColor: "transparent !important",
+    boxShadow: "none !important",
+    cursor: "pointer",
+    width: "100%",
+	fontSize: "16px", // Increased text size
+    "&:hover": {
+      border: "none !important",
+      borderColor: "transparent !important",
+    },
+    "&:focus": {
+      border: "none !important",
+      borderColor: "transparent !important",
+      boxShadow: "none !important",
+    },
+    "&:focus-within": {
+      border: "none !important",
+      borderColor: "transparent !important",
+      boxShadow: "none !important",
+    },
+  }),
+  valueContainer: (provided: any) => ({
+    ...provided,
+    padding: "0 8px",
+  }),
+  singleValue: (provided: any) => ({
+    ...provided,
+  }),
+  placeholder: (provided: any) => ({
+    ...provided,
+  }),
+  dropdownIndicator: (provided: any) => ({
+    ...provided,
+    display: "none",
+  }),
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+  menu: (provided: any) => ({
+    ...provided,
+    backgroundColor: "#ffffff",
+    border: "none",
+    borderColor: "transparent",
+    borderRadius: "12px",
+    boxShadow:
+      "0px 4px 12px rgba(0, 0, 0, 0.1), 0px 8px 24px rgba(0, 0, 0, 0.06)", // soft layered shadow
+    padding: "8px",
+    marginTop: "6px",
+    overflow: "hidden",
+    width: "100%",
+    minWidth: "unset",
+    animation: "fadeIn 0.15s ease-in-out",
+  }),
+  option: (provided: any, state: any) => ({
+    ...provided,
+    backgroundColor: state.isSelected
+      ? "linear-gradient(90deg, #6366F1, #A855F7)"
+      : state.isFocused
+      ? "#F3F4F6"
+      : "transparent",
+    color: state.isSelected ? "#215AAC" : "#111827",
+    padding: "10px 12px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "all 0.40s ease",
+    fontWeight: state.isSelected ? 500 : 400,
+    "&:hover": {
+      backgroundColor: state.isSelected
+        ? "linear-gradient(90deg, #6366F1, #A855F7)"
+        : "#E5E7EB",
+      color: state.isSelected ? "#fff" : "#111827",
+    },
+  }),
 };
 
 export const bangladeshDivisions = [

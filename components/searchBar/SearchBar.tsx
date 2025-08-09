@@ -23,7 +23,7 @@ const MyComponent = () => {
   };
 
   return (
-    <div className="w-full grid grid-cols-5 gap-4 bg-slate-300 rounded-md  border-2 border-slate-400 shadow-lg py-1 px-2 mx-4 md:mx-0 z-50 mb-4">
+    <div className="w-full grid grid-cols-5 gap-4 bg-slate-100 rounded-md  border-2 border-slate-400 shadow-lg py-1 px-2 mx-4 md:mx-0 z-50 mb-4">
       <div className=" col-span-4 flex justify-start items-center ">
         <SelectInput
           options={searchCategories}
@@ -33,10 +33,11 @@ const MyComponent = () => {
           placeholder="Select Job Category"
         />
       </div>
-      <div className=" col-span-1 flex justify-end ">
+      <div className=" col-span-1 flex justify-end text-[32px] font-semibold">
         <Button onClick={()=>hendelChange(categories?.value)} className="w-full py-5 md:py-8 rounded-md md:rounded-xl  bg-secondary-1 hover:bg-secondary-1">
+          <Search size={22} className=""/>
          <span className="hidden md:block"> Search Jobs</span>
-          <Search size={18} className="md:hidden"/>
+          
         </Button>
       </div>
     </div>
@@ -45,57 +46,3 @@ const MyComponent = () => {
 
 export default MyComponent;
 
-// "use client"
-
-// import { useForm } from "react-hook-form";
-// import { z } from "zod";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { Search } from 'lucide-react';
-// import { Organizations } from "@/constant/Constant";
-
-// const formSchema = z.object({
-//     keywordSearch: z.string().min(2, "Empty keyword"),
-//     OrganizationSearch: z.string().min(2, "Empty keyword"),
-// });
-
-// type FormData = z.infer<typeof formSchema>;
-
-// const SearchBar = () => {
-//     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-//         resolver: zodResolver(formSchema),
-//     });
-
-//     const onSubmit = (data: FormData) => {
-//         console.log(data);
-//     };
-
-//     return (
-//         <div className="container-custom w-full  p-6 ">
-//             <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-3 gap-x-2 bg-white p-6 rounded-full">
-//                 <input className="w-full rounded-full px-4 focus:ring-white" {...register("keywordSearch")} placeholder="Search By Keyword" />
-//                 {errors.keywordSearch && <span>{errors.keywordSearch.message}</span>}
-//                 <select className="w-full rounded-full px-4 focus:ring-white"
-//                     id="fruit"
-//                     {...register('OrganizationSearch', { required: 'Please select a fruit' })}
-//                 >
-//                     <option className="w-full rounded-full px-4 text-slate-200 focus:ring-white" value="">Organization Type</option>
-//                     {Organizations?.map((val: any, i) => (
-//                         <option key={i} className="" value={val.value}>{val.title}</option>
-
-//                     ))}
-
-//                 </select>
-//                 {errors.OrganizationSearch && (
-//                     <span className="text-red-500">{errors.OrganizationSearch.message}</span>
-//                 )}
-
-//                 <div className="flex justify-center items-center space-x-2 bg-orange-deep text-white  rounded-full ml-20">
-//                     <Search size={22} />
-//                     <button className=" text-base capitalize p-4" type="submit">Search Jobs</button>
-//                 </div>
-//             </form>
-//         </div>
-//     );
-// }
-
-// export default SearchBar

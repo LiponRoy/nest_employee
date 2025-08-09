@@ -6,12 +6,14 @@ import { useGetJobsByFilterQuery } from "@/redux/rtk/jobsApi";
 import { JobCard } from "@/components/jobCard";
 import {
   optionCategories,
+  optionDivision,
   optionJobGender,
   optionJobType,
 } from "@/constant/Constant";
 import { ILatestJobs } from "@/types/Types";
-import SearchInput from "@/components/searchBar/SearchFilter";
+// import SearchInput from "@/components/searchBar/SearchFilter";
 import { SkeletonLoader } from "@/components/SkeletonLoader";
+import SearchBar from "../../components/searchBar/SearchBar";
 
 const Jobs = () => {
   const router = useRouter();
@@ -24,6 +26,7 @@ const Jobs = () => {
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
   const [jobType, setjobType] = useState<string[]>([]);
   const [gender, setGender] = useState<string[]>([]);
+  const [division, setDivision] = useState<string[]>([]);
   //for filter sidebar toggle
   const [toggle, setToggle] = useState(false);
 
@@ -48,8 +51,9 @@ const Jobs = () => {
       categoryFilter,
       jobType,
       gender,
+      division
     }),
-    [page, limit, globalCategory, searchValue, categoryFilter, jobType, gender]
+    [page, limit, globalCategory, searchValue, categoryFilter, jobType, gender,division]
   );
 
   // Fetch jobs
@@ -77,25 +81,15 @@ const Jobs = () => {
       params.set("category", categoryFilter.join(","));
     if (jobType.length > 0) params.set("jobType", jobType.join(","));
     if (gender.length > 0) params.set("gender", gender.join(","));
+    if (division.length > 0) params.set("division", division.join(","));
 
     router.replace(`?${params.toString()}`);
   }, [queryParams, hasMounted, router]);
 
 
-   const handleSearch = (query: string) => {
-    setSearchValue(query)
-  };
 
 //......................................................................
 
-  // Toggle category filter
-  const toggleCategory = (category: string) => {
-    setCategoryFilter((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
-  };
 
   // Toggle jobType filter
   const toggleJobType = (jopType: string) => {
@@ -115,6 +109,15 @@ const Jobs = () => {
     );
   };
 
+  // Toggle gender filter
+  const toggleDivision = (division: string) => {
+    setDivision((prev) =>
+      prev.includes(division)
+        ? prev.filter((c) => c !== division)
+        : [...prev, division]
+    );
+  };
+
   console.log("Toggle is : ", toggle);
 
   if (!hasMounted) return null;
@@ -126,41 +129,7 @@ const Jobs = () => {
       <div className="grid grid-cols-4 gap-5 p-4 min-h-screen">
         {/* Filters */}
         <div className="hidden md:block col-span-1 px-6 border rounded-lg shadow-md p-6 bg-white ">
-          {/* // Job Category Filter CheckBoxs */}
-          <div className="mt-2">
-            <h6 className="font-normal text-[20px]">Job Category</h6>
-            {optionCategories.map(({ title }) => (
-              <label
-                key={title}
-                className="flex items-center gap-2 my-2 cursor-pointer font-normal text-[18px]"
-              >
-                <input
-                  type="checkbox"
-                  checked={categoryFilter.includes(title)}
-                  onChange={() => toggleCategory(title)}
-                  className="hidden peer"
-                />
-                <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-md flex items-center justify-center">
-                  {categoryFilter.includes(title) && (
-                    <svg
-                      className="w-4 h-4 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  )}
-                </div>
-                <span>{title}</span>
-              </label>
-            ))}
-          </div>
+
           {/* // Job Type Filter CheckBoxs */}
           <div className="mt-4">
             <h6 className="font-normal text-[20px] mt-1">Job Type</h6>
@@ -231,13 +200,49 @@ const Jobs = () => {
               </label>
             ))}
           </div>
+          {/* // Division Filter CheckBoxs */}
+          <div className="mt-4">
+            <h6 className="font-normal text-[20px] ">Division</h6>
+            {optionDivision?.map(({ title }) => (
+              <label
+                key={title}
+                className="flex items-center gap-2 my-2 cursor-pointer font-normal text-[18px]"
+              >
+                <input
+                  type="checkbox"
+                  checked={division.includes(title)}
+                  onChange={() => toggleDivision(title)}
+                  className="hidden peer"
+                />
+                <div className="w-5 h-5 bg-slate-100 peer-checked:bg-secondary-1 border-2 border-secondary-1 rounded-md flex items-center justify-center">
+                  {division.includes(title) && (
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  )}
+                </div>
+                <span>{title}</span>
+              </label>
+            ))}
+          </div>
         </div>
 
         {/* Job Results */}
         <section className="col-span-4 md:col-span-3 ">
           <div className="w-full ">
             {/* // SearchBar */}
-      <SearchInput onSearch={handleSearch} />
+      {/* <SearchInput onSearch={handleSearch} /> */}
+       <SearchBar />
             {/* // SearchBar End */}
             <div className=" my-3 flex justify-between items-center w-full">
               <span

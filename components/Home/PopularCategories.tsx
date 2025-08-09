@@ -1,7 +1,23 @@
+"use client"
 import React from "react";
 import { PopularCategoriesData } from "@/constant/Constant";
 
+import { useRouter } from "next/navigation";
+import { useAppDispatch} from "@/redux/hooks";
+import { setCategory } from "@/redux/slices/searchSlice";
+
 const PopularCategories = () => {
+
+    const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const submitCategory = (cat: string) => {
+    dispatch(setCategory(cat));
+    router.push("/jobs");
+  };
+
+
+
   return (
     <div className="container-custom mt-10 md:mt-12">
       <div className="w-full flex flex-col justify-start items-start my-6 bg-slate-100 p-2">
@@ -13,6 +29,7 @@ const PopularCategories = () => {
         {PopularCategoriesData.map((value, i) => (
           <div
             key={i}
+            onClick={() => submitCategory(value.name)}
             className="flex justify-start items-center border border-slate-200 rounded-md hover:bg-slate-100 p-6 cursor-pointer"
           >
             <div className="w-10 h-10 bg-slate-200 rounded-md flex justify-center items-center p-2 mr-4">

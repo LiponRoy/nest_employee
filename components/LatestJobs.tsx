@@ -32,7 +32,7 @@ const LatestJobs = () => {
         {isLoading || !jobs ? (
           <SkeletonLoader/>
         ) : jobs.data?.length > 0 ? (
-          jobs.data.slice(0, 8).map((val: ILatestJobs, i: number) => (
+          jobs.data.slice(0, 6).map((val: ILatestJobs, i: number) => (
             <JobCard
               key={val._id || i}
               logo={val.companyId?.logoImage}
