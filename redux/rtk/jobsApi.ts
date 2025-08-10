@@ -1,77 +1,112 @@
 import { baseApi } from "./baseApi";
 
+// Common Job type
+export interface Job {
+  id: string;
+  title: string;
+  description?: string;
+  category?: string;
+  jobType?: string;
+  gender?: string;
+  division?: string;
+  [key: string]: unknown; // fallback for extra fields
+}
+
+// Filter query type
+export interface JobFilterParams {
+  page?: string;
+  limit?: string;
+  search?: string;
+  searchValue?: string;
+  categoryFilter?: string[];
+  jobType?: string[];
+  gender?: string[];
+  division?: string[];
+}
+
+// Response type for delete
+export interface DeleteJobResponse {
+  message: string;
+}
+
 export const jobApi = baseApi.injectEndpoints({
-    endpoints: (builder) => ({
-        getJobs: builder.query<{ id: number; title: string }[], void>({
-            query: () => "/job/all",
-            providesTags: ["Job"],
-        }),
-        getJobsByFilter: builder.query({
-            query: ({
-                page,
-                limit,
-                search = "",
-                searchValue = "",
-                categoryFilter,
-                jobType,
-                gender,
-            }) => {
-                // Build the query parameters dynamically
-                const params = new URLSearchParams();
-
-                if (page) params.append("page", page);
-                if (limit) params.append("limit", limit);
-                if (search) params.append("searchTerm", search);
-                if (searchValue) params.append("searchTerm", searchValue);
-                // if (categoryFilter) params.append('category', categoryFilter);
-                categoryFilter.forEach((d: any) =>
-                    params.append("category", d)
-                );
-                jobType.forEach((d: any) => params.append("jobType", d));
-                gender.forEach((d: any) => params.append("gender", d));
-
-                return {
-                    url: `/job/all/?${params.toString()}`,
-                    method: "GET",
-                };
-            },
-            keepUnusedDataFor: 0, // Don't keep the data in cache
-            providesTags: ["Job"],
-        }),
-        createJobs: builder.mutation({
-            query: (formData: FormData) => ({
-                url: "job/create",
-                method: "POST",
-                body: formData,
-            }),
-        }),
-        getJobByCreator: builder.query<any, void>({
-            query: () => "/job/getJobByCreator",
-            providesTags: ["Company"],
-        }),
-        getJobById: builder.query<any, string>({
-            query: (id) => `job/${id}`,
-        }),
-
-        deleteJobById: builder.mutation<
-            { message: string }, // response type
-            string // jobId as parameter
-        >({
-            query: (jobId) => ({
-                url: `/job/${jobId}`,
-                method: "DELETE",
-            }),
-            invalidatesTags: ["Job"], // optional: for refetching
-        }),
+  endpoints: (builder) => ({
+    // Get all jobs (basic list)
+    getJobs: builder.query<Job[], void>({
+      query: () => "/job/all",
+      providesTags: ["Job"],
     }),
+
+    // Get jobs by filters
+    getJobsByFilter: builder.query<Job[], JobFilterParams>({
+      query: ({
+        page,
+        limit,
+        search = "",
+        searchValue = "",
+        categoryFilter = [],
+        jobType = [],
+        gender = [],
+        division = [],
+      }) => {
+        const params = new URLSearchParams();
+
+        if (page) params.append("page", page);
+        if (limit) params.append("limit", limit);
+        if (search) params.append("searchTerm", search);
+        if (searchValue) params.append("searchTerm", searchValue);
+
+        categoryFilter.forEach((d) => params.append("category", d));
+        jobType.forEach((d) => params.append("jobType", d));
+        gender.forEach((d) => params.append("gender", d));
+        division.forEach((d) => params.append("division", d));
+
+        return {
+          url: `/job/all/?${params.toString()}`,
+          method: "GET",
+        };
+      },
+      keepUnusedDataFor: 0,
+      providesTags: ["Job"],
+    }),
+
+    // Create a job
+    createJobs: builder.mutation<void, FormData>({
+      query: (formData) => ({
+        url: "job/create",
+        method: "POST",
+        body: formData,
+      }),
+    }),
+
+    // Get job by creator
+    getJobByCreator: builder.query<Job[], void>({
+      query: () => "/job/getJobByCreator",
+      providesTags: ["Company"],
+    }),
+
+    // Get job by ID
+    getJobById: builder.query<Job, string>({
+      query: (id) => `job/${id}`,
+    }),
+
+    // Delete job by ID
+    deleteJobById: builder.mutation<DeleteJobResponse, string>({
+      query: (jobId) => ({
+        url: `/job/${jobId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Job"],
+    }),
+  }),
 });
 
 // Export hooks
 export const {
-    useGetJobsQuery,
-    useCreateJobsMutation,
-    useGetJobByCreatorQuery,
-    useGetJobByIdQuery,
-    useGetJobsByFilterQuery,
-	useDeleteJobByIdMutation
+  useGetJobsQuery,
+  useCreateJobsMutation,
+  useGetJobByCreatorQuery,
+  useGetJobByIdQuery,
+  useGetJobsByFilterQuery,
+  useDeleteJobByIdMutation,
 } = jobApi;
