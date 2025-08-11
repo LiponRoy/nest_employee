@@ -4,6 +4,7 @@ import registerFormModalSlice from './slices/registerFormModalSlice';
 import loginFormModalSlice from './slices/loginFormModalSlice';
 import employerRegisterFormModalSlice from './slices/employerRegisterFormModalSlice';
 import searchSlice from './slices/searchSlice';
+import divisionSlice from './slices/divisionSlice';
 
 export const rootReducer = combineReducers({
 	[baseApi.reducerPath]: baseApi.reducer,
@@ -11,6 +12,7 @@ export const rootReducer = combineReducers({
 	employerRegisterFormModal: employerRegisterFormModalSlice,
 	loginFormModal: loginFormModalSlice,
 	searchCategory: searchSlice, // 
+	searchDivision: divisionSlice, // 
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

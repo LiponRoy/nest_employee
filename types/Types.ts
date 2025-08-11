@@ -20,6 +20,7 @@ export interface ILatestJobs extends Document {
   requirements: string[];
   maxSalary: string;
   minSalary: string;
+  salary: string;
   experienceLevel: number;
   location: string;
   jobType: string;

@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import Slider from "react-slick";
+import { setDivision } from "@/redux/slices/divisionSlice";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/redux/hooks";
 
 const locations = [
   { name: "Dhaka", img: "/division/1.jpg" },
@@ -14,10 +17,18 @@ const locations = [
 ];
 
 export default function JobLocationsSlider() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+ const submitDivision = (division: string) => {
+  dispatch(setDivision([division])); 
+  router.push("/jobs");
+};
+
   const settings = {
     dots: false,
-    infinite: true, // ✅ Infinite loop
-    autoplay: true, // ✅ Optional autoplay
+    infinite: true, 
+    autoplay: true, 
     autoplaySpeed: 2500,
     speed: 500,
     slidesToShow: 4,
@@ -44,7 +55,7 @@ export default function JobLocationsSlider() {
       {/* Slider */}
       <Slider {...settings}>
         {locations.map((loc) => (
-          <div key={loc.name} className="px-2">
+          <div onClick={()=>submitDivision(loc.name)} key={loc.name} className="px-2">
             <div className="rounded-xl overflow-hidden shadow-md relative w-[300px] h-[250px] flex justify-center items-center">
               <Image
                 src={loc.img}
