@@ -1,3 +1,4 @@
+import { JobsResponse } from "@/constant/Constant";
 import { baseApi } from "./baseApi";
 
 // Common Job type
@@ -80,7 +81,7 @@ export const jobApi = baseApi.injectEndpoints({
     }),
 
     // Get job by creator
-    getJobByCreator: builder.query<Job[], void>({
+    getJobByCreator: builder.query<JobsResponse, void>({
       query: () => "/job/getJobByCreator",
       providesTags: ["Company"],
     }),

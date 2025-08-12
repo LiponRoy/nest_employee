@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { errorToast, successToast } from "@/components/Toast";
 import { useGetEducationByLoginUserQuery, useUpdateProfileEducationInfoMutation } from "@/redux/rtk/profileApi";
 
-// 1️⃣ Zod schema updated
 const formSchema = z.object({
   education: z
     .array(
@@ -26,10 +25,10 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 const UpdateEducationInfo: React.FC = () => {
-     const [updateProfileEducationInfo, { isLoading, error }] = useUpdateProfileEducationInfoMutation();
+     const [updateProfileEducationInfo, { isLoading }] = useUpdateProfileEducationInfoMutation();
 
      // for getting profile education data to auto fill 
-      const { data: profileData, isLoading: isProfileLoading } = useGetEducationByLoginUserQuery({});
+      const { data: profileData, isLoading: isProfileLoading } = useGetEducationByLoginUserQuery();
   
   const {
     control,
@@ -62,7 +61,6 @@ const UpdateEducationInfo: React.FC = () => {
   }, [profileData, reset]);
 
   const onSubmit = async (data: FormSchema) => {
-    console.log("Edu data xxxxx :", data);
 
      try {
               await updateProfileEducationInfo(data).unwrap(); // 
@@ -72,6 +70,14 @@ const UpdateEducationInfo: React.FC = () => {
                console.error("Education Info Update Failed", err);
              }
   };
+
+  if (isProfileLoading) {
+  return (
+    <div className="flex justify-center items-center h-40">
+      <p>Loading education info...</p>
+    </div>
+  );
+}
 
   return (
     <div className="w-full flex justify-start items-start">
@@ -175,10 +181,14 @@ const UpdateEducationInfo: React.FC = () => {
             {/* End Responsibility */}
 
             <div className="flex w-full items-center justify-center ">
-              <Button className="w-full bg-secondary-1 hover:bg-orange-600">
-                Update Education Info
-              </Button>
-            </div>
+  <Button
+    type="submit"
+    className="w-full bg-secondary-1 hover:bg-orange-600"
+    disabled={isLoading}
+  >
+    {isLoading ? "Updating..." : "Update Education Info"}
+  </Button>
+</div>
           </form>
         </div>
       </div>

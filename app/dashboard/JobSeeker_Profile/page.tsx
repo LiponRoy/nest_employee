@@ -1,45 +1,44 @@
 "use client";
 import { useGetProfileByLoginUserQuery } from "@/redux/rtk/profileApi";
 
-// app/dashboard/profile/page.tsx
 export default function ProfilePage() {
-    const { data: user, isLoading } = useGetProfileByLoginUserQuery({});
-    console.log("user: ", user);
-    return (
-        <>
-        {user?<div>
-            <div className=" flex flex-col justify-center items-start">
-                <span>Name: {user?.data?.userId?.name}</span>
-                <span>Phone: {user?.data?.generalInfo?.phone}</span>
-                <span>Gender: {user?.data?.generalInfo?.gender}</span>
-                <span>Age: {user?.data?.generalInfo?.age}</span>
-                <span>Address: {user?.data?.generalInfo?.address}</span>
-                <span>Role: {user?.data?.userId?.role}</span>
-            </div>
-            <div>
-              <span className="my-2 font-bold text-xl">Education Info</span>
-                {user?.data?.education.map((val, i) => (
-                    <div key={i} className="flex flex-col justify-start item-start my-2">
-                        <span>Institute Name : {val?.instituteName}</span>
-                        <span>Degree : {val?.degree}</span>
-                        <span>Passing Year : {val?.passingYear}</span>
-                        <span>CGPA : {val?.cgpa}</span>
-                    </div>
-                ))}
-            </div>
-            {/* <div className=" flex flex-col justify-center items-start">
-        <span>Education Info:</span>
-        {user?.data?.education(()=>(
-          <div>
-        ))}
-        <span>Name: {user?.data?.userId.name}</span>
-        <span>Phone: {user?.data?.generalInfo.phone}</span>
-        <span>Gender: {user?.data?.generalInfo.gender}</span>
-        <span>Age: {user?.data?.generalInfo.age}</span>
-        <span>Address: {user?.data?.generalInfo.address}</span>
-        <span>Role: {user?.data?.userId.role}</span>
-      </div> */}
-        </div>:"No data Insert Yet"}
-        </>
-    );
+  const { data: user, isLoading } = useGetProfileByLoginUserQuery();
+
+  if (isLoading) return <p>Loading profile...</p>;
+
+  if (!user?.data) return <p>No data inserted yet</p>;
+
+  const { userId, generalInfo, education } = user.data;
+
+  return (
+    <main className="p-4 ">
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-3">User Info</h2>
+        <ul className="space-y-1">
+          <li><strong>Name:</strong> {userId?.name || "-"}</li>
+          <li><strong>Phone:</strong> {generalInfo?.phone || "-"}</li>
+          <li><strong>Gender:</strong> {generalInfo?.gender || "-"}</li>
+          <li><strong>Age:</strong> {generalInfo?.age ?? "-"}</li>
+          <li><strong>Address:</strong> {generalInfo?.address || "-"}</li>
+          <li><strong>Role:</strong> {userId?.role || "-"}</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 className="text-xl font-semibold mb-3">Education Info</h2>
+        {Array.isArray(education) && education.length > 0 ? (
+          education.map((edu, i) => (
+            <article key={i} className="mb-4 p-3 border rounded-md bg-gray-50">
+              <p><strong>Institute Name:</strong> {edu.instituteName || "-"}</p>
+              <p><strong>Degree:</strong> {edu.degree || "-"}</p>
+              <p><strong>Passing Year:</strong> {edu.passingYear || "-"}</p>
+              <p><strong>CGPA:</strong> {edu.cgpa || "-"}</p>
+            </article>
+          ))
+        ) : (
+          <p>No education information available.</p>
+        )}
+      </section>
+    </main>
+  );
 }

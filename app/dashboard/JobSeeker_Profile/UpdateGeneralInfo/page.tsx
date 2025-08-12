@@ -27,9 +27,9 @@ type FormData = z.infer<typeof profileGeneralInfoSchema>;
 
 const UpdateGeneralInfo = () => {
 
-   const [updateProfileGeneralInfo, { isLoading, error }] = useUpdateProfileGeneralInfoMutation();
+   const [updateProfileGeneralInfo, { isLoading }] = useUpdateProfileGeneralInfoMutation();
 
-       const { data: general,} = useGetGeneralInfoByLoginUserQuery({});
+       const { data: general,} = useGetGeneralInfoByLoginUserQuery();
   
 
   const genterCtegores=[{
@@ -55,7 +55,7 @@ const UpdateGeneralInfo = () => {
       const { phone, gender, age, bio, address, about } = general?.data?.generalInfo;
       reset({
         phone: phone || "",
-        gender: gender || "male",
+        gender: (["male", "female", "other"].includes(gender) ? gender : "male") as "male" | "female" | "other",
         age: age?.toString() || "",
         bio: bio || "",
         address: address || "",
@@ -64,7 +64,7 @@ const UpdateGeneralInfo = () => {
     }
   }, [general, reset]);
    
-    const onSubmit: SubmitHandler<FormData> = async (data:any) => { 
+    const onSubmit: SubmitHandler<FormData> = async (data) => { 
       console.log("modal data: ", data);
          try {
            await updateProfileGeneralInfo(data).unwrap();
@@ -95,7 +95,10 @@ const UpdateGeneralInfo = () => {
 
           <Button
             className="w-full bg-secondary-1 hover:bg-secondary-1 text-white"
-          >Update General Informetion</Button>
+          >
+          
+          {isLoading ? "Updating..." : "Update General Informetion"}
+          </Button>
         </form>
       </FormProvider>
     </div>

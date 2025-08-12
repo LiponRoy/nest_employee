@@ -266,3 +266,114 @@ export const bangladeshDivisions = [
   "Rangpur",
   "Mymensingh",
 ];
+
+// Company Types all//
+export interface ICompany {
+  id: string;
+  name: string;
+  title: string;
+  about: string;
+  website: string;
+  location: string;
+  teamMember: number;
+  officeBranches: number;
+  foundedDate: string;
+  jobs: string[]; 
+  creator: string; 
+  logoImage: string;
+  cloudinary_id: string;
+}
+
+// Job Types all//
+export interface IJob {
+	_id: string;
+	title: string;
+	description: string;
+	requirements: string[];
+	responsibility: string[];
+	salaryAndBenefits: string[];
+	skillAndExperience: string[];
+	minSalary: number;
+	maxSalary: number;
+	experienceLevel: number;
+	location: string;
+	division: string;
+	jobType: string;
+	category: string;
+	datePosted: string; 
+	dateDeadline: string; 
+	vacancy: number;
+	educationQualification: string;
+	gender: string;
+	companyId: string; 
+	created_by: string; 
+	applications: string[]; 
+	logoImage: string;
+	cloudinary_id: string;
+}
+
+export interface JobsResponse {
+  success: boolean;
+  message: string;
+  data: IJob[];
+}
+
+// Profile Types all//
+export interface User {
+  _id: string;
+  name: string;
+  role: string;
+}
+
+export interface GeneralInfo {
+  phone: string;
+  gender: string;
+  age: number;
+  bio: string;
+  address: string;
+  about: string;
+}
+export interface IEducation {
+  instituteName: string;
+  degree: string;
+  cgpa: string;
+  passingYear: string;
+}
+
+export interface IExperience {
+  organizationName: string;
+  yearsOfExperience: number;
+  position: string;
+}
+
+export interface ProfileData {
+  _id: string;
+  userId: User;
+  skills: string[];    
+  education: IEducation[]; 
+  experience: IExperience[];
+  createdAt: string; 
+  updatedAt: string; 
+  generalInfo: GeneralInfo;
+}
+
+export interface ProfileResponse {
+  success: boolean;
+  message: string;
+  data: ProfileData;
+}
+export interface EducationResponse {
+  success: boolean;
+  message: string;
+  data: {
+    education:IEducation[]
+  };
+}
+
+export interface GeneralInfoResponse {
+  success: boolean;
+  message: string;
+  data: {
+    generalInfo: GeneralInfo;
+  };
+}

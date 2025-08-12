@@ -1,3 +1,4 @@
+import { EducationResponse, GeneralInfoResponse, ProfileResponse } from "@/constant/Constant";
 import { baseApi } from "./baseApi";
 
 export const profileApi = baseApi.injectEndpoints({
@@ -11,21 +12,22 @@ export const profileApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: (result, error) => [{ type: "Profile" }],
         }),
-        updateProfileEducationInfo: builder.mutation({
-            query: (formData: FormData) => ({
-                url: "/profile/updateEducation",
-                method: "PUT",
-                body: formData,
-            }),
-            invalidatesTags: (result, error) => [{ type: "Profile" }],
-        }),
-        getProfileByLoginUser: builder.query<void>({
+     // In your API slice:
+updateProfileEducationInfo: builder.mutation<EducationResponse, FormData>({
+  query: (formData) => ({
+    url: "/profile/updateEducation",
+    method: "PUT",
+    body: formData,
+  }),
+  invalidatesTags: (result, error) => [{ type: "Profile" }],
+}),
+        getProfileByLoginUser: builder.query<ProfileResponse,void>({
             query: () => "/profile/profileDataById",
         }),
-        getEducationByLoginUser: builder.query<void>({
+        getEducationByLoginUser: builder.query<EducationResponse,void>({
             query: () => "/profile/educationDataByLoginUser/",
         }),
-        getGeneralInfoByLoginUser: builder.query<void>({
+        getGeneralInfoByLoginUser: builder.query<GeneralInfoResponse,void>({
             query: () => "/profile/generalInfoDataByLoginUser/",
         }),
     }),
