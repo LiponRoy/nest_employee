@@ -45,6 +45,16 @@ export default function Sidebar({
 
 
 
+      if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-32">
+        <span>Loading</span>
+      </div>
+    );
+  }
+
+
+
   return (
     <aside
       className={`

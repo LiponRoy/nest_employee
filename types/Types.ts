@@ -1,5 +1,6 @@
-import { strict } from "assert";
+// eslint-disable-next-line @next/next/no-document-import-in-page
 import Document from "next/document";
+
 
 export interface InavLinks {
   href: string;

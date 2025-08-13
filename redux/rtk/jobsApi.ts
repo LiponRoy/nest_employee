@@ -1,4 +1,4 @@
-import { JobsResponse } from "@/constant/Constant";
+import { IJob, JobsResponse } from "@/constant/Constant";
 import { baseApi } from "./baseApi";
 
 // Common Job type
@@ -87,7 +87,7 @@ export const jobApi = baseApi.injectEndpoints({
     }),
 
     // Get job by ID
-    getJobById: builder.query<Job, string>({
+    getJobById: builder.query<IJob, string>({
       query: (id) => `job/${id}`,
     }),
 
