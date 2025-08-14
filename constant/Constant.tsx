@@ -173,6 +173,18 @@ export const GeneralInfoData = [
   
 ];
 
+export type JobCardProps = {
+  logo: string;
+  companyName: string;
+  title: string;
+  gender: string;
+  jobType: string;
+  maxSalary: number;
+  minSalary: number;
+  location: string;
+  id: string;
+};
+
 export const selectFieldStyle = {
   container: (provided: any) => ({
     ...provided,
@@ -305,7 +317,7 @@ export interface IJob {
 	vacancy: number;
 	educationQualification: string;
 	gender: string;
-	companyId: string; 
+	companyId: ICompany; 
 	created_by: string; 
 	applications: string[]; 
 	logoImage: string;
@@ -315,8 +327,46 @@ export interface IJob {
 export interface JobsResponse {
   success: boolean;
   message: string;
+   meta: {
+    page: number;
+    limit: number;
+    total: number;
+  };
   data: IJob[];
 }
+export interface JobsResponseSingle {
+  success: boolean;
+  message: string;
+  data: IJob;
+}
+
+export interface AlreadyAppliedJobResponse {
+  success: boolean;
+  message: string;
+  data: {
+    data: boolean;
+  };
+}
+export interface Requirement {
+  title: string;
+  _id: string;
+}
+
+export interface Responsibility {
+  title: string;
+  _id: string;
+}
+
+export interface SalaryAndBenefit {
+  title: string;
+  _id: string;
+}
+
+export interface SkillAndExperience {
+  title: string;
+  // _id: string;
+}
+
 
 // Profile Types all//
 export interface User {

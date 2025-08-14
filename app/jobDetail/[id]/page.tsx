@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ArrowBigRight, ArrowRight, Backpack, Clock4, Landmark, MapPin, Microscope, Users } from "lucide-react";
+import { ArrowBigRight, ArrowRight, Clock4, Landmark, MapPin, Microscope, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 // import RelatedJobs from "@/components/RelatedJobs";
@@ -14,6 +14,7 @@ import { errorToast, successToast } from "@/components/Toast";
 import { useGetProfileQuery } from "@/redux/rtk/auth";
 import { useAppDispatch } from "@/redux/hooks";
 import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
+import { Requirement, Responsibility, SalaryAndBenefit, SkillAndExperience } from "@/constant/Constant";
 
 const JobDetail = () => {
     const { id } = useParams();
@@ -32,7 +33,6 @@ const JobDetail = () => {
     // for already applied true or false
     const {
         data: isAppliedData,
-        isFetching: isCheckingApplied,
         refetch: refetchIsApplied,
     } = useGetIsAppliedQuery(jobId, {
         refetchOnMountOrArgChange: true,
@@ -64,9 +64,18 @@ const JobDetail = () => {
             await applyForJob(jobId).unwrap();
             await refetchIsApplied(); // <- Force re-check IsApplied
             successToast("Applied successfully!");
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Application failed:", err);
-            errorToast(err?.data?.message || "An error occurred");
+            if (
+                typeof err === "object" &&
+                err !== null &&
+                "data" in err &&
+                typeof (err as { data?: { message?: string } }).data?.message === "string"
+            ) {
+                errorToast((err as { data?: { message?: string } }).data?.message || "An error occurred");
+            } else {
+                errorToast("An error occurred");
+            }
         }
     };
 
@@ -146,7 +155,7 @@ const JobDetail = () => {
                              Skill Experience :
                             </span>
                             </div>
-                            {job?.data?.skillAndExperience?.map((val, i) => (
+                            {(job?.data?.skillAndExperience as SkillAndExperience[] | undefined)?.map((val, i) => (
                                 <div
                                     key={i}
                                     className="w-full flex justify-start items-center gap-x-2 p-1 rounded-lg"
@@ -164,7 +173,7 @@ const JobDetail = () => {
                                 Responsibility :
                             </h4>
                             </div>
-                            {job?.data?.responsibility?.map((val, i) => (
+                            {(job?.data?.responsibility as Responsibility[] | undefined)?.map((val, i) => (
                                 <div
                                     key={i}
                                     className="w-full flex justify-start items-center gap-x-2  p-1"
@@ -184,7 +193,7 @@ const JobDetail = () => {
                                 Requirements :
                             </h4>
 </div>
-                            {job?.data?.requirements?.map((val, i) => (
+                            {(job?.data?.requirements as Requirement[] | undefined)?.map((val, i) => (
                                 <div
                                     key={i}
                                     className="w-full flex justify-start items-center gap-x-2  p-1"
@@ -204,7 +213,7 @@ const JobDetail = () => {
                                 Salary and Benefits :
                             </h4>
 </div>
-                            {job?.data?.salaryAndBenefits?.map((val, i) => (
+                            {(job?.data?.salaryAndBenefits as SalaryAndBenefit[] | undefined)?.map((val, i) => (
                                 <div
                                     key={i}
                                     className="w-full flex justify-start items-center gap-x-2  p-1"
@@ -224,7 +233,7 @@ const JobDetail = () => {
                         ) : (
                             <Button
                                 onClick={handleApply}
-                                disabled={isApplying || isAppliedData?.applied}
+                                disabled={isApplying || isAppliedData?.data?.data}
                                 className="w-[50%] rounded-md bg-secondary-1 hover:bg-secondary-1 text-[18px] "
                             >
                                 {/* // Apply Btn */}
@@ -238,7 +247,7 @@ const JobDetail = () => {
                     <div className="col-span-2  flex flex-col justify-start items-center md:items-end gap-y-4 mt-2">
                         <div className=" relative h-[338px] w-[412px] bg-bg-1 border border-slate-200 shadow-md flex flex-col justify-center items-center gap-y-1">
                             <Image
-                                src={job?.data?.companyId?.logoImage}
+                                src={job?.data?.companyId?.logoImage ?? "/logo.png"}
                                 alt="Example Image"
                                 width={300}
                                 height={300}

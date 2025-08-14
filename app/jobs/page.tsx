@@ -1,19 +1,17 @@
 "use client";
-
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useGetJobsByFilterQuery } from "@/redux/rtk/jobsApi";
 import { JobCard } from "@/components/jobCard";
 import {
+  IJob,
   optionCategories,
   optionDivision,
   optionJobGender,
   optionJobType,
 } from "@/constant/Constant";
-import { ILatestJobs } from "@/types/Types";
 import { toggleDivision } from "@/redux/slices/divisionSlice"; 
-
 import { SkeletonLoader } from "@/components/SkeletonLoader";
 import SearchBar from "../../components/searchBar/SearchBar";
 
@@ -46,7 +44,6 @@ const Jobs = () => {
   const [hasMounted, setHasMounted] = useState(false);
   useEffect(() => setHasMounted(true), []);
 
-  // Debug log to catch unexpected globalDivision types
   useEffect(() => {
     console.log("globalDivision from Redux:", globalDivision);
   }, [globalDivision]);
@@ -54,8 +51,8 @@ const Jobs = () => {
   // Derived query params
   const queryParams = useMemo(
     () => ({
-      page,
-      limit,
+      page: page.toString(),
+      limit: limit.toString(),
       search: globalCategory,
       searchValue,
       categoryFilter,
@@ -265,8 +262,8 @@ const Jobs = () => {
             <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
               {isLoading ? (
                 <SkeletonLoader />
-              ) : !isLoading && jobs?.data?.length > 0 ? (
-                jobs.data.slice(0, 8).map((val: ILatestJobs, i: number) => (
+              ) : !isLoading && jobs?.data?.length && jobs.data.length > 0 ? (
+                jobs.data.slice(0, 8).map((val: IJob, i: number) => (
                   <JobCard
                     key={val._id || i}
                     logo={val.companyId?.logoImage}

@@ -1,3 +1,4 @@
+import { AlreadyAppliedJobResponse } from "@/constant/Constant";
 import { baseApi } from "./baseApi";
 
 export const applicationApi = baseApi.injectEndpoints({
@@ -32,12 +33,10 @@ export const applicationApi = baseApi.injectEndpoints({
       providesTags: (result, error, jobId) => [{ type: 'Application', id: jobId }],
     }),
 
-    getIsApplied: builder.query<{ applied: boolean }, string>({
-      query: (jobId) => `application/is-applied/${jobId}`,
-      // providesTags: ["Application"],
-      providesTags: (result, error, jobId) => [{ type: 'Application', id: jobId }],
-
-    }),
+  getIsApplied: builder.query<AlreadyAppliedJobResponse, string>({
+  query: (jobId) => `application/is-applied/${jobId}`,
+  providesTags: (result, error, jobId) => [{ type: 'Application', id: jobId }],
+}),
 
     // applicationApi.ts
     acceptApplicant: builder.mutation<

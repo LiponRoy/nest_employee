@@ -99,19 +99,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { ArrowUpRight, Layers } from "lucide-react";
+import { JobCardProps } from "@/constant/Constant";
 
-type JobCardProps = {
-  logo: string;
-  companyName: string;
-  title: string;
-  gender: string;
-  jobType: string;
-  maxSalary: string;
-  minSalary: string;
-  location: string;
-  salary: string | number;
-  id: string;
-};
+
 
 export const JobCard = ({
   logo,

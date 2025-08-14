@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -94,9 +94,9 @@ type FormSchema = z.infer<typeof formSchema>;
 
 const AddJobForm: React.FC = () => {
   // Job Create RTK
-  const [createJob, { isLoading, isSuccess, error }] = useCreateJobsMutation();
+  const [createJob, { isLoading:CreateJobLoading, error:createError }] = useCreateJobsMutation();
   // Profile for current user RTK
-  const { data: currentUser, isLoading: profileLoading } = useGetProfileQuery(
+  const { data: currentUser, error:profileError, isLoading: profileLoading } = useGetProfileQuery(
     {}
   );
 
@@ -244,6 +244,23 @@ const AddJobForm: React.FC = () => {
     }
   };
 
+  // ✅ Show full-page loader while profile & companies are loading
+  if (profileLoading || companyLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p className="text-gray-500">Loading profile or companies data...</p>
+      </div>
+    );
+  }
+
+  // ✅ Error states before rendering form
+  if (profileError) {
+    return <p className="text-red-500">Failed to load profile.</p>;
+  }
+  if (companyError) {
+    return <p className="text-red-500">Failed to load company list.</p>;
+  }
+
   return (
     <div className="w-full flex justify-start items-start">
       <div className="w-full flex items-center justify-center bg-white px-2">
@@ -251,6 +268,14 @@ const AddJobForm: React.FC = () => {
           <h4 className="text-2xl font-semibold my-2 bg-slate-200 p-2">
             Add New Job .
           </h4>
+
+ {/* Job creation API error */}
+          {createError && (
+            <p className="text-red-500 text-sm mb-4">
+              Failed to create job. Please try again.
+            </p>
+          )}
+
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="mb-10 w-full space-y-6 "
@@ -714,8 +739,14 @@ const AddJobForm: React.FC = () => {
             </div>
 
             <div className="flex w-full items-center justify-center ">
-              <Button className="w-full bg-secondary-1 hover:bg-orange-600">
+              {/* <Button className="w-full bg-secondary-1 hover:bg-orange-600">
                 POST JOB
+              </Button> */}
+               <Button
+                className="w-full bg-secondary-1 hover:bg-orange-600"
+                disabled={CreateJobLoading} // disable while loading
+              >
+                {CreateJobLoading ? "Posting..." : "POST JOB"}
               </Button>
             </div>
           </form>
