@@ -1,7 +1,7 @@
 
 import Marquee from "react-fast-marquee";
 import { customerReviewsData, ICustomerReview } from "./ReviewData";
-import { BriefcaseBusiness } from 'lucide-react';
+import { User } from "lucide-react";
 
 
 
@@ -27,7 +27,7 @@ const Reviews = () => {
           key={i}
           className="w-[320px] md:w-[400px] h-[250px] m-2  bg-white shadow-md rounded-2xl p-6 border hover:shadow-lg transition-shadow"
         >
-          <BriefcaseBusiness size={32} className="mb-2"/>
+          <User size={38} className="mb-2 bg-slate-200 p-1 rounded-full"/>
           <p className="text-gray-700 mb-4 pr-8 text-[18px]">{review.reviewText}</p>
           <h3 className="text-lg font-semibold text-gray-800">{review.name}</h3>
           <p className="text-sm text-gray-500">{review.jobRoleSearched}</p>

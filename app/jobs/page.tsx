@@ -13,7 +13,7 @@ import {
 } from "@/constant/Constant";
 import { toggleDivision } from "@/redux/slices/divisionSlice"; 
 import { SkeletonLoader } from "@/components/SkeletonLoader";
-import SearchBar from "../../components/searchBar/SearchBar";
+import SearchByAnything from "@/components/searchBar/SearchByAnything";
 
 const Jobs = () => {
   const router = useRouter();
@@ -246,7 +246,7 @@ const Jobs = () => {
         {/* Job Results */}
         <section className="col-span-4 md:col-span-3 ">
           <div className="w-full ">
-            <SearchBar />
+            <SearchByAnything />
             <div className="my-3 flex justify-between items-center w-full">
               <span
                 onClick={() => setToggle(!toggle)}

@@ -3,14 +3,16 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useGetJobsQuery } from "@/redux/rtk/jobsApi";
-import { ILatestJobs } from "@/types/Types";
+// import { ILatestJobs } from "@/types/Types";
 import { JobCard } from "./jobCard";
 import { Button } from "./ui/button";
 import { SkeletonLoader } from "./SkeletonLoader";
-
+import { IJob } from "@/constant/Constant";
+import { setCategory } from "@/redux/slices/searchSlice";
+import { useAppDispatch } from "@/redux/hooks";
 const LatestJobs = () => {
   const router = useRouter();
-
+  const dispatch = useAppDispatch();
   const {
     data: jobs,
     error,
@@ -19,6 +21,12 @@ const LatestJobs = () => {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
   });
+
+  const handelClick = () => {
+// Reset → show all jobs
+      dispatch(setCategory(""));
+      router.push("/jobs")
+  }
 
   return (
     <div className="container-custom flex flex-col justify-center items-center">
@@ -31,8 +39,8 @@ const LatestJobs = () => {
       <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
         {isLoading || !jobs ? (
           <SkeletonLoader/>
-        ) : jobs.data?.length > 0 ? (
-          jobs.data.slice(0, 6).map((val: ILatestJobs, i: number) => (
+        ) : jobs?.data?.length > 0 ? (
+          jobs.data.slice(0, 6).map((val: IJob, i: number) => (
             <JobCard
               key={val._id || i}
               logo={val.companyId?.logoImage}
@@ -55,7 +63,7 @@ const LatestJobs = () => {
 
       <div className="w-full flex justify-center items-center py-6">
         <Button
-          onClick={() => router.push("/jobs")}
+          onClick={handelClick}
           className="border border-secondary-1 h-12 w-[60%] md:w-[20%] text-[18px] font-semibold rounded-md flex justify-center items-center cursor-pointer transition-all duration-500 ease-in-out bg-secondary-1 hover:bg-secondary-1 hover:text-white"
         >
           VIEW MORE JOBS

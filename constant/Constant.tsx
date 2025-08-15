@@ -1,4 +1,4 @@
-import { BriefcaseBusiness } from 'lucide-react';
+import { BriefcaseBusiness, Building, GalleryHorizontalEnd, List, UsersRound } from 'lucide-react';
 import { InavLinks, IJobType, } from '@/types/Types';
 
 export const navLinks: InavLinks[] = [
@@ -153,22 +153,22 @@ export const GeneralInfoData = [
   {
     quantity: 512,
     title: "LIVE JOBS",
-    icon: <BriefcaseBusiness />,
+    icon: <GalleryHorizontalEnd />,
   },
   {
     quantity: 90,
     title: "VACANCIES",
-    icon: <BriefcaseBusiness />,
+    icon: <UsersRound />,
   },
   {
     quantity: 70,
     title: "COMPANIES",
-    icon: <BriefcaseBusiness />,
+    icon: <Building />,
   },
   {
     quantity: 170,
     title: "NEW JOBS",
-    icon: <BriefcaseBusiness />,
+    icon:<List /> ,
   },
   
 ];
@@ -185,12 +185,14 @@ export type JobCardProps = {
   id: string;
 };
 
+import { CSSObject } from '@emotion/react';
+
 export const selectFieldStyle = {
-  container: (provided: any) => ({
+  container: (provided: CSSObject) => ({
     ...provided,
     width: "100%",
   }),
-  control: (provided: any) => ({
+  control: (provided: CSSObject) => ({
     ...provided,
     backgroundColor: "transparent",
     border: "none !important",
@@ -198,7 +200,7 @@ export const selectFieldStyle = {
     boxShadow: "none !important",
     cursor: "pointer",
     width: "100%",
-	fontSize: "16px", // Increased text size
+  fontSize: "16px", // Increased text size
     "&:hover": {
       border: "none !important",
       borderColor: "transparent !important",
@@ -214,24 +216,24 @@ export const selectFieldStyle = {
       boxShadow: "none !important",
     },
   }),
-  valueContainer: (provided: any) => ({
+  valueContainer: (provided: CSSObject) => ({
     ...provided,
     padding: "0 8px",
   }),
-  singleValue: (provided: any) => ({
+  singleValue: (provided: CSSObject) => ({
     ...provided,
   }),
-  placeholder: (provided: any) => ({
+  placeholder: (provided: CSSObject) => ({
     ...provided,
   }),
-  dropdownIndicator: (provided: any) => ({
+  dropdownIndicator: (provided: CSSObject) => ({
     ...provided,
     display: "none",
   }),
   indicatorSeparator: () => ({
     display: "none",
   }),
-  menu: (provided: any) => ({
+  menu: (provided: CSSObject) => ({
     ...provided,
     backgroundColor: "#ffffff",
     border: "none",
@@ -246,7 +248,7 @@ export const selectFieldStyle = {
     minWidth: "unset",
     animation: "fadeIn 0.15s ease-in-out",
   }),
-  option: (provided: any, state: any) => ({
+  option: (provided: CSSObject, state: { isSelected: boolean; isFocused: boolean }) => ({
     ...provided,
     backgroundColor: state.isSelected
       ? "linear-gradient(90deg, #6366F1, #A855F7)"
@@ -426,4 +428,54 @@ export interface GeneralInfoResponse {
   data: {
     generalInfo: GeneralInfo;
   };
+}
+ 
+
+
+/// applied jobs by userId
+
+export interface AppliedJobResponse {
+  success: boolean;
+  message: string;
+  data: JobApplication[];
+}
+
+export interface JobApplication {
+  _id: string;
+  job: AppliedJob;
+  applicant: string;
+  status: "pending" | "approved" | "rejected"; // assuming possible statuses
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  __v: number;
+}
+
+export interface AppliedJob {
+  _id: string;
+  title: string;
+  description: string;
+} 
+
+// Applicants
+export interface ApplicantsResponse {
+  success: boolean;
+  message: string;
+  data: {
+    data: ApplicantItem[];
+  };
+}
+
+export interface ApplicantItem {
+  _id: string;
+  job: string;
+  applicant: Applicant;
+  status: "pending" | "approved" | "rejected"; // add other statuses if needed
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  __v: number;
+}
+
+export interface Applicant {
+  _id: string;
+  name: string;
 }

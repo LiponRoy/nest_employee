@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu} from "lucide-react";
 import { navLinks } from "@/constant/Constant";
 import { useAppDispatch } from "@/redux/hooks";
 import { openLoginModal } from "@/redux/slices/loginFormModalSlice";
@@ -32,11 +32,11 @@ export default function Navbar() {
 
   // Role Based Access
   const [isUserEmployer, setIsUserEmployer] = useState(false);
-  const [isUserAdmin, setIsUserAdmin] = useState(false);
+  // const [isUserAdmin, setIsUserAdmin] = useState(false);
   useEffect(() => {
     if (user) {
       setIsUserEmployer(user.data.role === "employer");
-      setIsUserAdmin(user.data.role === "admin");
+      // setIsUserAdmin(user.data.role === "admin");
     }
   }, [user]);
   // Role Based Access End
@@ -44,16 +44,10 @@ export default function Navbar() {
   // mobile sidebar
   const [open, setOpen] = useState(false);
 
-  const handleNavigate = (path) => {
+  const handleNavigate = (path:string) => {
     router.push(path);
     setOpen(false); // Close sheet
   };
-
-  // const [otherState, setOtherState] = useState(false);
-
-  // const otherController = () => {
-  //   setOtherState(!otherState);
-  // };
 
   return (
     <nav className="sticky top-0 z-50 container-custom flex items-center justify-between px-6 py-4 bg-bg-1 dark:bg-slate-900 bg-opacity-90 shadow-md">

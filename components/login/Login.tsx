@@ -25,7 +25,7 @@ type FormData = z.infer<typeof schema>;
 const Login = () => {
 
   const router = useRouter();
-  const [login, { isLoading, error }] = useLoginMutation();
+  const [login, { isLoading}] = useLoginMutation();
 
 
   //for modal
@@ -46,7 +46,7 @@ const Login = () => {
       successToast("login Successfully")
       dispatch(closeLoginModal())
     } catch (err) {
-      errorToast("Something went wrong !!", err)
+      errorToast("Something went wrong !!")
       dispatch(closeLoginModal())
 
       console.error("login failed", err);
@@ -77,9 +77,10 @@ const Login = () => {
             </div>
           </div>
           <Button
+          disabled={isLoading}
             title="Login"
             className="w-full bg-secondary-1 text-white"
-          >Login</Button>
+          >{isLoading?"Loading..":"Login"}</Button>
         </form>
       </FormProvider>
     </div>

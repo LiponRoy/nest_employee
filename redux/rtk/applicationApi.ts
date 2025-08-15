@@ -1,17 +1,9 @@
-import { AlreadyAppliedJobResponse } from "@/constant/Constant";
+import { AlreadyAppliedJobResponse, ApplicantsResponse, AppliedJobResponse } from "@/constant/Constant";
 import { baseApi } from "./baseApi";
 
 export const applicationApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // applyForJob: builder.mutation({
-    // 	query: (jobId) => `/application/create/${jobId}`,
-
-    // 	// query: (formData: FormData) => ({
-    // 	// 	url: 'job/create',
-    // 	// 	method: 'POST',
-    // 	// 	body: formData,
-    // 	// }),
-    // }),
+ 
     applyForJob: builder.mutation({
       query: (jobId: string) => ({
         url: `application/create/${jobId}`,
@@ -20,14 +12,14 @@ export const applicationApi = baseApi.injectEndpoints({
       invalidatesTags: (result, error,jobId ) => [{ type: 'Application', id: jobId }],
 
     }),
-    appliedJobsByUser: builder.query<any, void>({
+    appliedJobsByUser: builder.query<AppliedJobResponse, void>({
       query: () => "/application/appliedJobsAll",
       // providesTags: ["Application"],
-      providesTags: (result, error) => [{ type: 'Application'}],
+      providesTags: () => [{ type: 'Application'}],
 
     }),
 
-    getApplicantsByJobId: builder.query<any, string>({
+    getApplicantsByJobId: builder.query<ApplicantsResponse, string>({
       query: (jobId) => `application/getApplicantsByJobId/${jobId}`,
       // providesTags: ["Application"],
       providesTags: (result, error, jobId) => [{ type: 'Application', id: jobId }],

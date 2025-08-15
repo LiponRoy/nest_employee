@@ -1,57 +1,9 @@
-"use client";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { latestJobs } from "@/constant/Constant";
+import React from 'react'
 
 const RelatedJobs = () => {
+  return (
+    <div>RelatedJobs</div>
+  )
+}
 
-    return (
-        <div className="w-full">
-            <div className=" text-center">
-                <h5 className="text-white  p-1 mb-6 inline-block">
-                    <span className="border border-white p-2 uppercase rounded-md">Trending Category</span>
-                </h5>
-
-            </div>
-            <Swiper
-                modules={[Navigation, Pagination, Autoplay]}
-                spaceBetween={20}
-                slidesPerView={4}
-                // navigation
-                pagination={{
-                    clickable: true,
-                    el: ".custom-pagination", // Custom pagination class
-                }}
-                speed={2000}
-                autoplay={{ delay: 4000, disableOnInteraction: false }}
-                loop={true}
-                breakpoints={{
-                    640: { slidesPerView: 1 },
-                    768: { slidesPerView: 1 },
-                    1024: { slidesPerView: 6 },
-                }}
-                className="pb-10"
-            >
-                {latestJobs?.map((job) => (
-                    <SwiperSlide key={job.id}>
-                        <div className="bg-slate-900 opacity-70 rounded-lg p-2 text-center border-2 border-secondary-1 cursor-pointer shadow-lg">
-                            <h4 className="text-lg font-semibold text-white">{job.title}</h4>
-                            <h4 className="text-lg font-semibold text-white">{job.companyName}</h4>
-                            <h4 className="text-lg font-semibold text-white">{job.description}</h4>
-                            <h4 className="text-lg font-semibold text-white">{job.position}</h4>
-
-                        </div>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-
-            {/* Pagination Wrapper*/}
-            <div className="custom-pagination flex justify-center mt-5"></div>
-        </div>
-    );
-};
-
-export default RelatedJobs;
+export default RelatedJobs

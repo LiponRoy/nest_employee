@@ -61,14 +61,15 @@ const UpdateEducationInfo: React.FC = () => {
   }, [profileData, reset]);
 
   const onSubmit = async (data: FormSchema) => {
-
-     try {
-              await updateProfileEducationInfo(data).unwrap(); // 
-               successToast("Education Info Update Successfully")
-             } catch (err) {
-               errorToast("Something went wrong !!", err)
-               console.error("Education Info Update Failed", err);
-             }
+    try {
+      const formData = new FormData();
+      formData.append("education", JSON.stringify(data.education));
+      await updateProfileEducationInfo(formData).unwrap();
+      successToast("Education Info Update Successfully");
+    } catch (err) {
+      errorToast("Something went wrong !!");
+      console.error("Education Info Update Failed", err);
+    }
   };
 
   if (isProfileLoading) {

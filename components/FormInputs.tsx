@@ -74,7 +74,7 @@ const TextInput: React.FC<InputProps> = ({
 			)}
 			{errors[name] && (
 				<span className="text-red-500 text-sm">
-					{(errors[name] as any).message}
+					{(errors[name] as import("react-hook-form").FieldError)?.message}
 				</span>
 			)}
 		</div>
@@ -84,7 +84,6 @@ const TextInput: React.FC<InputProps> = ({
 const RadioInput: React.FC<IRadioProps> = ({
 	value,
 	registerValue,
-	customStyle,
 }) => {
 	const {
 		register,
@@ -103,7 +102,7 @@ const RadioInput: React.FC<IRadioProps> = ({
 			/>
 			{errors[value] && (
 				<span className="text-red-500 text-sm">
-					{(errors[value] as any).message}
+					{(errors[value] as import("react-hook-form").FieldError)?.message}
 				</span>
 			)}
 		</div>
@@ -135,7 +134,7 @@ const SelectInput: React.FC<SelectProps> = ({ name, label, options }) => {
 			</select>
 			{errors[name] && (
 				<span className="text-red-600 text-sm">
-					{(errors[name] as any).message}
+					{(errors[name] as import("react-hook-form").FieldError)?.message}
 				</span>
 			)}
 		</div>

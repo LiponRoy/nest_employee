@@ -6,38 +6,38 @@ export interface ICustomerReview {
 
 export const customerReviewsData: ICustomerReview[] = [
   {
-    name: "Alice Johnson",
-    reviewText: "This platform helped me land a great job within two weeks. Highly recommended!",
+    name: "Lipon Roy",
+    reviewText: "This platform helped me get a job quickly. The process was smooth and efficient.",
     jobRoleSearched: "Frontend Developer",
   },
   {
-    name: "Mohammed Rahman",
-    reviewText: "Easy to use and lots of job listings. Found several relevant opportunities quickly.",
+    name: "Farhana Akter",
+    reviewText: "Easy to navigate and very informative. I found relevant backend jobs in no time.",
     jobRoleSearched: "Backend Developer",
   },
   {
-    name: "David Kim",
-    reviewText: "Excellent features like resume builder and company reviews. Very helpful.",
+    name: "Tanvir Hasan",
+    reviewText: "The resume builder feature is amazing. It really helped me stand out.",
     jobRoleSearched: "DevOps Engineer",
   },
   {
-    name: "Carlos Mendes",
-    reviewText: "The filters are really helpful. I was able to narrow down jobs that matched my skills.",
+    name: "Sabrina Sultana",
+    reviewText: "Filters and categories are very helpful. I could focus on jobs matching my skills.",
     jobRoleSearched: "Full Stack Developer",
   },
   {
-    name: "Li Wei",
-    reviewText: "Nice UI and a lot of listings. Got contacted by 3 recruiters in a week.",
+    name: "Rafiq Hossain",
+    reviewText: "Great UI and job alerts. I was contacted by multiple recruiters within a week.",
     jobRoleSearched: "Data Analyst",
   },
   {
-    name: "Fatima Noor",
-    reviewText: "Very organized and easy to apply. I appreciate the application tracking feature.",
+    name: "Nusrat Jahan",
+    reviewText: "Application tracking is very convenient. It made applying stress-free.",
     jobRoleSearched: "HR Executive",
   },
   {
-    name: "Elena Petrova",
-    reviewText: "Found my remote position thanks to this site. The email alerts are super useful.",
+    name: "Imran Chowdhury",
+    reviewText: "Found my remote position easily. Email notifications are very useful.",
     jobRoleSearched: "Content Writer",
   },
 ];

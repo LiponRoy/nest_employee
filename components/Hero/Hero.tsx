@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import SearchBar from "../searchBar/SearchBar";
 import GeneralInfo from "../Home/GeneralInfo";
 import ScrollAnimatedWrapper from "../GSAP/ScrollAnimatedWrapper ";
 import HeroRightSlider from "./HeroRightSlider";
+import TabbedSearchBox from "./TabbedSearchBox";
 
 const Hero = () => {
     return (
@@ -16,19 +16,21 @@ const Hero = () => {
                 <div className="w-full md:w-[65%] flex flex-col justify-center items-center mb-8 md:gap-y-2">
                     <span className="text-white text-[18px] md:text-[24px] font-semibold mb-2 md:mb-0">
                         {" "}
-                        Find Your Dream{" "}
+                        Discover Your Dream
                         <span className="text-[24px] md:text-[38px] text-secondary-1 mx-1">
-                            JOBS
+                            Job
                         </span>
                         .
                     </span>
-                    <h4>
+                    {/* <h4>
                         <span className="hidden md:block text-white text-[18px] mb-2">
                             It is a Long Established Fact That a Reader Will be
                             Distracted by The Readable.
                         </span>
-                    </h4>
-                    <SearchBar />
+                    </h4> */}
+                    {/* <SearchBar />
+                    <SearchByAnything/> */}
+                    <TabbedSearchBox/>
                 </div>
                 <div className="hidden md:flex">
                     <HeroRightSlider />

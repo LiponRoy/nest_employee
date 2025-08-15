@@ -10,7 +10,7 @@ export const profileApi = baseApi.injectEndpoints({
                 method: "PUT",
                 body: formData,
             }),
-            invalidatesTags: (result, error) => [{ type: "Profile" }],
+            invalidatesTags: () => [{ type: "Profile" }],
         }),
      // In your API slice:
 updateProfileEducationInfo: builder.mutation<EducationResponse, FormData>({
@@ -19,7 +19,7 @@ updateProfileEducationInfo: builder.mutation<EducationResponse, FormData>({
     method: "PUT",
     body: formData,
   }),
-  invalidatesTags: (result, error) => [{ type: "Profile" }],
+  invalidatesTags: () => [{ type: "Profile" }],
 }),
         getProfileByLoginUser: builder.query<ProfileResponse,void>({
             query: () => "/profile/profileDataById",

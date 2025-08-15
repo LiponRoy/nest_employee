@@ -1,4 +1,4 @@
-import { IJob, JobsResponse, JobsResponseSingle } from "@/constant/Constant";
+import {JobsResponse, JobsResponseSingle } from "@/constant/Constant";
 import { baseApi } from "./baseApi";
 
 // Common Job type
@@ -33,7 +33,7 @@ export interface DeleteJobResponse {
 export const jobApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Get all jobs (basic list)
-    getJobs: builder.query<Job[], void>({
+    getJobs: builder.query<JobsResponse, void>({
       query: () => "/job/all",
       providesTags: ["Job"],
     }),

@@ -7,7 +7,7 @@ import { useState } from "react";
 import SelectInput from "../SelectInput";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { useAppDispatch} from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { setCategory } from "@/redux/slices/searchSlice";
 import { Search } from 'lucide-react';
 
@@ -23,21 +23,28 @@ const MyComponent = () => {
   };
 
   return (
-    <div className="w-full grid grid-cols-5 gap-4 bg-slate-100 rounded-md  border-2 border-slate-400 shadow-lg py-1 px-2 mx-4 md:mx-0 z-50 mb-4">
-      <div className=" col-span-4 flex justify-start items-center ">
+    <div className="w-full flex items-center justify-center bg-slate-100 rounded-md shadow-lg py-2 px-4 mx-4 md:mx-0 mb-4 space-y-2 md:space-y-0 md:space-x-4">
+      
+      {/* Left: Search + Select */}
+      <div className="flex-1 flex items-center w-full">
+        <Search className="text-slate-500 mr-2" />
         <SelectInput
           options={searchCategories}
           value={categories}
           onChange={setCategories}
           newStyle={selectFieldStyle}
           placeholder="Select Job Category"
+          className="flex-1"
         />
       </div>
-      <div className=" col-span-1 flex justify-end text-[32px] font-semibold">
-        <Button onClick={()=>hendelChange(categories?.value)} className="w-full py-5 md:py-8 rounded-md md:rounded-xl  bg-secondary-1 hover:bg-secondary-1">
-          <Search size={22} className=""/>
-         <span className="hidden md:block"> Search Jobs</span>
-          
+
+      {/* Right: Button */}
+      <div className="w-auto">
+        <Button
+          onClick={() => hendelChange(categories?.value ?? "")}
+          className="w-full py-4 md:py-5 rounded-md bg-secondary-1 hover:bg-secondary-1"
+        >
+          <span className="">Find Jobs</span>
         </Button>
       </div>
     </div>
@@ -45,4 +52,3 @@ const MyComponent = () => {
 };
 
 export default MyComponent;
-

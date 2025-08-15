@@ -9,14 +9,15 @@ import {
 import { useParams } from "next/navigation";
 import React, { useCallback } from "react";
 import { errorToast, successToast } from "@/components/Toast";
+import { ApplicantItem } from "@/constant/Constant";
 
-interface Applicant {
-  applicant: {
-    _id: string;
-    name: string;
-  };
-  status: "pending" | "accepted" | "rejected";
-}
+// interface Applicant {
+//   applicant: {
+//     _id: string;
+//     name: string;
+//   };
+//   status: "pending" | "accepted" | "rejected";
+// }
 
 const Applicants = () => {
   const { id } = useParams();
@@ -68,8 +69,8 @@ const Applicants = () => {
 
   return (
     <div className="w-full">
-      {applicants?.data?.data?.map((val: Applicant) => {
-        const isAccepted = val.status === "accepted";
+      {applicants?.data?.data?.map((val: ApplicantItem) => {
+        const isAccepted = val.status === "approved";
         const isRejected = val.status === "rejected";
 
         return (

@@ -66,13 +66,21 @@ const UpdateGeneralInfo = () => {
    
     const onSubmit: SubmitHandler<FormData> = async (data) => { 
       console.log("modal data: ", data);
-         try {
-           await updateProfileGeneralInfo(data).unwrap();
-           successToast("GeneralInfo Update Successfully")
-         } catch (err) {
-           errorToast("Something went wrong !!", err)
-           console.error("GeneralInfo Update Failed", err);
-         }
+      try {
+        const formData = new FormData();
+        formData.append("phone", data.phone);
+        formData.append("gender", data.gender);
+        formData.append("age", data.age);
+        formData.append("bio", data.bio);
+        formData.append("address", data.address);
+        formData.append("about", data.about);
+
+        await updateProfileGeneralInfo(formData).unwrap();
+        successToast("GeneralInfo Update Successfully")
+      } catch (err) {
+        errorToast("Something went wrong !!")
+        console.error("GeneralInfo Update Failed", err);
+      }
     };
 
 

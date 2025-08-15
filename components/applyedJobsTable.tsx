@@ -9,10 +9,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { JobApplication } from "@/constant/Constant";
 
 
 
-export default function applyedJobsTable({ applyedJobs }: any) {
+export default function applyedJobsTable({ applyedJobs }: { applyedJobs: JobApplication[] }) {
     console.log("applyedJobs tt", applyedJobs)
     return (
         <Table>
@@ -25,7 +26,7 @@ export default function applyedJobsTable({ applyedJobs }: any) {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {applyedJobs?.map((job) => (
+                {applyedJobs?.map((job:JobApplication) => (
                     <TableRow key={job._id}>
                         <TableCell>{job.job?._id}</TableCell>
                         <TableCell>{job.job?.title}</TableCell>
