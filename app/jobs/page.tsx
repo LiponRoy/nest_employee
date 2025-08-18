@@ -67,7 +67,6 @@ const Jobs = () => {
   const {
     data: jobs,
     isLoading,
-    error,
   } = useGetJobsByFilterQuery(queryParams, {
     skip: !hasMounted,
     refetchOnMountOrArgChange: true,
@@ -127,7 +126,7 @@ const Jobs = () => {
   };
 
   if (!hasMounted) return null;
-  if (error) return <p>Error loading jobs.</p>;
+
 
   return (
     <div className="container-custom flex flex-col mt-6 ">
@@ -252,11 +251,11 @@ const Jobs = () => {
                 onClick={() => setToggle(!toggle)}
                 className="md:hidden bg-secondary-1 p-1 px-2 text-white rounded-md cursor-pointer"
               >
-                Filter ++
+                Filter
               </span>
               <span>
-                Found <span className="mx-1">{jobs?.meta?.total}</span> Jobs
-              </span>
+  Found <span className="mx-1">{jobs?.meta?.total ?? 0}</span> Jobs
+</span>
             </div>
 
             <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -278,7 +277,7 @@ const Jobs = () => {
                   />
                 ))
               ) : (
-                <p>No jobs found.</p>
+                <p className=" text-[24px] font-semibold text-slate-500">No jobs found.</p>
               )}
             </div>
           </div>
