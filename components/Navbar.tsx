@@ -11,7 +11,7 @@ import { openRegisterModal } from "@/redux/slices/registerFormModalSlice";
 import { useGetProfileQuery } from "@/redux/rtk/auth";
 import LogoutButton from "./LogoutButton";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 //
 import { Avatar } from "@/components/ui/avatar";
@@ -31,14 +31,14 @@ export default function Navbar() {
   const { data: user, isLoading } = useGetProfileQuery({});
 
   // Role Based Access
-  const [isUserEmployer, setIsUserEmployer] = useState(false);
+  // const [isUserEmployer, setIsUserEmployer] = useState(false);
   // const [isUserAdmin, setIsUserAdmin] = useState(false);
-  useEffect(() => {
-    if (user) {
-      setIsUserEmployer(user.data.role === "employer");
-      // setIsUserAdmin(user.data.role === "admin");
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     setIsUserEmployer(user.data.role === "employer");
+  //     // setIsUserAdmin(user.data.role === "admin");
+  //   }
+  // }, [user]);
   // Role Based Access End
 
   // mobile sidebar
@@ -69,6 +69,16 @@ export default function Navbar() {
             {link.label}
           </Link>
         ))}
+
+        {
+          user && <Link
+           
+            href="/dashboard"
+            className="text-primary-1 font-semibold hover:text-secondary-1 dark:text-gray-200 transition-colors duration-500 hover:text-orange-deep"
+          >
+           Dashboard
+          </Link>
+        }
 
         <div className="flex items-center gap-4">
           {isLoading ? (
@@ -219,16 +229,16 @@ export default function Navbar() {
         </SheetTrigger>
         <SheetContent side="right" className="p-6 md:p-10">
           {user ? (
-            <div className="flex flex-col justify-start items-start space-y-4 mt-4">
+            <div className="flex flex-col justify-start items-start space-y-6 mt-4">
               {/* if user login */}
 
               <span
-                onClick={() => handleNavigate("/profile")}
+                onClick={() => handleNavigate("/jobs")} 
                 className="cursor-pointer w-full"
               >
-                Profile
+               Browse Jobs
               </span>
-              {isUserEmployer && (
+            
                 <div className="flex flex-col justify-start items-start space-y-4">
                   
                   <span
@@ -239,8 +249,10 @@ export default function Navbar() {
                   </span>
                   
                 </div>
-              )}
-              <LogoutButton />
+             
+              <div className="mt-2">
+                <LogoutButton />
+              </div>
             </div>
           ) : (
             <div className="flex flex-col justify-start items-start space-y-2 mt-6 ">

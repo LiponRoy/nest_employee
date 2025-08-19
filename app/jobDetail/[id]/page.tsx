@@ -88,7 +88,7 @@ const JobDetail = () => {
                 <div className="w-full h-1/2 bg-slate-100 pb-5 md:pb-10 pt-5 pl-2 border-l-8 border-secondary-1">
                     <div className="w-full h-full flex flex-col justify-start items-start">
                         <span className="text-[32px] md:text-[48px]">{job?.data?.title}</span>
-                        <div className="flex flex-col md:flex-row justify-start items-start md:items-center space-x-7 mt-[22px] space-y-3 md:space-y-0">
+                        <div className="flex flex-col md:flex-row justify-start items-start md:items-center space-x-0 md:space-x-7 mt-[22px] space-y-3 md:space-y-0">
                              <div className="flex justify-center items-center gap-x-1">
                                 <Landmark size={22}  className="text-primary-1 mr-1" />
 
@@ -225,10 +225,11 @@ const JobDetail = () => {
                             ))}
                         </div>
                         {/* Salary and Benefits End */}
-
+                       <div className="hidden md:block">
+    
                         {isAppliedData && isAppliedData?.data?.data ? (
                             <div className="w-[20%] absolute  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">
-                                Already applied
+                                Already applied 
                             </div>
                         ) : (
                             <Button
@@ -242,6 +243,7 @@ const JobDetail = () => {
                                     : "Login as jobseeker to apply"}
                             </Button>
                         )}
+                    </div>
                     </div>
                     {/* company logo and apply job section */}
                     <div className="col-span-2  flex flex-col justify-start items-center md:items-end gap-y-4 mt-2">
@@ -257,9 +259,9 @@ const JobDetail = () => {
                             <span className="text-[32px] font-semibold">
                                 {job?.data?.companyId?.name}{" "}
                             </span>
-                            <span className="text-[18px] font-normal">
+                            {/* <span className="text-[18px] font-normal">
                                 Visit Website
-                            </span>
+                            </span> */}
                             {isAppliedData && isAppliedData?.data?.data ? (
                                 <div className="w-[80%] absolute bottom-6  rounded-md bg-slate-400 text-[18px] text-center py-1 text-slate-200">
                                     Already applied
