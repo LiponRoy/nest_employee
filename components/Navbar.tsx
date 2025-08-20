@@ -123,7 +123,7 @@ export default function Navbar() {
             <DropdownMenu>
               <DropdownMenuTrigger
                 className="
-          flex items-center justify-end
+          flex items-center justify-end 
           w-full md:w-auto py-3
           bg-white/10 text-primary-1
           hover:text-secondary-1
@@ -137,9 +137,9 @@ export default function Navbar() {
                 <ListFilter size={18} className="ml-2 text-primary-1" />
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent
+              <DropdownMenuContent 
                 className="
-          w-[220px]
+          w-[280px] mr-16
           mt-4
           bg-slate-300 text-slate-800
           rounded-md 
@@ -148,6 +148,27 @@ export default function Navbar() {
           z-50
         "
               >
+                {/* Login */}
+                <DropdownMenuItem asChild>
+                  <div
+                    onClick={() => dispatch(openLoginModal())}
+                    className="
+              px-2 py-5
+              flex flex-col items-start gap-1
+              hover:bg-white/20 transition-colors duration-150
+              cursor-pointer
+            "
+                  >
+                    <span className="text-lg font-semibold">Login</span>
+                    <span className="text-sm opacity-80">
+                      If you are already registered
+                    </span>
+                    <span className="w-full text-center mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
+                      LOGIN
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+                  <DropdownMenuSeparator className="border-white/20" />
                 {/* Job Seeker */}
                 <DropdownMenuItem asChild>
                   <div
@@ -163,8 +184,8 @@ export default function Navbar() {
                     <span className="text-sm opacity-80">
                       Find your dream job today
                     </span>
-                    <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
-                      Register
+                    <span className="w-full text-center mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
+                      REGISTER
                     </span>
                   </div>
                 </DropdownMenuItem>
@@ -184,32 +205,13 @@ export default function Navbar() {
                     <span className="text-sm opacity-80">
                       Find the best candidates
                     </span>
-                    <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
-                      Register
+                    <span className="w-full text-center mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
+                      REGISTER
                     </span>
                   </div>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator className="border-white/20" />
-                {/* Login */}
-                <DropdownMenuItem asChild>
-                  <div
-                    onClick={() => dispatch(openLoginModal())}
-                    className="
-              px-2 py-5
-              flex flex-col items-start gap-1
-              hover:bg-white/20 transition-colors duration-150
-              cursor-pointer
-            "
-                  >
-                    <span className="text-lg font-semibold">Login</span>
-                    <span className="text-sm opacity-80">
-                      If you are already registered
-                    </span>
-                    <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
-                      Login
-                    </span>
-                  </div>
-                </DropdownMenuItem>
+              
+                
               </DropdownMenuContent>
             </DropdownMenu>
           )}
@@ -258,6 +260,26 @@ export default function Navbar() {
             <div className="flex flex-col justify-start items-start space-y-2 mt-6 ">
               <div
                 onClick={() => {
+                  dispatch(openLoginModal());
+                  setOpen(false);
+                }}
+                className="
+              w-full px-2 py-5
+              flex flex-col items-start gap-1
+              hover:bg-white/20 transition-colors duration-150
+              cursor-pointer border-b border-slate-200
+            "
+              >
+                <span className="text-lg font-semibold">Login</span>
+                <span className="text-sm opacity-80">
+                  If you are already registered
+                </span>
+                <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
+                  Login
+                </span>
+              </div>
+              <div
+                onClick={() => {
                   dispatch(openRegisterModal());
                   setOpen(false);
                 }}
@@ -296,26 +318,7 @@ export default function Navbar() {
                   Register
                 </span>
               </div>
-              <div
-                onClick={() => {
-                  dispatch(openLoginModal());
-                  setOpen(false);
-                }}
-                className="
-              w-full px-2 py-5
-              flex flex-col items-start gap-1
-              hover:bg-white/20 transition-colors duration-150
-              cursor-pointer border-b border-slate-200
-            "
-              >
-                <span className="text-lg font-semibold">Login</span>
-                <span className="text-sm opacity-80">
-                  If you are already registered
-                </span>
-                <span className="mt-2 text-sm font-medium bg-secondary-1 text-white px-4 py-1 rounded-md">
-                  Login
-                </span>
-              </div>
+              
             </div>
           )}
         </SheetContent>

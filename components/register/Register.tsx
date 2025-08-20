@@ -67,7 +67,7 @@ const Register = () => {
 
   const bodyContent = (
 
-    <div className="flex flex-col flex-1 justify-center p-8 ">
+    <div className="flex flex-col flex-1 justify-center px-2 py-4 md:py-8  ">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
           <TextInput name="name" label="Name" />

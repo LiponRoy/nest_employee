@@ -67,6 +67,7 @@ export const jobApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      transformResponse: (response: JobsResponse): JobsResponse => response,
       keepUnusedDataFor: 0,
       providesTags: ["Job"],
     }),

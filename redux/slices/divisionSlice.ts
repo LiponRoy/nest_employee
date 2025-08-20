@@ -21,9 +21,12 @@ const divisionSlice = createSlice({
       } else {
         state.division.push(action.payload);
       }
+    }, 
+    resetDivision: (state) => {
+      state.division = [];
     },
   },
 });
 
-export const { setDivision, toggleDivision } = divisionSlice.actions;
+export const { setDivision, toggleDivision,resetDivision } = divisionSlice.actions;
 export default divisionSlice.reducer;

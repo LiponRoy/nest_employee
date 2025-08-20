@@ -11,9 +11,10 @@ import {
   optionJobGender,
   optionJobType,
 } from "@/constant/Constant";
-import { toggleDivision } from "@/redux/slices/divisionSlice"; 
+import { resetDivision, toggleDivision } from "@/redux/slices/divisionSlice"; 
 import { SkeletonLoader } from "@/components/SkeletonLoader";
 import SearchByAnything from "@/components/searchBar/SearchByAnything";
+import { resetCategory } from "@/redux/slices/searchSlice";
 
 const Jobs = () => {
   const router = useRouter();
@@ -46,7 +47,9 @@ const Jobs = () => {
 
   useEffect(() => {
     console.log("globalDivision from Redux:", globalDivision);
-  }, [globalDivision]);
+    console.log("globalCategory from Redux:", globalCategory);
+
+  }, [globalDivision,globalCategory]);
 
   // Derived query params
   const queryParams = useMemo(
@@ -122,8 +125,19 @@ const Jobs = () => {
 
   // Toggle division filter - dispatch to Redux
   const toggleDivisionHandler = (divisionName: string) => {
+    console.log('dddd division:', divisionName);
     dispatch(toggleDivision(divisionName));
   };
+
+
+  const resetAll =()=>{
+    setjobType([]);
+    setGender([]);
+    setCategoryFilter([]);
+    dispatch(resetDivision()); // Reset division in Redux
+    dispatch(resetCategory());
+    
+  }
 
   if (!hasMounted) return null;
 
@@ -132,7 +146,11 @@ const Jobs = () => {
     <div className="container-custom flex flex-col mt-6 ">
       <div className="grid grid-cols-4 gap-5 p-4 min-h-screen">
         {/* Filters */}
-        <div className="hidden md:block col-span-1 px-6 border rounded-lg shadow-md p-6 bg-white ">
+        <div className="hidden md:block col-span-1 px-6 border rounded-lg shadow-md p-6 bg-white "> 
+          <div className="flex justify-between items-center">
+            <span className="text-[18px] font-semibold underline">Filters</span>
+            <span className="text-[16px] bg-secondary-1 text-white p-1 px-2 rounded-md cursor-pointer" onClick={()=>resetAll()}>Reset</span>
+          </div>
           {/* Job Type Filter CheckBoxs */}
           <div className="mt-4">
             <h6 className="font-normal text-[20px] mt-1">Job Type</h6>

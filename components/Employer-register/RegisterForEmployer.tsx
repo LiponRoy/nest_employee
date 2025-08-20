@@ -68,13 +68,10 @@ const RegisterForEmployer = () => {
     }
 
   const bodyContent = (
-    <div className="w-full grid grid-cols-6">
+    <div className="w-full grid grid-cols-6 px-2 py-4 md:py-8 ">
       {/* <div className="col-span-1 h-full bg-blue-900"></div> */}
-      <div
-        className="col-span-2 h-full flex items-center justify-center bg-cover bg-center "
-        style={{ backgroundImage: "url(/authGirl.jpg)" }}
-      ></div>
-      <div className="col-span-4 flex flex-col flex-1 justify-center py-4 px-2 ">
+    
+      <div className="col-span-6 flex flex-col flex-1 justify-center py-4 px-2 ">
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
             <TextInput name="name" label="Contact Person Name" />

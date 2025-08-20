@@ -15,11 +15,14 @@ const searchSlice = createSlice({
     setCategory(state, action: PayloadAction<string>) {
       state.category = action.payload;
     },
+    resetCategory: (state) => {
+      state.category ='';
+    },
   
   },
   
 
 });
 
-export const { setCategory } = searchSlice.actions;
+export const { setCategory,resetCategory } = searchSlice.actions;
 export default searchSlice.reducer;
