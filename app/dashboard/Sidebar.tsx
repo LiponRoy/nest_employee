@@ -52,13 +52,10 @@ export default function Sidebar({
       </div>
     );
   }
-
-
-
   return (
     <aside
       className={`
-        fixed z-50 top-0 left-0 h-full w-64 bg-white shadow-lg p-4
+        fixed z-30 top-0 left-0 h-full w-64 bg-white shadow-lg p-4
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
         md:relative md:translate-x-0 md:shadow-none md:block

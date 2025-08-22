@@ -28,7 +28,11 @@ const UpdateEducationInfo: React.FC = () => {
      const [updateProfileEducationInfo, { isLoading }] = useUpdateProfileEducationInfoMutation();
 
      // for getting profile education data to auto fill 
-      const { data: profileData, isLoading: isProfileLoading } = useGetEducationByLoginUserQuery();
+      const { data: profileData, isLoading: isProfileLoading } = useGetEducationByLoginUserQuery(undefined, {
+  refetchOnMountOrArgChange: true, // refetch each time component mounts
+  refetchOnFocus: true,            // refetch when window regains focus
+  refetchOnReconnect: true,        // refetch when network reconnects
+});
   
   const {
     control,
